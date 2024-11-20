@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Prestamo;
 
-@Repository
+@Repository("prestamoRepository")
 public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
 
 }

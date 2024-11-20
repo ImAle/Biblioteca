@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Reserva;
 
-@Repository
+@Repository("reservaRepository")
 public interface ReservaRepository extends JpaRepository<Reserva, Long>{
 
 }
