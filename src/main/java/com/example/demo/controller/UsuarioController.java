@@ -36,12 +36,16 @@ public class UsuarioController {
 	
 	@PostMapping("/register")
 	public String registerUser(@ModelAttribute Usuario usuario, RedirectAttributes redirectAttributes) {
-	    if (userService.existsByEmail(usuario.getEmail())) {
+		String pagina = "redirect:/user/register";
+		
+		if(userService.registrar(usuario)) {
+			redirectAttributes.addFlashAttribute("success", "Registro exitoso. Ahora puedes iniciar sesión.");
+			pagina = "redirect:/user/login";
+		}
+		else
 	        redirectAttributes.addFlashAttribute("error", "El correo ya está registrado. Intenta con otro.");
-	        return "redirect:/user/register";
-	    }
-	    userService.save(usuario); // Guarda el usuario si no existe
-	    redirectAttributes.addFlashAttribute("success", "Registro exitoso. Ahora puedes iniciar sesión.");
-	    return "redirect:/user/login";
+	        
+	    
+	    return pagina;
 	}
 }

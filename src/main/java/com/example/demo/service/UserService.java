@@ -40,16 +40,22 @@ public class UserService implements UserDetailsService{
 		return new BCryptPasswordEncoder();
 	}
 	
-	public Usuario registrar(Usuario user) {
-		user.setPassword(passwordEncoder().encode(user.getPassword()));
-		user.setEnabled(true);
-		user.setRol("ROLE_USER");
-		return usuarioRepository.save(user);
+	public boolean registrar(Usuario user) {
+		boolean exito = true;
+		
+		if(existsByEmail(user.getEmail()))
+			exito = false;
+		else 
+			save(user);
+		
+		return exito;
 	}
 	
 	public Usuario save(Usuario usuario) {
-		usuarioRepository.save(usuario);
-		return usuario;
+		usuario.setPassword(passwordEncoder().encode(usuario.getPassword()));
+		usuario.setEnabled(true);
+		usuario.setRol("ROLE_USER");
+		return usuarioRepository.save(usuario);
 	}
 	
 	public boolean existsByEmail(String email) {
