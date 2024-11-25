@@ -44,11 +44,14 @@ public class SecurityConfig {
 	            .anyRequest().authenticated() // Todo lo demás requiere autenticación
 	        )
 	        .formLogin(form -> form
-	            .defaultSuccessUrl("/index", true) // Redirigir tras login exitoso
-	        )
+	                .loginPage("/user/login") // Ruta personalizada para la vista de login
+	                .defaultSuccessUrl("/principal/index", true) 
+	                .failureUrl("/user/login?error=true") 
+	                .permitAll() 
+	            )
 	        .logout(logout -> logout
 	            .logoutUrl("/logout")
-	            .logoutSuccessUrl("/login?logout") // Redirigir tras logout
+	            .logoutSuccessUrl("/user/login?logout=true") // Redirigir tras logout
 	            .permitAll()
 	        );
 

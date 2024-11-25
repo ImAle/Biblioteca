@@ -46,5 +46,14 @@ public class UserService implements UserDetailsService{
 		user.setRol("ROLE_USER");
 		return usuarioRepository.save(user);
 	}
+	
+	public Usuario save(Usuario usuario) {
+		usuarioRepository.save(usuario);
+		return usuario;
+	}
+	
+	public boolean existsByEmail(String email) {
+		return usuarioRepository.existsByEmail(email);
+	}
 
 }
