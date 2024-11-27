@@ -26,6 +26,7 @@ import com.example.demo.service.UserService;
 public class SecurityConfig {
 	
 	private PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	@Qualifier("usuarioService")
 	private UserService usuarioService;
@@ -40,7 +41,7 @@ public class SecurityConfig {
 	    http
 	        .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF si no es necesario
 	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/user/register", "/css/**", "/js/**", "/images/**", "/public/**", "/index", "/libros/get" ,"/contacto").permitAll()
+	            .requestMatchers("/", "/user/register", "/css/**", "/js/**", "/images/**", "/public/**", "/index", "/libros/get" ,"/contacto").permitAll()
 	            .anyRequest().authenticated() // Todo lo demás requiere autenticación
 	        )
 	        .formLogin(form -> form
@@ -67,8 +68,8 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(usuarioService); // Usar tu UserDetailsService
-        authProvider.setPasswordEncoder(passwordEncoder); // Usar codificación de contraseñas
+        authProvider.setUserDetailsService(usuarioService);
+        authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
     }
 

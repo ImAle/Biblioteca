@@ -21,17 +21,14 @@
 							<li class="nav-item">
 								<a class="nav-link text-white active" aria-current="page" th:href="@{/libros/get}">Libros</a>
 							</li>
-							<li class="nav-item">
+							<li class="nav-item" sec:authorize="isAuthenticated()">
 								<a class="nav-link text-white" href="#">Reserva</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-white" th:href="@{perfil}">Usuario</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link text-white" th:href="@{/contacto}">Contacto</a>
 							</li>
 							<li sec:authorize="isAuthenticated()" class="nav-item">
-								<a class="nav-link" sec:authentication="name"></a>
+								<a class="nav-link" sec:authentication="name" th:href="@{/user/perfil}"></a>
 							</li>
 							<li sec:authorize="!isAuthenticated()" class="nav-item">
 							    <a class="nav-link text-white" th:href="@{/user/login}">Iniciar sesión</a>

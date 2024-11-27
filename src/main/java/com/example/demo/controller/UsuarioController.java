@@ -1,14 +1,16 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.UsuarioDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Usuario;
@@ -47,5 +49,13 @@ public class UsuarioController {
 	        
 	    
 	    return pagina;
+	}
+
+	@GetMapping("/perfil")
+	public String perfilPage(@AuthenticationPrincipal Usuario usuario, Model model) {
+		ModelMapper modelMapper = new ModelMapper();
+		model.addAttribute("usuario", modelMapper.map(usuario, UsuarioDto.class));
+		System.out.println(usuario);
+		return "perfil";
 	}
 }
