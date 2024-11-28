@@ -11,10 +11,18 @@
 	<div th:replace="global :: navbar"></div>
 	<div class="container-fluid p-0">
 		<div class="container-fluid p-0">
-	  		<img th:src="@{images/biblioteca.jpg}" alt="Biblioteca" class="img-fluid w-60 object-fit-cover">
+	  		<img src="/images/biblioteca.jpg" alt="Biblioteca" class="img-fluid w-60 object-fit-cover">
 		</div>
 		<div class="position-absolute top-50 start-50 translate-middle w-75 z-index-10">
-			<div class="card" style="width: 18rem;">
+			<h2 class="text-center mb-4 text-white">Libros disponibles</h2>
+			<div class="d-flex justify-content-center mb-4">
+		        <form class="d-flex w-50" role="search">
+		            <input class="form-control form-control-sm me-2" type="search" placeholder="¿Que libro quieres leer?" aria-label="Search">
+		            <button class="btn btn-light btn-sm" type="submit">Buscar</button>
+		        </form>
+		    </div>
+		    <br>
+			<div class="card rounded shadow-lg" style="width: 18rem;">
 			  <img src="" class="card-img-top" alt="Imagen libro">
 			  <div class="card-body">
 			    <h5 class="card-title">Titulo</h5>
