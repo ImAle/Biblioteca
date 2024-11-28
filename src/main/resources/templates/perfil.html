@@ -21,18 +21,18 @@
                     <div class="d-flex justify-content-center align-items-center h-100">
                         <div class="bg-white p-4 rounded shadow-lg" style="max-width: 500px; width: 100%;">
                             <h2 class="text-center mb-4">Modificación del Perfil</h2>
-                            <form>
+                            <form th:action="@{/user/perfil}" th:method="post" th:object="${usuario}">
                                 <div class="mb-3">
                                     <label for="InputNombre" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="InputNombre" aria-label="nombre" placeholder="Ingresa tu nombre">
+                                    <input type="text" class="form-control" id="InputNombre" th:field="*{nombre}" placeholder="Ingresa tu nombre">
                                 </div>
                                 <div class="mb-3">
                                     <label for="InputApellido" class="form-label">Apellidos</label>
-                                    <input type="text" class="form-control" id="InputApellido" aria-label="apellidos" placeholder="Ingresa tus apellidos">
+                                    <input type="text" class="form-control" id="InputApellido" th:field="*{apellido}" placeholder="Ingresa tus apellidos">
                                 </div>
                                 <div class="mb-3">
                                     <label for="InputEmail" class="form-label">Correo electrónico</label>
-                                    <input type="email" class="form-control" id="InputEmail" aria-label="email" placeholder="Ingresa tu correo">
+                                    <input type="email" class="form-control" id="InputEmail" th:field="*{email}" placeholder="Ingresa tu correo">
                                 </div>
                                 <button type="submit" class="btn btn-primary w-100">Guardar Cambios</button>
                             </form>

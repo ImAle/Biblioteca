@@ -7,7 +7,7 @@ import com.example.demo.entity.Usuario;
 
 @Repository("usuarioRepository")
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
-	Usuario findByEmail(String username);
+	Usuario findByEmail(String email);
 	boolean existsByEmail(String email);
 	
 }

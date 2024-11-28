@@ -57,7 +57,15 @@ public class UsuarioController {
 	public String perfilPage(@AuthenticationPrincipal Usuario usuario, Model model) {
 		ModelMapper modelMapper = new ModelMapper();
 		model.addAttribute("usuario", modelMapper.map(usuario, UsuarioDto.class));
-		System.out.println(usuario);
 		return "perfil";
+	}
+	
+	@PostMapping("/perfil")
+	public String updatePerfilPage(@ModelAttribute UsuarioDto usuarioDto, @AuthenticationPrincipal Usuario usuario) {
+		usuario.setNombre(usuarioDto.getNombre());
+		usuario.setApellido(usuarioDto.getApellido());
+		usuario.setEmail(usuarioDto.getEmail());
+		userService.updateUsuario(usuario);
+		return "redirect:/user/perfil";
 	}
 }

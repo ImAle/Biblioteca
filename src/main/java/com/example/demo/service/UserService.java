@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService{
 	public boolean registrar(Usuario user) {
 		boolean exito = true;
 		
-		if(existsByEmail(user.getEmail()))
+		if(findByEmail(user.getEmail()) != null)
 			exito = false;
 		else 
 			save(user);
@@ -58,8 +58,12 @@ public class UserService implements UserDetailsService{
 		return usuarioRepository.save(usuario);
 	}
 	
-	public boolean existsByEmail(String email) {
-		return usuarioRepository.existsByEmail(email);
+	public Usuario findByEmail(String email) {
+		return usuarioRepository.findByEmail(email);
+	}
+	
+	public Usuario updateUsuario(Usuario usuario) {
+		return usuarioRepository.save(usuario);
 	}
 
 }
