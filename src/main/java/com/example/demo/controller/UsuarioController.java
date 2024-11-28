@@ -4,6 +4,7 @@ import com.example.demo.dto.UsuarioDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ public class UsuarioController {
 	@Autowired
 	@Qualifier("usuarioService")
 	UserService userService;
+	
 	
 	@GetMapping("/login")
 	public String showLogin(Model model) {

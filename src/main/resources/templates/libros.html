@@ -10,26 +10,18 @@
 <body>
 	<div th:replace="global :: navbar"></div>
 	<div class="container-fluid p-0">
-		<img src="images/biblioteca.jpg" alt="Biblioteca" class="img-fluid">
+		<div class="container-fluid p-0">
+	  		<img th:src="@{images/biblioteca.jpg}" alt="Biblioteca" class="img-fluid w-60 object-fit-cover">
+		</div>
 		<div class="position-absolute top-50 start-50 translate-middle w-75 z-index-10">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th scope="col">Título</th>
-						<th scope="col">Imagen</th>
-						<th scope="col">Autor</th>
-						<th scope="col">Género</th>
-					</tr>
-				</thead>
-				<tbody class="table-group-divider">
-					<tr>
-						<td>a</td>
-						<td>b</td>
-						<td>c</td>
-						<td>d</td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="card" style="width: 18rem;">
+			  <img src="" class="card-img-top" alt="Imagen libro">
+			  <div class="card-body">
+			    <h5 class="card-title">Titulo</h5>
+			    <p class="card-text">Autor</p>
+			    <p class="card-text">Género</p>
+			  </div>
+			</div>
 		</div>
 	</div>
 </body>
