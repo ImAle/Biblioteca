@@ -8,19 +8,18 @@
 		<title>Biblioteca Online</title>
 	</head>
 	<body>
-	<div th:replace="global :: navbar"></div>
-		<div class="container-fluid p-0" style="height: 300px;">
+		<div th:replace="global :: navbar"></div>
+		<div class="container-fluid p-0 position-relative" style="height: 300px;">
 			<img th:src="@{images/biblioteca.jpg}" alt="Biblioteca" class="img-fluid w-60 object-fit-cover">
+			<div class="position-absolute top-50 start-50 translate-middle text-center text-white bg-dark bg-opacity-50 p-4 rounded">
+				<h2 class="mb-4">Bienvenido a la Biblioteca Online</h2>
+				<p class="mb-2 fst-italic">Una biblioteca no es un conjunto de libros leídos, sino una compañía, un refugio y un proyecto de vida.</p>
+				<p class="mb-4 fw-bold">Arturo Pérez-Reverte</p>
+				<div class="d-flex justify-content-center gap-3">
+					<a class="btn btn-info" th:href="@{/libros/get}">Ver Libros</a>
+					<button class="btn btn-secondary">Reservar</button>
+				</div>
+			</div>
 		</div>
-		<div class="p-3 mb-2 bg-dark-subtle text-dark-emphasis z-index-10" style="--bs-bg-opacity: .5;" >
-	      	<h2 class="text-center mb-4 text-white">Bienvenido a la Biblioteca Online</h2>
-	      	<p class="text-center mb-2 text-white fst-italic">Una biblioteca no es un conjunto de libros leídos, sino una compañía, un refugio y un proyecto de vida.</p>
-	      	<p class="text-center mb-4 text-white fw-bold">Arturo Pérez-Reverte</p>
-	      
-	      	<div class="d-flex justify-content-center gap-3">
-	        	<button class="btn btn-info" th:href="@{/libros/get}">Ver Libros</button>
-	        	<button class="btn btn-secondary">Reservar</button>
-	     	</div>
-	    </div>
 	</body>
 </html>
