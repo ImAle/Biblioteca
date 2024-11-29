@@ -55,6 +55,7 @@
     </script>
 </head>
 <body>
+<div th:replace="global :: navbar"></div>
     <div class="container mt-5">
         <!-- Mensajes de error y éxito -->
         <div th:if="${error}" id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
