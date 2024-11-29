@@ -10,7 +10,7 @@
 	<body>
 		<!-- Fragment para el menu navbar -->
 		<div th:fragment="navbar">
-			<nav class="navbar navbar-expand-lg bg-dark text-white border-bottom border-body" data-bs-theme="dark">
+			<nav class="navbar navbar-expand-lg bg-dark text-white border-bottom" data-bs-theme="dark">
 				<div class="container-fluid">
 					<a class="navbar-brand text-white" th:href="@{/index}">Biblioteca</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,17 +27,20 @@
 							<li class="nav-item">
 								<a class="nav-link text-white" th:href="@{/contacto}">Contacto</a>
 							</li>
-							<li sec:authorize="isAuthenticated()" class="nav-item">
-								<a class="nav-link" sec:authentication="name" th:href="@{/user/perfil}"></a>
-							</li>
-							<li sec:authorize="!isAuthenticated()" class="nav-item">
-							    <a class="nav-link text-white" th:href="@{/user/login}">Iniciar sesión</a>
-							</li>
-							<li sec:authorize="isAuthenticated()" class="nav-item">
-							    <a class="nav-link text-white" th:href="@{/logout}">Cerrar sesión</a>
-							</li>
-
 						</ul>
+							<div class="collapse navbar-collapse">
+								<ul class="navbar-nav ms-auto">
+									<li sec:authorize="isAuthenticated()" class="nav-item">
+									<a class="nav-link" sec:authentication="name" th:href="@{/user/perfil}"></a>
+									</li>
+									<li sec:authorize="!isAuthenticated()" class="nav-item">
+								    <a class="nav-link text-white" th:href="@{/user/login}">Iniciar sesión</a>
+									</li>
+									<li sec:authorize="isAuthenticated()" class="nav-item">
+								    <a class="nav-link text-white" th:href="@{/logout}">Cerrar sesión</a>
+									</li>
+								</ul>
+							</div>
 					</div>
 				</div>
 			</nav>
