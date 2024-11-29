@@ -22,20 +22,23 @@
                         <div class="bg-white p-4 rounded shadow-lg" style="max-width: 500px; width: 100%;">
                             <h2 class="text-center mb-4">Modificación del Perfil</h2>
                             <form th:action="@{/user/perfil}" th:method="post" th:object="${usuario}">
-                                <div class="mb-3">
-                                    <label for="InputNombre" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="InputNombre" th:field="*{nombre}" placeholder="Ingresa tu nombre">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="InputApellido" class="form-label">Apellidos</label>
-                                    <input type="text" class="form-control" id="InputApellido" th:field="*{apellido}" placeholder="Ingresa tus apellidos">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="InputEmail" class="form-label">Correo electrónico</label>
-                                    <input type="email" class="form-control" id="InputEmail" th:field="*{email}" placeholder="Ingresa tu correo">
-                                </div>
-                                <button type="submit" class="btn btn-primary w-100">Guardar Cambios</button>
-                            </form>
+							    <div class="mb-3">
+							        <label for="InputNombre" class="form-label">Nombre</label>
+							        <input type="text" class="form-control" id="InputNombre" th:field="*{nombre}" placeholder="Ingresa tu nombre">
+							        <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+							    </div>
+							    <div class="mb-3">
+							        <label for="InputApellido" class="form-label">Apellidos</label>
+							        <input type="text" class="form-control" id="InputApellido" th:field="*{apellido}" placeholder="Ingresa tus apellidos">
+							        <div class="text-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+							    </div>
+							    <div class="mb-3">
+							        <label for="InputEmail" class="form-label">Correo electrónico</label>
+							        <input type="email" class="form-control" id="InputEmail" th:field="*{email}" placeholder="Ingresa tu correo">
+							        <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+							    </div>
+							    <button type="submit" class="btn btn-primary w-100">Guardar Cambios</button>
+							</form>
                         </div>
                     </div>
                 </div>
