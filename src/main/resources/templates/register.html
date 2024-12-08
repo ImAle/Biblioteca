@@ -71,7 +71,7 @@
         <div class="card" style="max-width: 400px; margin: auto;">
             <div class="card-body">
                 <h3 class="card-title text-center">Registro de Usuario</h3>
-                <form id="registerForm" th:action="@{/user/register}" th:object="${usuario}" method="post" onsubmit="validateForm(event)">
+                <form id="registerForm" th:action="@{/register}" th:object="${usuario}" method="post" onsubmit="validateForm(event)">
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" id="nombre" class="form-control" th:field="*{nombre}" required />
@@ -95,7 +95,7 @@
                     <button type="submit" class="btn btn-primary w-100">Registrar</button>
                 </form>
                 <div class="text-center mt-3">
-                    <a href="/user/login">¿Ya tienes una cuenta? Inicia sesión</a>
+                    <a href="/login">¿Ya tienes una cuenta? Inicia sesión</a>
                 </div>
             </div>
         </div>

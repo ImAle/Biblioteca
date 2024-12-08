@@ -31,13 +31,13 @@ public class SecurityConfig {
 	    http
 	        .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF si no es necesario
 	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/", "/user/register", "/css/**", "/js/**", "/images/**", "/public/**", "/index", "/libros/get" ,"/contacto").permitAll()
+	            .requestMatchers("/", "/register", "/css/**", "/js/**", "/images/**", "/public/**", "/index", "/libros/get" ,"/contacto").permitAll()
 	            .anyRequest().authenticated() // Todo lo demás requiere autenticación
 	        )
 	        .formLogin(form -> form
-	                .loginPage("/user/login") // Ruta personalizada para la vista de login
+	                .loginPage("/login") // Ruta personalizada para la vista de login
 	                .defaultSuccessUrl("/index", true) 
-	                .failureUrl("/user/login?error=true") 
+	                .failureUrl("/login?error=true") 
 	                .permitAll() 
 	            )
 	        .logout(logout -> logout

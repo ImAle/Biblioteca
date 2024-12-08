@@ -27,34 +27,6 @@ public class UsuarioController {
 	@Autowired
 	@Qualifier("usuarioService")
 	UserService userService;
-	
-	
-	@GetMapping("/login")
-	public String showLogin(Model model) {
-		model.addAttribute("usuario", new Usuario());
-		return "login";
-	}
-	
-	@GetMapping("/register")
-	public String showRegister(Model model) {
-		model.addAttribute("usuario", new Usuario());
-		return "register";
-	}
-	
-	@PostMapping("/register")
-	public String registerUser(@ModelAttribute Usuario usuario, RedirectAttributes redirectAttributes) {
-		String pagina = "redirect:/user/register";
-		
-		if(userService.registrar(usuario)) {
-			redirectAttributes.addFlashAttribute("success", "Registro exitoso. Ahora puedes iniciar sesión.");
-			pagina = "redirect:/user/login";
-		}
-		else
-	        redirectAttributes.addFlashAttribute("error", "El correo ya está registrado. Intenta con otro.");
-	        
-	    
-	    return pagina;
-	}
 
 	@GetMapping("/perfil")
 	public String perfilPage(@AuthenticationPrincipal Usuario usuario, Model model) {

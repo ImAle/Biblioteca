@@ -34,7 +34,7 @@
                 <h3 class="card-title text-center">Iniciar Sesión</h3>
 
                 <!-- Formulario de login -->
-                <form th:action="@{/user/login}" method="post">
+                <form th:action="@{/login}" method="post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Usuario</label>
                         <input type="text" class="form-control" id="username" name="username" required>
@@ -47,7 +47,7 @@
                 </form>
 
                 <div class="text-center mt-3">
-                    <a href="/user/register">¿No tienes una cuenta? Regístrate</a>
+                    <a href="/register">¿No tienes una cuenta? Regístrate</a>
                 </div>
             </div>
         </div>
