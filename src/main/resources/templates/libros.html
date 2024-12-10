@@ -10,13 +10,13 @@
 <body>
 	<div th:replace="global :: navbar"></div>
 	<div class="container-fluid p-0">
-		<img src="/images/papelFondo.jpg" alt="Biblioteca" class="img-fluid w-60 object-fit-cover">
+		<img th:src="@{/images/papelFondo.jpg}" alt="Biblioteca" class="img-fluid w-60 object-fit-cover">
 		<div class="position-absolute top-50 start-50 translate-middle w-75 z-index-10">
 			<h2 class="text-center mb-4">Libros disponibles</h2>
 			<div class="d-flex justify-content-center mb-4">
 		        <form class="d-flex w-50" role="search">
-		            <input class="form-control form-control-sm me-2" type="search" placeholder="¿Que libro quieres leer?" aria-label="Search">
-		            <button class="btn btn-primary btn-sm" type="submit">Buscar</button>
+		            <input class="form-control form-control-sm me-2 rounded shadow" type="search" placeholder="¿Que libro quieres leer?" aria-label="Search">
+		            <button class="btn btn-primary btn-sm rounded shadow" type="submit">Buscar</button>
 		        </form>
 		    </div>
 		    <br>
