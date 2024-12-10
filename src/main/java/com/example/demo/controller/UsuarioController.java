@@ -48,4 +48,11 @@ public class UsuarioController {
 		userService.updateUsuario(usuario);
 		return "redirect:/user/perfil";
 	}
+	
+	@GetMapping("/usuarios")
+    public String listarUsuarios(Model model) {
+        model.addAttribute("usuarios", userService.findAll());
+        System.out.println(userService.findAll());
+        return "listaUsuarios";
+    }
 }

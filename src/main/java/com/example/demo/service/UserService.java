@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -65,5 +67,8 @@ public class UserService implements UserDetailsService{
 	public Usuario updateUsuario(Usuario usuario) {
 		return usuarioRepository.save(usuario);
 	}
-
+	
+	public List<Usuario> findAll(){
+		return usuarioRepository.findAll();
+	}
 }

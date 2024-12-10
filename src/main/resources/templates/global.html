@@ -10,7 +10,7 @@
 	<body>
 		<!-- Fragment para el menu navbar -->
 		<div th:fragment="navbar">
-			<nav class="navbar navbar-expand-lg bg-dark text-white border-bottom fixed-top" data-bs-theme="dark">
+			<nav class="navbar navbar-expand-lg bg-dark text-white border-bottom" data-bs-theme="dark">
 				<div class="container-fluid">
 					<a class="navbar-brand text-white" th:href="@{/index}">Biblioteca</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,6 +26,9 @@
 							</li>
 							<li class="nav-item">
 								<a class="nav-link text-white" th:href="@{/contacto}">Contacto</a>
+							</li>
+							<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
+								<a class="nav-link text-white" th:href="">Usuarios</a>
 							</li>
 						</ul>
 							<div class="collapse navbar-collapse">

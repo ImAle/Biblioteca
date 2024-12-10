@@ -8,6 +8,6 @@
 	</head>
 	<body class= "bg-white">
 		<div th:replace="global :: navbar"></div>
-		<img src="error/404.jpg" class="img-fluid w-50 rounded mx-auto d-block">
+		<img th:src="@{error/404.jpg}" class="img-fluid w-50 rounded mx-auto d-block">
 	</body>
 </html>
