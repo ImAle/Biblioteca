@@ -19,7 +19,7 @@
     </script>
 </head>
 <body>
-<div th:replace="global :: navbar"></div>
+<div th:replace="~{global :: navbar}"></div>
     <div class="container mt-5">
         <div th:if="${param.error}" id="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
             Credenciales incorrectas. Por favor, inténtalo de nuevo.
