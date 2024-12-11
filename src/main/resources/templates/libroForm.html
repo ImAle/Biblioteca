@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Formulario de Libro</title>
+  <!-- Agregar Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="global :: navbar"></div>
+
+<!-- Formulario -->
+<div class="container mt-4">
+  <h2 class="text-center" th:text="${libro.id != null} ? 'Actualizar Libro' : 'Crear Nuevo Libro'"></h2>
+  <form th:action="${libro.id != null} ? @{'/libros/updateForm'} : @{'/libros/createForm'}" th:object="${libro}" method="post" enctype="multipart/form-data">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <!-- Campo del título -->
+    <div class="mb-3">
+      <label for="titulo" class="form-label">Título</label>
+      <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" required>
+    </div>
+
+    <!-- Campo de la imagen -->
+    <div class="mb-3">
+      <label for="imagen" class="form-label">Imagen</label>
+      <input type="file" class="form-control" id="imagen" name="imagen">
+    </div>
+
+    <!-- Campo del autor -->
+    <div class="mb-3">
+      <label for="autor" class="form-label">Autor</label>
+      <input type="text" class="form-control" id="autor" name="autor" th:field="*{autor}" required>
+    </div>
+
+    <!-- Campo del género -->
+    <div class="mb-3">
+      <label for="genero" class="form-label">Género</label>
+      <input type="text" class="form-control" id="genero" name="genero" th:field="*{genero}" required>
+    </div>
+
+    <!-- Campo del año de publicación -->
+    <div class="mb-3">
+      <label for="anioPublicacion" class="form-label">Año de Publicación</label>
+      <input type="number" class="form-control" id="anioPublicacion" name="anioPublicacion" th:field="*{anioPublicacion}" required>
+    </div>
+
+    <!-- Botón de acción -->
+    <div class="d-grid gap-2 mt-4">
+      <button type="submit" class="btn btn-primary" th:text="${libro.id != null} ? 'Actualizar' : 'Crear'"></button>
+    </div>
+  </form>
+</div>
+
+<!-- Agregar JavaScript de Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

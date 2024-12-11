@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Libro;
+import com.example.demo.entity.Usuario;
 import com.example.demo.service.LibroService;
 
 @Controller
@@ -32,7 +34,10 @@ public class LibroController {
 	private LibroService libroService;
 
 	@GetMapping("")
-	public String getLibros(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(required = false, name = "titulo") String titulo, Model model) {
+	public String getLibros(@AuthenticationPrincipal Usuario usuario,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "12") int size, 
+			@RequestParam(required = false, name = "titulo") String titulo, Model model) {
+		String pagina = "libros";
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Libro> libros;
 		
@@ -45,7 +50,11 @@ public class LibroController {
 	    model.addAttribute("libros", libros);
 	    model.addAttribute("titulo", titulo);
 	    
-		return "libros";
+	    if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
+	    	pagina = "librosAdmin";
+	    }
+	    
+		return pagina;
 	}
 	
 	@GetMapping("/{id}")
@@ -62,44 +71,55 @@ public class LibroController {
 	@GetMapping("/createForm")
 	public String showForm(Model model) {
 		model.addAttribute("libro", new Libro());
-		return "createLibroForm";
+		return "LibroForm";
 	}
 	
 	@PostMapping("/createForm")
 	public String postForm(@ModelAttribute("libro") Libro libro, BindingResult result, Model model, RedirectAttributes redirect) {
 		if(result.hasErrors()) {
 			model.addAttribute("errores");
-			return "createLibroForm";
+			return "libroForm";
 		}
 		
 		libroService.createLibro(libro);
 		redirect.addFlashAttribute("success", "Libro \"" + libro.getTitulo() + "\" creado con éxito");
 		
-		return "redirect:/libros";
+		return "redirect:/librosAdmin";
 	}
 	
 	@GetMapping("/updateForm")
-	public String showUpdateForm(@ModelAttribute("libro") Libro libro, Model model) {
-		model.addAttribute("libro", libro);
-		return "createLibroForm";
+	public String showUpdateForm(@RequestParam Long id, Model model) {
+		Optional<Libro> libro = libroService.getLibro(id);
+		if (libro.isPresent())
+			model.addAttribute("libro", libro.get());
+
+		return "libroForm";
 	}
 	
-	@PutMapping("/updateForm")
+	@PostMapping("/updateForm")
 	public String showUpdateForm(@ModelAttribute("libro") Libro libro, BindingResult result, Model model) {
+		/*
 		if (result.hasErrors()) {
+			System.out.println("AHHHHHHHHHHHHH");
 			model.addAttribute("errores");
-			return "createLibroForm";
+			return "libroForm";
+		}*/
+
+		if(libro.getImagen() == null){
+			Optional<Libro> oldLibro = libroService.getLibro(libro.getId());
+            oldLibro.ifPresent(old -> libro.setImagen(old.getImagen()));
 		}
-		
+
+		libroService.updateLibro(libro);
 		model.addAttribute("success", "Libro actualizado con exito");
 		
-		return "createLibroForm";
+		return "libroForm";
 	}
 	
-	@DeleteMapping("/{id}")
-	public String deleteLibro(@PathVariable("id") Long id, Model model) {
+	@PostMapping("/{id}")
+	public String deleteLibro(@PathVariable("id") Long id, RedirectAttributes redirect) {
 		libroService.deleteLibro(id);
-		model.addAttribute("success", "Libro eliminado con éxito");
-		return "libros";
+		redirect.addFlashAttribute("success", "Libro eliminado con éxito");
+		return "redirect:/libros";
 	}
 }

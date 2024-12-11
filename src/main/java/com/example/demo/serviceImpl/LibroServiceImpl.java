@@ -35,7 +35,6 @@ public class LibroServiceImpl implements LibroService {
 	    return libroRepository.findByTituloAllIgnoreCaseContains(titulo, pageable);
 	}
 
-	
 	@Override
 	public void deleteLibro(Long id) {
 		libroRepository.deleteById(id);
@@ -47,8 +46,7 @@ public class LibroServiceImpl implements LibroService {
 	}
 
 	@Override
-	public Libro updateLibro(Long id, Libro newLibro) {
-		newLibro.setId(id);
-		return libroRepository.save(newLibro);
+	public Libro updateLibro(Libro libro) {
+		return libroRepository.save(libro);
 	}
 }
