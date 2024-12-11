@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,24 +12,28 @@
 		<br>
 		<div class="container text-center">
 			<table class="table align-middle mb-0 bg-dark text-black">
-			<thead class="bg-dark">
-				<tr>
-			    	<th>Nombre</th>
-			      	<th>Apellido</th>
-			      	<th>Correo electronico</th>
-			      	<th>Estado</th>
-			    </tr>
-			</thead>
-			<tbody>
-            	<tr class="text-black" th:each="usuario : ${usuarios}">
-                	<td th:field="${usuario.nombre}"></td>
-                	<td th:field="${usuario.apellido}"></td>
-                	<td th:field="${usuario.email}"></td>
-                	<td th:field="${usuario.enabled}"></td>
-            	</tr>
-        	</tbody>
-		</table>
+				<thead class="bg-dark">
+					<tr>
+						<th>Imagen</th>
+				    	<th>Nombre</th>
+				      	<th>Apellido</th>
+				      	<th>Correo electronico</th>
+				      	<th>Estado</th>
+				    </tr>
+				</thead>
+				<tbody>
+	            	<tr class="text-black" th:each="usuario : ${usuarios}">
+	            		<td></td>
+	                	<td th:text="${usuario.nombre}"></td>
+	                	<td th:text="${usuario.apellido}"></td>
+	                	<td th:text="${usuario.email}"></td>
+	                	<td>
+	                		<button type="button" class="btn btn-success">Activar</button>
+	                		<button type="button" class="btn btn-danger">Desactivar</button>
+	                	</td>
+	            	</tr>
+	        	</tbody>
+			</table>
 		</div>
-		
 	</body>
 </html>
