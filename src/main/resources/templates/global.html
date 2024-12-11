@@ -34,7 +34,7 @@
 							<div class="collapse navbar-collapse">
 								<ul class="navbar-nav ms-auto">
 									<li sec:authorize="isAuthenticated()" class="nav-item">
-										<a class="nav-link" sec:authentication="name" th:href="@{/user/perfil}"></a>
+										<a class="nav-link" th:text="${#authentication.principal.nombre}" th:href="@{/user/perfil}"></a>
 									</li>
 									<li sec:authorize="!isAuthenticated()" class="nav-item">
 								    	<a class="nav-link text-white" th:href="@{/login}">Iniciar sesión</a>
