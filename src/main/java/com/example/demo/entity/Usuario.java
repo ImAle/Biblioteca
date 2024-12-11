@@ -26,6 +26,7 @@ public class Usuario implements UserDetails{
     private String password;
     private String rol;
     private boolean enabled;
+    private String foto;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     private List<Reserva> reservas;

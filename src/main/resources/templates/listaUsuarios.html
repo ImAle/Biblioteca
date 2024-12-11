@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,11 +8,11 @@
 		<title>Gestión de usuarios</title>
 	</head>
 	<body>
-		<div th:replace="global :: navbar"></div>
+		<div th:replace="~{global :: navbar}"></div>
 		<br>
-		<div class="container text-center">
-			<table class="table align-middle mb-0 bg-dark text-black">
-				<thead class="bg-dark">
+		<div class="container">
+        	<table class="table table-dark table-borderless mb-0 table-bordered border-light">
+				<thead>
 					<tr>
 						<th>Imagen</th>
 				    	<th>Nombre</th>
@@ -22,8 +22,10 @@
 				    </tr>
 				</thead>
 				<tbody>
-	            	<tr class="text-black" th:each="usuario : ${usuarios}">
-	            		<td></td>
+	            	<tr th:each="usuario : ${usuarios}">
+	            		<td> 
+	            		<img th:src="@{/images/{filename}(filename=${usuario.foto})}" alt="Imagen" style="width: 50px; height: 50px; object-fit: cover;">
+	            		</td>
 	                	<td th:text="${usuario.nombre}"></td>
 	                	<td th:text="${usuario.apellido}"></td>
 	                	<td th:text="${usuario.email}"></td>
@@ -37,7 +39,7 @@
 						</td>
 	            	</tr>
 	        	</tbody>
-			</table>
+			</table> 
 		</div>
 	</body>
 </html>
