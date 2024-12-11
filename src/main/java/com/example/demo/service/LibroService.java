@@ -15,4 +15,5 @@ public interface LibroService {
 	public abstract Page<Libro> getLibros(Pageable pageable);
 	public abstract Libro updateLibro(Long id, Libro newLibro);
 	public abstract void deleteLibro(Long id);
+	public abstract Page<Libro> getLibrosByName(String titulo, Pageable pageable);
 }

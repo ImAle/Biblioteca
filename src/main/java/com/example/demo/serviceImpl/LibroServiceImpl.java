@@ -30,9 +30,11 @@ public class LibroServiceImpl implements LibroService {
 		return libroRepository.findAll(pageable);
 	}
 	
-	public List<Libro> getLibrosByName(String titulo){
-		return libroRepository.findByTituloAllIgnoreCaseContains(titulo);
+	@Override
+	public Page<Libro> getLibrosByName(String titulo, Pageable pageable) {
+	    return libroRepository.findByTituloAllIgnoreCaseContains(titulo, pageable);
 	}
+
 	
 	@Override
 	public void deleteLibro(Long id) {

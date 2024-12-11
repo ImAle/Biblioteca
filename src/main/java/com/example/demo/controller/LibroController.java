@@ -32,9 +32,19 @@ public class LibroController {
 	private LibroService libroService;
 
 	@GetMapping("")
-	public String getLibros(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, Model model) {
+	public String getLibros(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(required = false, name = "titulo") String titulo, Model model) {
 		Pageable pageable = PageRequest.of(page, size);
-		model.addAttribute("libros", libroService.getLibros(pageable));
+		Page<Libro> libros;
+		
+	    if (titulo == null || titulo.isEmpty()) {
+	        libros = libroService.getLibros(pageable);
+	    } else {
+	        libros = libroService.getLibrosByName(titulo, pageable);
+	    }
+
+	    model.addAttribute("libros", libros);
+	    model.addAttribute("titulo", titulo);
+	    
 		return "libros";
 	}
 	

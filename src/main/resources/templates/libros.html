@@ -16,8 +16,11 @@
 			
 			<!-- Barra de búsqueda -->
 			<div class="d-flex justify-content-center mb-4">
-		        <form class="d-flex w-50" role="search">
-		            <input class="form-control form-control-sm me-2 rounded shadow" type="search" placeholder="¿Qué libro quieres leer?" aria-label="Search">
+		        <form class="d-flex w-50" role="search" th:action="@{/libros}" method="get">
+		            <input class="form-control form-control-sm me-2 rounded shadow" 
+		                   type="search" name="titulo" 
+		                   th:value="${titulo}" 
+		                   placeholder="¿Qué libro quieres leer?" aria-label="Search">
 		            <button class="btn btn-primary btn-sm rounded shadow" type="submit">Buscar</button>
 		        </form>
 		    </div>
@@ -39,10 +42,10 @@
 			<!-- Paginación -->
 			<div class="d-flex justify-content-center">
 			    <span th:if="${libros.hasPrevious()}">
-			        <a th:href="@{/libros(page=${libros.number - 1}, size=${libros.size})}" class="btn btn-primary btn-sm me-2">Anterior</a>
+			        <a th:href="@{/libros(page=${libros.number - 1}, size=${libros.size}, nombre=${nombre})}" class="btn btn-primary btn-sm me-2">Anterior</a>
 			    </span>
 			    <span th:if="${libros.hasNext()}">
-			        <a th:href="@{/libros(page=${libros.number + 1}, size=${libros.size})}" class="btn btn-primary btn-sm">Siguiente</a>
+			        <a th:href="@{/libros(page=${libros.number + 1}, size=${libros.size}, nombre=${nombre})}" class="btn btn-primary btn-sm">Siguiente</a>
 			    </span>
 			</div>
 		</div>
