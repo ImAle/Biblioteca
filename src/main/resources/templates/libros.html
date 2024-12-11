@@ -13,20 +13,37 @@
 		<img th:src="@{/images/papelFondo.jpg}" alt="Biblioteca" class="img-fluid w-60 object-fit-cover">
 		<div class="position-absolute top-50 start-50 translate-middle w-75 z-index-10">
 			<h2 class="text-center mb-4">Libros disponibles</h2>
+			
+			<!-- Barra de búsqueda -->
 			<div class="d-flex justify-content-center mb-4">
 		        <form class="d-flex w-50" role="search">
-		            <input class="form-control form-control-sm me-2 rounded shadow" type="search" placeholder="¿Que libro quieres leer?" aria-label="Search">
+		            <input class="form-control form-control-sm me-2 rounded shadow" type="search" placeholder="¿Qué libro quieres leer?" aria-label="Search">
 		            <button class="btn btn-primary btn-sm rounded shadow" type="submit">Buscar</button>
 		        </form>
 		    </div>
-		    <br>
-			<div class="card rounded shadow p-3 mb-5 bg-body-tertiary rounded" style="width: 18rem;">
-			  <img src="" class="card-img-top" alt="Imagen libro">
-			  <div class="card-body">
-			    <h5 class="card-title">Titulo</h5>
-			    <p class="card-text">Autor</p>
-			    <p class="card-text">Género</p>
-			  </div>
+		    
+			<!-- Listado de Libros -->
+			<div class="row">
+				<div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" th:each="libro : ${libros.content}">
+					<div class="card rounded shadow p-3 bg-body-tertiary">
+					  <img src="#" class="card-img-top" alt="Imagen libro"> <!-- Aquí deberías poner la imagen real -->
+					  <div class="card-body">
+					    <h5 class="card-title" th:text="${libro.titulo}">Titulo</h5>
+					    <p class="card-text" th:text="${libro.autor}">Autor</p>
+					    <p class="card-text" th:text="${libro.genero}">Género</p>
+					  </div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Paginación -->
+			<div class="d-flex justify-content-center">
+			    <span th:if="${libros.hasPrevious()}">
+			        <a th:href="@{/libros(page=${libros.number - 1}, size=${libros.size})}" class="btn btn-primary btn-sm me-2">Anterior</a>
+			    </span>
+			    <span th:if="${libros.hasNext()}">
+			        <a th:href="@{/libros(page=${libros.number + 1}, size=${libros.size})}" class="btn btn-primary btn-sm">Siguiente</a>
+			    </span>
 			</div>
 		</div>
 	</div>

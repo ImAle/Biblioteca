@@ -31,7 +31,7 @@ public class SecurityConfig {
 	    http
 	        .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF si no es necesario
 	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/", "/register", "/css/**", "/js/**", "/images/**", "/public/**", "/index", "/libros/get" ,"/contacto").permitAll()
+	            .requestMatchers("/", "/register", "/css/**", "/js/**", "/images/**", "/public/**", "/index", "/libros" ,"/contacto").permitAll()
 	            //.requestMatchers("").hasRole("ROLE_USER")
 	            .anyRequest().authenticated() // Todo lo demás requiere autenticación
 	        )

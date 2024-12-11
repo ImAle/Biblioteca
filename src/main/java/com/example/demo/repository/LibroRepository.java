@@ -11,5 +11,5 @@ import com.example.demo.entity.Libro;
 public interface LibroRepository extends JpaRepository<Libro, Long>{
 	
 	List<Libro> findByTituloAllIgnoreCaseContains(String titulo);
-
+	
 }

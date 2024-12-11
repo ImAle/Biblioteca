@@ -1,14 +1,18 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.example.demo.entity.Libro;
-import com.example.demo.repository.LibroRepository;
 
-public class LibroService {
+public interface LibroService {
 	
+	public abstract Libro createLibro(Libro libro);
+	public abstract Optional<Libro> getLibro(Long id);
+	public abstract Page<Libro> getLibros(Pageable pageable);
+	public abstract Libro updateLibro(Long id, Libro newLibro);
+	public abstract void deleteLibro(Long id);
 }
