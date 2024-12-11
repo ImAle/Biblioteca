@@ -34,13 +34,16 @@
 							<div class="collapse navbar-collapse">
 								<ul class="navbar-nav ms-auto">
 									<li sec:authorize="isAuthenticated()" class="nav-item">
-									<a class="nav-link" sec:authentication="name" th:href="@{/user/perfil}"></a>
+										<a class="nav-link" sec:authentication="name" th:href="@{/user/perfil}"></a>
 									</li>
 									<li sec:authorize="!isAuthenticated()" class="nav-item">
-								    <a class="nav-link text-white" th:href="@{/login}">Iniciar sesión</a>
+								    	<a class="nav-link text-white" th:href="@{/login}">Iniciar sesión</a>
 									</li>
 									<li sec:authorize="isAuthenticated()" class="nav-item">
-								    <a class="nav-link text-white" th:href="@{/logout}">Cerrar sesión</a>
+										<form th:action="@{/logout}" method="post">
+											<button type="submit" class="nav-link text-white" style="background: none; border: none; padding: 0; cursor: pointer;">Cerrar sesión</button>
+										</form>
+								    	<!--<button class="nav-link text-white" th:href="@{/logout}">Cerrar sesión</button>-->
 									</li>
 								</ul>
 							</div>

@@ -37,6 +37,7 @@
 							        <input type="email" class="form-control" id="InputEmail" th:field="*{email}" placeholder="Ingresa tu correo">
 							        <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 							    </div>
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 							    <button type="submit" class="btn btn-primary w-100">Guardar Cambios</button>
 							</form>
                         </div>

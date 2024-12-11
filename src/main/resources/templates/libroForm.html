@@ -64,6 +64,8 @@
       <input type="number" class="form-control" id="anioPublicacion" name="anioPublicacion" th:field="*{anioPublicacion}" required>
     </div>
 
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
     <!-- Botón de acción -->
     <div class="d-grid gap-2 mt-4">
       <button type="submit" class="btn btn-primary" th:text="${libro.id != null} ? 'Actualizar' : 'Crear'"></button>
