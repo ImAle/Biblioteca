@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileSystemStorageService implements StorageService{
 
-	private final Path ubicacion;
+	private final Path ubicacion = null;
 	
 	
 	@Override

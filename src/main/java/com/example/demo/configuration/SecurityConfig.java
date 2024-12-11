@@ -32,10 +32,11 @@ public class SecurityConfig {
 	        .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF si no es necesario
 	        .authorizeHttpRequests(auth -> auth
 	            .requestMatchers("/", "/register", "/css/**", "/js/**", "/images/**", "/public/**", "/index", "/libros" ,"/contacto").permitAll()
-	            //.requestMatchers("").hasRole("ROLE_USER")
+	            .requestMatchers("/user/usuarios").hasRole("ADMIN")
 	            .anyRequest().authenticated() // Todo lo demás requiere autenticación
-	        )
-	        .formLogin(form -> form
+	        ).exceptionHandling(exceptions -> exceptions
+	                .accessDeniedPage("/index") // Redirigir a /index en caso de error 403
+	        ).formLogin(form -> form
 	                .loginPage("/login") // Ruta personalizada para la vista de login
 	                .defaultSuccessUrl("/index", true) 
 	                .failureUrl("/login?error=true") 

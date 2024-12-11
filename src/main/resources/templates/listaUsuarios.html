@@ -28,9 +28,13 @@
 	                	<td th:text="${usuario.apellido}"></td>
 	                	<td th:text="${usuario.email}"></td>
 	                	<td>
-	                		<button type="button" class="btn btn-success">Activar</button>
-	                		<button type="button" class="btn btn-danger">Desactivar</button>
-	                	</td>
+							<form th:action="@{/user/usuarios/activar/{id}(id=${usuario.id})}" method="post" th:if="${!usuario.enabled}">
+								<button type="submit" class="btn btn-success">Activar</button>
+							</form>
+							<form th:action="@{/user/usuarios/desactivar/{id}(id=${usuario.id})}" method="post" th:if="${usuario.enabled}">
+								<button type="submit" class="btn btn-danger">Desactivar</button>
+							</form>
+						</td>
 	            	</tr>
 	        	</tbody>
 			</table>

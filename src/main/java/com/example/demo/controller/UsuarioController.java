@@ -5,14 +5,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Usuario;
@@ -49,10 +47,23 @@ public class UsuarioController {
 		return "redirect:/user/perfil";
 	}
 	
+	@PreAuthorize("ROLE_ADMIN")
 	@GetMapping("/usuarios")
     public String listarUsuarios(Model model) {
         model.addAttribute("usuarios", userService.findAll());
-        System.out.println(userService.findAll());
         return "listaUsuarios";
     }
+
+	@PostMapping("/usuarios/activar/{id}")
+	public String activarUsuario(@PathVariable("id") Long userId) {
+		userService.activarUsuario(userId);
+		return "redirect:/user/usuarios";
+	}
+
+	@PostMapping("/usuarios/desactivar/{id}")
+	public String desactivarUsuario(@PathVariable("id") Long userId) {
+		userService.desactivarUsuario(userId);
+		return "redirect:/user/usuarios";
+	}
+	
 }
