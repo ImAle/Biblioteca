@@ -76,15 +76,15 @@ public class LibroController {
 	
 	@PostMapping("/createForm")
 	public String postForm(@ModelAttribute("libro") Libro libro, BindingResult result, Model model, RedirectAttributes redirect) {
-		if(result.hasErrors()) {
+		/*if(result.hasErrors()) {
 			model.addAttribute("errores");
 			return "libroForm";
-		}
+		}*/
 		
 		libroService.createLibro(libro);
 		redirect.addFlashAttribute("success", "Libro \"" + libro.getTitulo() + "\" creado con éxito");
 		
-		return "redirect:/librosAdmin";
+		return "redirect:/libros";
 	}
 	
 	@GetMapping("/updateForm")
