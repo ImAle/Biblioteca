@@ -28,7 +28,7 @@
 								<a class="nav-link text-white" th:href="@{/contacto}">Contacto</a>
 							</li>
 							<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
-								<a class="nav-link text-white" th:href="">Usuarios</a>
+								<a class="nav-link text-white" th:href="@{/user/usuarios}">Usuarios</a>
 							</li>
 						</ul>
 							<div class="collapse navbar-collapse">
