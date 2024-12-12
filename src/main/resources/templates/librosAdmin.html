@@ -60,7 +60,7 @@
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" th:each="libro : ${libros}">
                     <div class="card rounded shadow p-3 bg-body-tertiary">
                         <img th:src="${libro.imagen != null && libro.imagen != '' ? libro.imagen : 'http://localhost:8080/fotos/default.jpg'}"
-                             class="card-img-top" alt="Imagen libro" style="height: 40px;width: 40px">
+                             class="card-img-top rounded-circle center-block" alt="Imagen libro" style="height: 40px;width: 40px">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${libro.titulo}">Título</h5>
                             <p class="card-text" th:text="${libro.autor}">Autor</p>
