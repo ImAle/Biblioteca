@@ -11,6 +11,9 @@
       <div th:replace="~{global :: navbar}"></div>
       <br>
       <h2 class="text-center mb-4">Lista de libros</h2>
+      <div class="d-flex justify-content-center mb-4">
+          <a href="#" th:href="@{/libros/createForm}" class="btn btn-success btn-lg">Crear Nuevo Libro</a>
+      </div>
       <div class="container">
         <table class="table table-dark table-borderless mb-0 table-bordered border-light">
           <thead>
