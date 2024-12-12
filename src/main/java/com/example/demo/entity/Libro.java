@@ -20,7 +20,7 @@ public class Libro {
     private Long id;
 
     private String titulo;
-    private MultipartFile imagen;
+    private String imagen;
     private String autor;
     private String genero;
     private int anioPublicacion;

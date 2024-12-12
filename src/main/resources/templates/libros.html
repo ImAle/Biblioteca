@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" th:each="libro : ${libros.content}">
                     <div class="card rounded shadow p-3 bg-body-tertiary">
-                        <img src="#" class="card-img-top" alt="Imagen libro">
+                        <img th:src="${strings.isEmpty(libro.imagen)}} ? https:8080/files/default.jpg : ${libro.imagen}}" class="card-img-top" alt="Imagen libro" style="height: 40px;width: 40px">
                         <!-- Aquí deberías poner la imagen real -->
                         <div class="card-body">
                             <h5 class="card-title" th:text="${libro.titulo}">Titulo</h5>

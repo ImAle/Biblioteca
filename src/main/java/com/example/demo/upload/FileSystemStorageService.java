@@ -34,7 +34,7 @@ public class FileSystemStorageService implements StorageService{
 		try {
 			Files.createDirectories(ubicacion);
 		} catch (Exception e) {
-			throw new StorageException("Error:", e);
+			throw new StorageException("No se pudo inicializar la subida:", e);
 		}
 		
 	}
@@ -43,10 +43,11 @@ public class FileSystemStorageService implements StorageService{
 	public String store(MultipartFile file, Long idLibro) {
 		
 		try {
-			// Comprueba si el archivo esta vacio
+			// Comprueba si el archivo está vacío
 			if(file.isEmpty())
 				throw new StorageException("El archivo esta vacio");
-			// Determina la ubicacion del archivo
+
+			// Determina la ubicación del archivo
 			Path destino = this.ubicacion.resolve(Paths.get(file.getOriginalFilename()))
 					.normalize().toAbsolutePath();
 			
@@ -54,23 +55,29 @@ public class FileSystemStorageService implements StorageService{
 			if (!destino.getParent().equals(this.ubicacion.toAbsolutePath())) {
 			    throw new StorageException("No se puede guardar fuera del directorio");
 			}
-			
-			try (InputStream inputStream = file.getInputStream()) {
-				Files.copy(inputStream, destino,
-					StandardCopyOption.REPLACE_EXISTING);
-			}
-			
+
+			// Obtiene el nombre original y su extensión
 			String archivoOriginal = file.getOriginalFilename();
 		        if (archivoOriginal == null || !archivoOriginal.contains(".")) {
 		            throw new StorageException("No se pudo determinar la extensión del archivo");
 		        }
+			// Extrae la extensión del archivo
 			String extension = archivoOriginal.substring(archivoOriginal.lastIndexOf("."));
-	        // Crear el nombre del archivo basado en el ID del profesor
-	        String nuevoNombre = idLibro + extension;
+
+	        // Crear el nombre del archivo basado en el ID
+	        String nuevoNombre = archivoOriginal.substring(0, archivoOriginal.lastIndexOf(".")) + "_" + idLibro + extension;
+
 	        // Determinar la ubicación destino
-	        destino = this.ubicacion.resolve(Paths.get(nuevoNombre)).normalize().toAbsolutePath();
-	        
+			destino = this.ubicacion.resolve(Paths.get(nuevoNombre)).normalize().toAbsolutePath();
+
+			// Copiar el archivo con el nuevo nombre
+			try (InputStream inputStream = file.getInputStream()) {
+				Files.copy(inputStream, destino, StandardCopyOption.REPLACE_EXISTING);
+			}
+
+			// Devuelve el nombre del archivo
 	        return nuevoNombre;
+
 		} catch (Exception e) {
 			throw new StorageException("Error al almacenar el archivo", e);
 		}

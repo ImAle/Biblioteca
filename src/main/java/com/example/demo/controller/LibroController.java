@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.Optional;
 
 import com.example.demo.upload.FileSystemStorageService;
+import com.example.demo.upload.FileUploadController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Libro;
@@ -80,16 +82,22 @@ public class LibroController {
 	}
 	
 	@PostMapping("/createForm")
-	public String postForm(@ModelAttribute("libro") Libro libro, BindingResult result, Model model, RedirectAttributes redirect) {
+	public String postForm(@ModelAttribute("libro") Libro libro, BindingResult result,
+						   Model model, RedirectAttributes redirect, @RequestParam("file") MultipartFile file) {
 		/*if(result.hasErrors()) {
 			model.addAttribute("errores");
 			return "libroForm";
 		}*/
-		MultipartFile imagen = libro.getImagen();
-		libro.setImagen(null);
+
 		libroService.createLibro(libro);
 
-		fileService.store(imagen, libro.getId());
+		if(!file.isEmpty()){
+			String imagen = fileService.store(file, libro.getId());
+			libro.setImagen(MvcUriComponentsBuilder.
+					fromMethodName(FileUploadController.class, "serveFile", imagen).build().toUriString());
+		}
+
+		libroService.updateLibro(libro);
 
 		redirect.addFlashAttribute("success", "Libro \"" + libro.getTitulo() + "\" creado con éxito");
 		
@@ -106,7 +114,7 @@ public class LibroController {
 	}
 	
 	@PostMapping("/updateForm")
-	public String showUpdateForm(@ModelAttribute("libro") Libro libro, BindingResult result, Model model) {
+	public String showUpdateForm(@ModelAttribute("libro") Libro libro, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
 		/*
 		if (result.hasErrors()) {
 			System.out.println("AHHHHHHHHHHHHH");
@@ -114,11 +122,10 @@ public class LibroController {
 			return "libroForm";
 		}*/
 
-		if(libro.getImagen() == null){
-			Optional<Libro> oldLibro = libroService.getLibro(libro.getId());
-            oldLibro.ifPresent(old -> libro.setImagen(old.getImagen()));
-		}else{
-			fileService.store(libro.getImagen(), libro.getId());
+		if(!file.isEmpty()){
+			String imagen = fileService.store(file, libro.getId());
+			libro.setImagen(MvcUriComponentsBuilder.
+					fromMethodName(FileUploadController.class, "serveFile", imagen).build().toUriString());
 		}
 
 		libroService.updateLibro(libro);

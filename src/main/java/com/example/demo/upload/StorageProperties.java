@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "storage")
 public class StorageProperties {
 	
-	private String location = "fotos";
+	private String location = "src/main/resources/static/img";
 	
 	public String getLocation() {
 		return location;
