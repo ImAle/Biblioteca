@@ -12,7 +12,6 @@
 <div th:replace="global :: navbar"></div>
 
     <div class="container-fluid p-0">
-        <img th:src="@{/uploads/{filename}(filename=${libro.imagen})}" alt="Biblioteca" class="img-fluid w-60 object-fit-cover">
 
         <div class="position-absolute top-50 start-50 translate-middle w-75 z-index-10">
             <h2 class="text-center mb-4">Libros disponibles</h2>
@@ -32,8 +31,10 @@
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" th:each="libro : ${libros.content}">
                     <div class="card rounded shadow p-3 bg-body-tertiary">
-                        <img th:src="${strings.isEmpty(libro.imagen)}} ? https:8080/files/default.jpg : ${libro.imagen}}" class="card-img-top" alt="Imagen libro" style="height: 40px;width: 40px">
-                        <!-- Aquí deberías poner la imagen real -->
+
+                        <img th:src="${libro.imagen != null && libro.imagen != '' ? libro.imagen : 'http://localhost:8080/fotos/default.jpg'}"
+                             class="card-img-top" alt="Imagen libro" style="height: 40px;width: 40px">
+
                         <div class="card-body">
                             <h5 class="card-title" th:text="${libro.titulo}">Titulo</h5>
                             <p class="card-text" th:text="${libro.autor}">Autor</p>

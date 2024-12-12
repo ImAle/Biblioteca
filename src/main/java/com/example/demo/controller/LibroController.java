@@ -56,11 +56,12 @@ public class LibroController {
 
 	    model.addAttribute("libros", libros);
 	    model.addAttribute("titulo", titulo);
-	    
+
 	    if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
 	    	pagina = "librosAdmin";
 	    }
-	    
+		libros.getContent().forEach(System.out::println);
+
 		return pagina;
 	}
 	
