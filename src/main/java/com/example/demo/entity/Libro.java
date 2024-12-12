@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Data
@@ -19,7 +20,7 @@ public class Libro {
     private Long id;
 
     private String titulo;
-    private String imagen;
+    private MultipartFile imagen;
     private String autor;
     private String genero;
     private int anioPublicacion;

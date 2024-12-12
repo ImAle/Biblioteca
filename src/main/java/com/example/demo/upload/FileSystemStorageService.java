@@ -15,14 +15,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service
+@Service("fileService")
 public class FileSystemStorageService implements StorageService{
 
 	private final Path ubicacion;
 	
 	public FileSystemStorageService(StorageProperties propiedades) {
 		
-		if(propiedades.getLocation().trim().length() == 0)
+		if(propiedades.getLocation().trim().isEmpty())
 			throw new StorageException("La ubicacion de subida de archivos no puede estar vacia");
 		
 		this.ubicacion = Paths.get(propiedades.getLocation());
@@ -40,7 +40,7 @@ public class FileSystemStorageService implements StorageService{
 	}
 
 	@Override
-	public String store(MultipartFile file, int id) {
+	public String store(MultipartFile file, Long idLibro) {
 		
 		try {
 			// Comprueba si el archivo esta vacio
@@ -66,7 +66,7 @@ public class FileSystemStorageService implements StorageService{
 		        }
 			String extension = archivoOriginal.substring(archivoOriginal.lastIndexOf("."));
 	        // Crear el nombre del archivo basado en el ID del profesor
-	        String nuevoNombre = id + extension;
+	        String nuevoNombre = idLibro + extension;
 	        // Determinar la ubicación destino
 	        destino = this.ubicacion.resolve(Paths.get(nuevoNombre)).normalize().toAbsolutePath();
 	        

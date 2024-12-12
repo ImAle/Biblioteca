@@ -12,7 +12,7 @@
 <div th:replace="global :: navbar"></div>
 
     <div class="container-fluid p-0">
-        <img th:src="@{/images/papelFondo.jpg}" alt="Biblioteca" class="img-fluid w-60 object-fit-cover">
+        <img th:src="@{/uploads/{filename}(filename=${libro.imagen})}" alt="Biblioteca" class="img-fluid w-60 object-fit-cover">
 
         <div class="position-absolute top-50 start-50 translate-middle w-75 z-index-10">
             <h2 class="text-center mb-4">Libros disponibles</h2>

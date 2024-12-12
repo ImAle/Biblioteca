@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.Optional;
 
+import com.example.demo.upload.FileSystemStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Libro;
@@ -31,6 +33,10 @@ public class LibroController {
 	@Autowired
 	@Qualifier("libroService")
 	private LibroService libroService;
+
+	@Autowired
+	@Qualifier("fileService")
+	private FileSystemStorageService fileService;
 
 	@GetMapping("")
 	public String getLibros(@AuthenticationPrincipal Usuario usuario,
@@ -79,8 +85,12 @@ public class LibroController {
 			model.addAttribute("errores");
 			return "libroForm";
 		}*/
-		
+		MultipartFile imagen = libro.getImagen();
+		libro.setImagen(null);
 		libroService.createLibro(libro);
+
+		fileService.store(imagen, libro.getId());
+
 		redirect.addFlashAttribute("success", "Libro \"" + libro.getTitulo() + "\" creado con éxito");
 		
 		return "redirect:/libros";
@@ -107,6 +117,8 @@ public class LibroController {
 		if(libro.getImagen() == null){
 			Optional<Libro> oldLibro = libroService.getLibro(libro.getId());
             oldLibro.ifPresent(old -> libro.setImagen(old.getImagen()));
+		}else{
+			fileService.store(libro.getImagen(), libro.getId());
 		}
 
 		libroService.updateLibro(libro);
