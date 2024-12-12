@@ -11,52 +11,60 @@
 <body>
 <div th:replace="global :: navbar"></div>
 
-    <div class="container-fluid p-0">
 
-        <div class="position-absolute top-50 start-50 translate-middle w-75 z-index-10">
-            <h2 class="text-center mb-4">Libros disponibles</h2>
 
-            <!-- Barra de búsqueda -->
-            <div class="d-flex justify-content-center mb-4">
-                <form class="d-flex w-50" role="search" th:action="@{/libros}" method="get">
-                    <input class="form-control form-control-sm me-2 rounded shadow"
-                           type="search" name="titulo"
-                           th:value="${titulo}"
-                           placeholder="¿Qué libro quieres leer?" aria-label="Search">
-                    <button class="btn btn-primary btn-sm rounded shadow" type="submit">Buscar</button>
-                </form>
-            </div>
 
-            <!-- Listado de Libros -->
-            <div class="row">
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" th:each="libro : ${libros.content}">
-                    <div class="card rounded shadow p-3 bg-body-tertiary">
+<div class="container w-75 mt-5">
 
-                        <img th:src="${libro.imagen != null && libro.imagen != '' ? libro.imagen : 'http://localhost:8080/fotos/default.jpg'}"
-                             class="card-img-top" alt="Imagen libro" style="height: 40px;width: 40px">
+    <h2 class="text-center mb-4">Libros disponibles</h2>
 
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${libro.titulo}">Titulo</h5>
-                            <p class="card-text" th:text="${libro.autor}">Autor</p>
-                            <p class="card-text" th:text="${libro.genero}">Género</p>
-                        </div>
-                    </div>
+    <!-- Barra de búsqueda -->
+    <div class="d-flex justify-content-center mb-4">
+        <form class="d-flex w-50" role="search" th:action="@{/libros}" method="get">
+            <input class="form-control form-control-sm me-2 rounded shadow"
+                   type="search" name="titulo"
+                   th:value="${titulo}"
+                   placeholder="¿Qué libro quieres leer?" aria-label="Search">
+            <button class="btn btn-primary btn-sm rounded shadow" type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <!-- Listado de Libros -->
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" th:each="libro : ${libros.content}">
+            <div class="p-3 bg-body-tertiary text-center" style="background-color: white;">
+
+
+                <img th:src="${libro.imagen != null && libro.imagen != '' ? libro.imagen : 'http://localhost:8080/fotos/default.jpg'}"
+                     class="card-img-top d-block mx-auto"
+                     alt="Imagen libro"
+                     style="width: 125px; height: 180px; object-fit: cover;">
+
+
+
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${libro.titulo}">Titulo</h5>
+                    <p class="card-text" th:text="${libro.autor}">Autor</p>
+                    <p class="card-text" th:text="${libro.genero}">Género</p>
                 </div>
-            </div>
-
-            <!-- Paginación -->
-            <div class="d-flex justify-content-center">
-            <span th:if="${libros != null and libros.totalPages > 1}">
-                <ul class="pagination">
-                    <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, libros.totalPages - 1)}">
-                        <a th:href="@{/libros(page=${pageNum}, size=${libros.size}, nombre=${nombre})}"
-                           class="page-link"
-                           th:text="${pageNum + 1}">1</a>
-                    </li>
-                </ul>
-            </span>
             </div>
         </div>
     </div>
+
+    <!-- Paginación -->
+    <div class="d-flex justify-content-center">
+    <span th:if="${libros != null and libros.totalPages > 1}">
+        <ul class="pagination">
+            <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, libros.totalPages - 1)}">
+                <a th:href="@{/libros(page=${pageNum}, size=${libros.size}, nombre=${nombre})}"
+                   class="page-link"
+                   th:text="${pageNum + 1}">1</a>
+            </li>
+        </ul>
+    </span>
+    </div>
+</div>
+
+
 </body>
 </html>
