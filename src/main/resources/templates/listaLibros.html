@@ -10,16 +10,18 @@
   <body>
       <div th:replace="~{global :: navbar}"></div>
       <br>
+      <h2 class="text-center mb-4">Lista de libros</h2>
       <div class="container">
         <table class="table table-dark table-borderless mb-0 table-bordered border-light">
           <thead>
-          <tr>
-            <th>Imagen</th>
-            <th>Titulo</th>
-            <th>Autor</th>
-            <th>Género</th>
-            <th>Año de publicación</th>
-          </tr>
+            <tr>
+                <th>Imagen</th>
+                <th>Titulo</th>
+                <th>Autor</th>
+                <th>Género</th>
+                <th>Año de publicación</th>
+                <th>Gestión</th>
+            </tr>
           </thead>
           <tbody>
           <tr th:each="libro : ${libros}">
@@ -32,7 +34,19 @@
               <td th:text="${libro.genero}"></td>
               <td th:text="${libro.anioPublicacion}"></td>
               <td>
-            </td>
+                  <div class="d-flex gap-2">
+                      <a th:href="@{/libros/updateForm(id=${libro.id})}" method="get"
+                         class="btn btn-primary btn-sm">
+                          Actualizar
+                      </a>
+                      <form th:action="@{/libros/{id}(id=${libro.id})}" method="post" class="m-0">
+                          <input type="hidden" name="_method" value="delete">
+                          <button type="submit" class="btn btn-danger btn-sm">
+                              Eliminar
+                          </button>
+                      </form>
+                  </div>
+              </td>
           </tr>
           </tbody>
         </table>
