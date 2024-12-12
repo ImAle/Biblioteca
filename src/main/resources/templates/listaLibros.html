@@ -53,6 +53,19 @@
           </tr>
           </tbody>
         </table>
+          <!-- Paginación -->
+          <div class="d-flex justify-content-center">
+            <span th:if="${libros != null and libros.totalPages > 1}">
+                <ul class="pagination">
+                    <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, libros.totalPages - 1)}">
+                        <a th:href="@{/libros(page=${pageNum}, size=${libros.size}, nombre=${nombre})}"
+                           class="page-link"
+                           th:text="${pageNum + 1}">1</a>
+                    </li>
+                </ul>
+            </span>
+          </div>
+
       </div>
   </body>
 </html>
