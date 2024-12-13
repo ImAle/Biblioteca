@@ -10,14 +10,8 @@
 </head>
 <body>
 <div th:replace="global :: navbar"></div>
-
-
-
-
 <div class="container w-75 mt-5">
-
     <h2 class="text-center mb-4">Libros disponibles</h2>
-
     <!-- Barra de búsqueda -->
     <div class="d-flex justify-content-center mb-4">
         <form class="d-flex w-50" role="search" th:action="@{/libros}" method="get">
@@ -28,22 +22,18 @@
             <button class="btn btn-primary btn-sm rounded shadow" type="submit">Buscar</button>
         </form>
     </div>
-
+    <hr>
     <!-- Listado de Libros -->
-    <div class="row">
+    <div class="row ">
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" th:each="libro : ${libros.content}">
-            <div class="p-3 bg-body-tertiary text-center" style="background-color: white;">
-
-
+            <div class="p-3 bg-body-tertiary text-center border rounded-3" style="background-color: white;">
                 <img th:src="${libro.imagen != null && libro.imagen != '' ? libro.imagen : 'http://localhost:8080/fotos/default.jpg'}"
-                     class="card-img-top d-block mx-auto"
+                     class="card-img-top d-block mx-auto shadow-3 rounded-3"
                      alt="Imagen libro"
                      style="width: 220px; height: 280px; object-fit: cover;">
-
-
-
+                <hr>
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${libro.titulo}">Titulo</h5>
+                    <h4 class="card-title" th:text="${libro.titulo}">Titulo</h4>
                     <p class="card-text" th:text="${libro.autor}">Autor</p>
                     <p class="card-text" th:text="${libro.genero}">Género</p>
                 </div>
@@ -64,7 +54,5 @@
     </span>
     </div>
 </div>
-
-
 </body>
 </html>

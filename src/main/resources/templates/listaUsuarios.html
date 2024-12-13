@@ -10,10 +10,12 @@
 	<body>
 		<div th:replace="~{global :: navbar}"></div>
 		<br>
+		<h2 class="text-center mb-4">Lista de usuarios</h2>
 		<div class="container">
-        	<table class="table table-dark table-borderless mb-0 table-bordered border-light">
-				<thead>
-					<tr>
+			<div class="table-responsive rounded-3 overflow-hidden">
+				<table class="table table-bordered border-light-subtle mb-0">
+					<thead class="table-dark">
+					<tr class="text-uppercase">
 						<th>Imagen</th>
 				    	<th>Nombre</th>
 				      	<th>Apellido</th>
@@ -21,7 +23,7 @@
 				      	<th>Estado</th>
 				    </tr>
 				</thead>
-				<tbody>
+				<tbody class="table-secondary text-center">
 	            	<tr th:each="usuario : ${usuarios}">
 	            		<td>
 	            		<img th:src="${usuario.imagen != null && libro.imagen != '' ? libro.imagen : 'http://localhost:8080/fotos/defaultUser.jpg'}"
@@ -41,6 +43,7 @@
 	            	</tr>
 	        	</tbody>
 			</table> 
+		</div>
 		</div>
 	</body>
 </html>
