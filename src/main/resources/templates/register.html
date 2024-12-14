@@ -17,26 +17,11 @@
         function validateForm(event) {
             event.preventDefault();
 
-            const nombre = document.getElementById("nombre").value;
-            const apellido = document.getElementById("apellido").value;
-            const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
 
             let errorMessages = [];
 
-            // Validación de nombre y apellido
-            if (/\d/.test(nombre)) {
-                errorMessages.push("El nombre no puede contener números.");
-            }
-            if (/\d/.test(apellido)) {
-                errorMessages.push("El apellido no puede contener números.");
-            }
-
-            // Validación de contraseña
-            if (password.length < 8) {
-                errorMessages.push("La contraseña debe tener al menos 8 caracteres.");
-            }
             if (password !== confirmPassword) {
                 errorMessages.push("Las contraseñas no coinciden.");
             }
@@ -74,19 +59,23 @@
                 <form id="registerForm" th:action="@{/register}" th:object="${usuario}" method="post" onsubmit="validateForm(event)">
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" th:field="*{nombre}" required />
+                        <input type="text" id="nombre" class="form-control" th:field="*{nombre}" />
+                        <span class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
                     </div>
                     <div class="mb-3">
                         <label for="apellido" class="form-label">Apellido</label>
-                        <input type="text" id="apellido" class="form-control" th:field="*{apellido}" required />
+                        <input type="text" id="apellido" class="form-control" th:field="*{apellido}" />
+                        <span class="text-danger" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></span>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" class="form-control" th:field="*{email}" required />
+                        <input type="email" id="email" class="form-control" th:field="*{email}" />
+                        <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" id="password" class="form-control" th:field="*{password}" required />
+                        <input type="password" id="password" class="form-control" th:field="*{password}" />
+                        <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                     </div>
                     <div class="mb-3">
                         <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>

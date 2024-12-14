@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.example.demo.upload.FileSystemStorageService;
 import com.example.demo.upload.FileUploadController;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -86,12 +87,11 @@ public class LibroController {
 	}
 	
 	@PostMapping("/createForm")
-	public String postForm(@ModelAttribute("libro") Libro libro, BindingResult result,
-						   Model model, RedirectAttributes redirect, @RequestParam("file") MultipartFile file) {
-		/*if(result.hasErrors()) {
-			model.addAttribute("errores");
+	public String postForm(@Valid @ModelAttribute("libro") Libro libro, BindingResult result,
+						   RedirectAttributes redirect, @RequestParam("file") MultipartFile file) {
+		if(result.hasErrors()) {
 			return "libroForm";
-		}*/
+		}
 
 		libroService.createLibro(libro);
 
@@ -118,13 +118,12 @@ public class LibroController {
 	}
 	
 	@PostMapping("/updateForm")
-	public String showUpdateForm(@ModelAttribute("libro") Libro libro, BindingResult result, Model model, @RequestParam("file") MultipartFile file) {
-		/*
+	public String showUpdateForm(@Valid @ModelAttribute("libro") Libro libro, BindingResult result,
+								 Model model, @RequestParam("file") MultipartFile file) {
+
 		if (result.hasErrors()) {
-			System.out.println("AHHHHHHHHHHHHH");
-			model.addAttribute("errores");
 			return "libroForm";
-		}*/
+		}
 
 		if(!file.isEmpty()){
 			String imagen = fileService.store(file, libro.getId());

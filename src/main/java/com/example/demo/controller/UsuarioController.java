@@ -34,10 +34,10 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/perfil")
-	public String updatePerfilPage(@Valid @ModelAttribute("usuario") UsuarioDto usuarioDto, BindingResult result, Model model, @AuthenticationPrincipal Usuario usuario) {
+	public String updatePerfilPage(@Valid @ModelAttribute("usuario") UsuarioDto usuarioDto,
+								   BindingResult result, @AuthenticationPrincipal Usuario usuario) {
 		if (result.hasErrors()) {
-	        model.addAttribute("usuario", usuarioDto);
-	        return "perfil"; // Vuelve al formulario con los errores
+	        return "perfil";
 	    }
 		
 		usuario.setNombre(usuarioDto.getNombre());

@@ -37,7 +37,8 @@
     <!-- Campo del título -->
     <div class="mb-3">
       <label for="titulo" class="form-label">Título</label>
-      <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}" required>
+      <input type="text" class="form-control" id="titulo" name="titulo" th:field="*{titulo}">
+      <span class="text-danger" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></span>
     </div>
 
     <!-- Campo de la imagen -->
@@ -49,19 +50,22 @@
     <!-- Campo del autor -->
     <div class="mb-3">
       <label for="autor" class="form-label">Autor</label>
-      <input type="text" class="form-control" id="autor" name="autor" th:field="*{autor}" required>
+      <input type="text" class="form-control" id="autor" name="autor" th:field="*{autor}">
+      <span class="text-danger" th:if="${#fields.hasErrors('autor')}" th:errors="*{autor}"></span>
     </div>
 
     <!-- Campo del género -->
     <div class="mb-3">
       <label for="genero" class="form-label">Género</label>
-      <input type="text" class="form-control" id="genero" name="genero" th:field="*{genero}" required>
+      <input type="text" class="form-control" id="genero" name="genero" th:field="*{genero}">
+      <span class="text-danger" th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}"></span>
     </div>
 
     <!-- Campo del año de publicación -->
     <div class="mb-3">
       <label for="anioPublicacion" class="form-label">Año de Publicación</label>
-      <input type="number" class="form-control" id="anioPublicacion" name="anioPublicacion" th:field="*{anioPublicacion}" required>
+      <input type="number" class="form-control" id="anioPublicacion" name="anioPublicacion" th:field="*{anioPublicacion}">
+      <span class="text-danger" th:if="${#fields.hasErrors('anioPublicacion')}" th:errors="*{anioPublicacion}"></span>
     </div>
 
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
