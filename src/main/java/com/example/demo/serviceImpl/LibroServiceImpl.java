@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Libro;
@@ -29,10 +31,19 @@ public class LibroServiceImpl implements LibroService {
 	public Page<Libro> getLibros(Pageable pageable){
 		return libroRepository.findAll(pageable);
 	}
-	
+
 	@Override
-	public Page<Libro> getLibrosByName(String titulo, Pageable pageable) {
-	    return libroRepository.findByTituloAllIgnoreCaseContains(titulo, pageable);
+	public Page<Libro> getLibrosOrdenados(Pageable pageable, String campo, String direccion){
+		Sort sort = direccion.equalsIgnoreCase("asc") ? Sort.by(campo).ascending() : Sort.by(campo).descending();
+		Pageable pagSorted = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+		return libroRepository.findAll(pagSorted);
+	}
+
+	@Override
+	public Page<Libro> getLibrosByName(String titulo, Pageable pageable, String campo, String direccion) {
+		Sort sort = direccion.equalsIgnoreCase("asc") ? Sort.by(campo).ascending() : Sort.by(campo).descending();
+		Pageable pagSorted = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+	    return libroRepository.findByTituloAllIgnoreCaseContains(titulo, pagSorted);
 	}
 
 	@Override

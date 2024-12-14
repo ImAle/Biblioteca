@@ -43,24 +43,27 @@ public class LibroController {
 
 	@GetMapping("")
 	public String getLibros(@AuthenticationPrincipal Usuario usuario,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "12") int size, 
-			@RequestParam(required = false, name = "titulo") String titulo, Model model) {
+							@RequestParam(defaultValue = "0") int page,
+							@RequestParam(defaultValue = "12") int size,
+							@RequestParam(defaultValue = "titulo") String campo,
+							@RequestParam(defaultValue = "asc") String direccion,
+							@RequestParam(required = false, name = "titulo") String titulo, Model model) {
+
 		String pagina = "libros";
+		direccion = direccion.equalsIgnoreCase("desc") ? "desc" : "asc"; // Controlar solo valores válidos.
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Libro> libros;
 		
 	    if (titulo == null || titulo.isEmpty()) {
-	        libros = libroService.getLibros(pageable);
+	        libros = libroService.getLibrosOrdenados(pageable, campo, direccion);
 	    } else {
-	        libros = libroService.getLibrosByName(titulo, pageable);
+	        libros = libroService.getLibrosByName(titulo, pageable, campo, direccion);
 	    }
 
 	    model.addAttribute("libros", libros);
-	    model.addAttribute("titulo", titulo);
-		/*
-	    if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
-	    	pagina = "librosAdmin";
-	    }*/
+		model.addAttribute("titulo", titulo);
+		model.addAttribute("campo", campo);
+		model.addAttribute("direccion", direccion);
 
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
 			pagina = "listaLibros";

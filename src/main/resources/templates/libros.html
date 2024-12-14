@@ -12,17 +12,29 @@
 <div th:replace="global :: navbar"></div>
 <div class="container w-75 mt-5">
     <h2 class="text-center mb-4">Libros disponibles</h2>
-    <!-- Barra de búsqueda -->
-    <div class="d-flex justify-content-center mb-4">
-        <form class="d-flex w-50" role="search" th:action="@{/libros}" method="get">
-            <input class="form-control form-control-sm me-2 rounded shadow"
-                   type="search" name="titulo"
-                   th:value="${titulo}"
-                   placeholder="¿Qué libro quieres leer?" aria-label="Search">
-            <button class="btn btn-primary btn-sm rounded shadow" type="submit">Buscar</button>
-        </form>
-    </div>
+    <!-- Formulario combinado de búsqueda y ordenación -->
+    <form class="d-flex justify-content-center mb-4" role="search" th:action="@{/libros}" method="get">
+        <input class="form-control form-control-sm me-2 rounded shadow" type="search" name="titulo"
+               th:value="${titulo != null ? titulo : ''}" placeholder="¿Qué libro quieres leer?" aria-label="Search">
+
+        <div class="input-group">
+            <select class="form-select" name="campo">
+                <option value="titulo" th:selected="${campo == 'titulo'}">Título</option>
+                <option value="autor" th:selected="${campo == 'autor'}">Autor</option>
+                <option value="genero" th:selected="${campo == 'genero'}">Género</option>
+                <option value="anioPublicacion" th:selected="${campo == 'anioPublicacion'}">Año de publicación</option>
+            </select>
+            <select class="form-select" name="direccion">
+                <option value="asc" th:selected="${direccion == 'asc'}">Ascendente</option>
+                <option value="desc" th:selected="${direccion == 'desc'}">Descendente</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary btn-sm rounded shadow" type="submit">Buscar</button>
+    </form>
     <hr>
+
+
     <!-- Listado de Libros -->
     <div class="row ">
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" th:each="libro : ${libros.content}">
@@ -46,13 +58,14 @@
     <span th:if="${libros != null and libros.totalPages > 1}">
         <ul class="pagination">
             <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, libros.totalPages - 1)}">
-                <a th:href="@{/libros(page=${pageNum}, size=${libros.size}, nombre=${nombre})}"
+                <a th:href="@{/libros(page=${pageNum}, size=${libros.size}, titulo=${titulo != null ? titulo : ''}, campo=${campo != null ? campo : 'titulo'}, direccion=${direccion != null ? direccion : 'asc'})}"
                    class="page-link"
                    th:text="${pageNum + 1}">1</a>
             </li>
         </ul>
     </span>
     </div>
+
 </div>
 </body>
 </html>
