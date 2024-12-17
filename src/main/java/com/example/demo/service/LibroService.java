@@ -9,11 +9,11 @@ import com.example.demo.entity.Libro;
 
 public interface LibroService {
 	
-	public abstract Libro createLibro(Libro libro);
-	public abstract Optional<Libro> getLibro(Long id);
-	public abstract Page<Libro> getLibros(Pageable pageable);
-	Page<Libro> getLibrosOrdenados(Pageable pageable, String campo, String direccion);
-	public abstract Libro updateLibro(Libro Libro);
-	public abstract void deleteLibro(Long id);
-	public abstract Page<Libro> getLibrosByName(String titulo, Pageable pageable, String campo, String direccion);
+	Libro createLibro(Libro libro);
+	Optional<Libro> getLibro(Long id);
+	Page<Libro> getAllLibros(Pageable pageable);
+	Page<Libro> getLibrosFiltered(String titulo, String genero, String autor, Pageable pageable);
+	Libro updateLibro(Libro Libro);
+	void deleteLibro(Long id);
+
 }

@@ -12,12 +12,22 @@
 <div th:replace="global :: navbar"></div>
 <div class="container w-75 mt-5">
     <h2 class="text-center mb-4">Libros disponibles</h2>
-    <!-- Formulario combinado de búsqueda y ordenación -->
+    <!-- Formulario de búsqueda -->
     <form class="d-flex justify-content-center mb-4" role="search" th:action="@{/libros}" method="get">
-        <input class="form-control form-control-sm me-2 rounded shadow" type="search" name="titulo"
-               th:value="${titulo != null ? titulo : ''}" placeholder="¿Qué libro quieres leer?" aria-label="Search">
+        <!-- Selector de Filtro -->
+        <select class="form-select me-2" name="filtro">
+            <option value="titulo" th:selected="${titulo != null}">Título</option>
+            <option value="autor" th:selected="${autor != null}">Autor</option>
+            <option value="genero" th:selected="${genero != null}">Género</option>
+        </select>
 
-        <div class="input-group">
+        <!-- Campo de Búsqueda -->
+        <input class="form-control form-control-sm me-2 rounded shadow" type="search" name="busqueda"
+               th:value="${titulo != null ? titulo : (autor != null ? autor : (genero != null ? genero : ''))}"
+               placeholder="¿Qué libro quieres leer?" aria-label="Search">
+
+        <!-- Selector de Ordenación -->
+        <div class="input-group me-2">
             <select class="form-select" name="campo">
                 <option value="titulo" th:selected="${campo == 'titulo'}">Título</option>
                 <option value="autor" th:selected="${campo == 'autor'}">Autor</option>
@@ -30,6 +40,7 @@
             </select>
         </div>
 
+        <!-- Botón de Búsqueda -->
         <button class="btn btn-primary btn-sm rounded shadow" type="submit">Buscar</button>
     </form>
     <hr>

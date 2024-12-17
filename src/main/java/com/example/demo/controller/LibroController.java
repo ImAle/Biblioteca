@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -47,21 +48,25 @@ public class LibroController {
 							@RequestParam(defaultValue = "12") int size,
 							@RequestParam(defaultValue = "titulo") String campo,
 							@RequestParam(defaultValue = "asc") String direccion,
-							@RequestParam(required = false, name = "titulo") String titulo, Model model) {
+							@RequestParam(required = false, name = "busqueda") String busqueda,
+							@RequestParam(defaultValue = "titulo", name = "filtro") String filtro,
+							Model model){
 
 		String pagina = "libros";
 		direccion = direccion.equalsIgnoreCase("desc") ? "desc" : "asc"; // Controlar solo valores válidos.
-		Pageable pageable = PageRequest.of(page, size);
-		Page<Libro> libros;
-		
-	    if (titulo == null || titulo.isEmpty()) {
-	        libros = libroService.getLibrosOrdenados(pageable, campo, direccion);
-	    } else {
-	        libros = libroService.getLibrosByName(titulo, pageable, campo, direccion);
-	    }
+		Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direccion), campo));
+
+		// Determinar parámetros según el filtro
+		String titulo = filtro.equals("titulo") ? busqueda : null;
+		String genero = filtro.equals("genero") ? busqueda : null;
+		String autor = filtro.equals("autor") ? busqueda : null;
+
+		Page<Libro> libros = libroService.getLibrosFiltered(titulo, genero, autor, pageable);
 
 	    model.addAttribute("libros", libros);
 		model.addAttribute("titulo", titulo);
+		model.addAttribute("genero", genero);
+		model.addAttribute("autor", autor);
 		model.addAttribute("campo", campo);
 		model.addAttribute("direccion", direccion);
 

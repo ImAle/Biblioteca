@@ -28,22 +28,19 @@ public class LibroServiceImpl implements LibroService {
 	}
 	
 	@Override
-	public Page<Libro> getLibros(Pageable pageable){
+	public Page<Libro> getAllLibros(Pageable pageable){
 		return libroRepository.findAll(pageable);
 	}
 
 	@Override
-	public Page<Libro> getLibrosOrdenados(Pageable pageable, String campo, String direccion){
-		Sort sort = direccion.equalsIgnoreCase("asc") ? Sort.by(campo).ascending() : Sort.by(campo).descending();
-		Pageable pagSorted = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-		return libroRepository.findAll(pagSorted);
-	}
+	public Page<Libro> getLibrosFiltered(String titulo, String genero, String autor, Pageable pageable){
+		titulo = (titulo != null && !titulo.isEmpty()) ? titulo : null;
+		genero = (genero != null && !genero.isEmpty()) ? genero : null;
+		autor = (autor != null && !autor.isEmpty()) ? autor : null;
+		if(titulo == null && genero == null && autor == null)
+			return getAllLibros(pageable);
 
-	@Override
-	public Page<Libro> getLibrosByName(String titulo, Pageable pageable, String campo, String direccion) {
-		Sort sort = direccion.equalsIgnoreCase("asc") ? Sort.by(campo).ascending() : Sort.by(campo).descending();
-		Pageable pagSorted = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-	    return libroRepository.findByTituloAllIgnoreCaseContains(titulo, pagSorted);
+		return libroRepository.findByFiltros(titulo, genero, autor, pageable);
 	}
 
 	@Override
