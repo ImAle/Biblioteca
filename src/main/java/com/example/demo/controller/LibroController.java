@@ -1,7 +1,12 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.repository.LibroRepository;
+import com.example.demo.repository.PrestamoRepository;
+import com.example.demo.service.PrestamoService;
 import com.example.demo.upload.FileSystemStorageService;
 import com.example.demo.upload.FileUploadController;
 import jakarta.validation.Valid;
@@ -42,6 +47,18 @@ public class LibroController {
 	@Qualifier("fileService")
 	private FileSystemStorageService fileService;
 
+	@Autowired
+	@Qualifier("prestamoService")
+	private PrestamoService prestamoService;
+
+	@Autowired
+	@Qualifier("libroRepository")
+	private LibroRepository libroRepository;
+
+	@Autowired
+	@Qualifier("prestamoRepository")
+	private PrestamoRepository prestamoRepository;
+
 	@GetMapping("")
 	public String getLibros(@AuthenticationPrincipal Usuario usuario,
 							@RequestParam(defaultValue = "0") int page,
@@ -62,6 +79,7 @@ public class LibroController {
 		String autor = filtro.equals("autor") ? busqueda : null;
 
 		Page<Libro> libros = libroService.getLibrosFiltered(titulo, genero, autor, pageable);
+		libros.forEach(libro -> libro.getPrestamos());
 
 	    model.addAttribute("libros", libros);
 		model.addAttribute("titulo", titulo);
@@ -72,6 +90,11 @@ public class LibroController {
 
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
 			pagina = "listaLibros";
+		} else if (usuario != null && usuario.getRol().equals("ROLE_USER")) {
+			// Id de libros prestados
+			List<Long> librosPrestados = prestamoRepository.libroPrestado();
+			model.addAttribute("librosPrestados", librosPrestados);
+			return "prestamoLibros";
 		}
 
 		return pagina;
@@ -152,4 +175,17 @@ public class LibroController {
 		redirect.addFlashAttribute("success", "Libro eliminado con éxito");
 		return "redirect:/libros";
 	}
+
+	@PostMapping("/{id}/prestar")
+	public String prestamoLibro(@PathVariable("id") Long id,@AuthenticationPrincipal Usuario usuario, RedirectAttributes redirect){
+		try {
+			prestamoService.prestamos(usuario.getId(), id);
+			redirect.addFlashAttribute("success", "Libro prestado correctamente");
+			
+		} catch (Exception e) {
+			redirect.addFlashAttribute("error", e.getMessage());
+		}
+		return "redirect:/libros";
+	}
+
 }
