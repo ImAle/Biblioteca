@@ -30,5 +30,11 @@ public class Prestamo {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
 
+    public Prestamo(Usuario usuario, Libro libro, LocalDate fechaInicio, LocalDate fechaFin) {
+        this.usuario = usuario;
+        this.libro = libro;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+    }
 }
 

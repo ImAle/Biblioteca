@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -46,7 +47,7 @@ public class Usuario implements UserDetails{
     private List<Reserva> reservas;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-    private List<Prestamo> prestamos;
+    private List<Prestamo> prestamos = new ArrayList<>(5);
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

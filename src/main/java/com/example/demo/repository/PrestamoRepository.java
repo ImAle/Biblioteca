@@ -18,8 +18,8 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
 
     // Comprueba si el libro esta prestado
     @Query("SELECT COUNT(p) > 0 FROM Prestamo p WHERE p.libro.id = :idLibro")
-    boolean libroPrestado(@Param("idLibro") Long idLibro);
+    boolean isLibroPrestado(@Param("idLibro") Long idLibro);
 
     @Query("SELECT p.libro.id FROM Prestamo p WHERE p.libro IS NOT NULL")
-    List<Long> libroPrestado();
+    List<Long> getIdLibrosPrestados();
 }

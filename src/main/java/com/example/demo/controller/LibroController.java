@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.entity.Prestamo;
 import com.example.demo.repository.LibroRepository;
 import com.example.demo.repository.PrestamoRepository;
 import com.example.demo.service.PrestamoService;
@@ -51,14 +52,6 @@ public class LibroController {
 	@Qualifier("prestamoService")
 	private PrestamoService prestamoService;
 
-	@Autowired
-	@Qualifier("libroRepository")
-	private LibroRepository libroRepository;
-
-	@Autowired
-	@Qualifier("prestamoRepository")
-	private PrestamoRepository prestamoRepository;
-
 	@GetMapping("")
 	public String getLibros(@AuthenticationPrincipal Usuario usuario,
 							@RequestParam(defaultValue = "0") int page,
@@ -91,9 +84,7 @@ public class LibroController {
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
 			pagina = "listaLibros";
 		} else if (usuario != null && usuario.getRol().equals("ROLE_USER")) {
-			// Id de libros prestados
-			List<Long> librosPrestados = prestamoRepository.libroPrestado();
-			model.addAttribute("librosPrestados", librosPrestados);
+			model.addAttribute("librosPrestados", prestamoService.getAllPrestamosId());
 			return "prestamoLibros";
 		}
 
@@ -176,10 +167,10 @@ public class LibroController {
 		return "redirect:/libros";
 	}
 
-	@PostMapping("/{id}/prestar")
-	public String prestamoLibro(@PathVariable("id") Long id,@AuthenticationPrincipal Usuario usuario, RedirectAttributes redirect){
+	@PostMapping("/prestar")
+	public String prestamoLibro(@PathVariable("id") Long id, @AuthenticationPrincipal Usuario usuario, RedirectAttributes redirect){
 		try {
-			prestamoService.prestamos(usuario.getId(), id);
+			prestamoService.addPrestamo(usuario.getId(), id);
 			redirect.addFlashAttribute("success", "Libro prestado correctamente");
 			
 		} catch (Exception e) {

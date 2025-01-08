@@ -12,12 +12,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service("prestamoService")
 public class PrestamoServiceImpl implements PrestamoService {
-
-    private static final int MAX_PRESTAMOS = 5;
 
     @Autowired
     @Qualifier("prestamoRepository")
@@ -31,7 +30,7 @@ public class PrestamoServiceImpl implements PrestamoService {
     @Qualifier("libroRepository")
     public LibroRepository libroRepository;
 
-    public void prestamos(Long idUsuario, Long idLibro) throws Exception {
+    public void addPrestamo(Long idUsuario, Long idLibro) throws Exception {
 
         // Obtiene la id del usuario
         Usuario usuario = usuarioRepository.findById(idUsuario)
@@ -41,27 +40,43 @@ public class PrestamoServiceImpl implements PrestamoService {
         Libro libro = libroRepository.findById(idLibro)
                 .orElseThrow(() -> new Exception("Libro no encontrado"));
 
-        // Maximo de prestamos por usuario
-        if (maxPrestamos(idUsuario) >= MAX_PRESTAMOS)
-            throw new Exception("No se permiten mas de 5 prestamos");
 
         // Comprueba si el libro esta prestado
-        if (prestamoRepository.libroPrestado(idLibro))
+        if (prestamoRepository.isLibroPrestado(idLibro))
             throw new Exception("Libro no disponible");
 
         // Crea y guarda el prestamo
-        Prestamo prestamo = new Prestamo();
-        prestamo.setUsuario(usuario);
-        prestamo.setLibro(libro);
-        prestamo.setFechaInicio(LocalDate.now());
-        prestamo.setFechaFin(LocalDate.now().plusWeeks(1));
+        Prestamo prestamo = new Prestamo(usuario, libro, LocalDate.now(), LocalDate.now().plusWeeks(1));
         prestamoRepository.save(prestamo);
 
     }
 
     @Override
-    public int maxPrestamos(Long idUsuario) {
-        return prestamoRepository.prestamosUsuario(idUsuario);
+    public void devolucion(Long libroId) {
+        Optional<Prestamo> prestamo = prestamoRepository.findById(libroId);
+        if (prestamo.isPresent())
+            prestamoRepository.deleteById(prestamo.get().getId());
+    }
+
+    @Override
+    public List<Prestamo> getPrestamos(Long userId) {
+        List<Prestamo> prestamos = null;
+        Optional<Usuario> usuario = usuarioRepository.findById(userId);
+
+        if (usuario.isPresent())
+            prestamos = usuario.get().getPrestamos();
+
+        return prestamos;
+    }
+
+    public List<Long> getAllPrestamosId(){
+        return prestamoRepository.getIdLibrosPrestados();
+    }
+
+    @Override
+    public Prestamo getPrestamo(Long prestamoId) {
+        Optional<Prestamo> prestamo = prestamoRepository.findById(prestamoId);
+        return (prestamo.isPresent()) ? prestamo.get() : null;
     }
 
 }

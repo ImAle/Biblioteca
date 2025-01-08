@@ -66,9 +66,10 @@
                         <span th:if="${#lists.contains(librosPrestados, libro.id)}" class="text-danger">No disponible</span>
                     </p>
                     <!-- Boton de prestamo -->
-                    <form th:unless="${#lists.contains(librosPrestados, libro.id)}" th:action="@{/libros/{id}/prestar(id=${libro.id})}" method="post" style="display:inline;">
+                    <form th:unless="${#lists.contains(librosPrestados, libro.id)}" th:action="@{/libros/prestar(id=${libro.id})}" method="post" style="display:inline;">
                         <button th:disabled="${librosPrestados != null and libro.id != null and #lists.contains(librosPrestados, libro.id)}" type="submit" class="btn btn-primary btn-sm">Pedir prestado</button>
                     </form>
+                    
                 </div>
             </div>
         </div>
