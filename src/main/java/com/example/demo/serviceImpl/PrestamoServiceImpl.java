@@ -31,7 +31,6 @@ public class PrestamoServiceImpl implements PrestamoService {
     public LibroRepository libroRepository;
 
     public void addPrestamo(Long idUsuario, Long idLibro) throws Exception {
-
         // Obtiene la id del usuario
         Usuario usuario = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new Exception("Usuario no encontrado"));

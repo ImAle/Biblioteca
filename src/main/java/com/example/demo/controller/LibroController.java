@@ -167,16 +167,4 @@ public class LibroController {
 		return "redirect:/libros";
 	}
 
-	@PostMapping("/prestar")
-	public String prestamoLibro(@PathVariable("id") Long id, @AuthenticationPrincipal Usuario usuario, RedirectAttributes redirect){
-		try {
-			prestamoService.addPrestamo(usuario.getId(), id);
-			redirect.addFlashAttribute("success", "Libro prestado correctamente");
-			
-		} catch (Exception e) {
-			redirect.addFlashAttribute("error", e.getMessage());
-		}
-		return "redirect:/libros";
-	}
-
 }
