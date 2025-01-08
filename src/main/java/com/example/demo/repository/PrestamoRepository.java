@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.entity.Prestamo;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository("prestamoRepository")
 public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
@@ -22,4 +23,8 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
 
     @Query("SELECT p.libro.id FROM Prestamo p WHERE p.libro IS NOT NULL")
     List<Long> getIdLibrosPrestados();
+
+    @Query("SELECT l.prestamos FROM Libro l WHERE l.id = :idLibro")
+    List<Prestamo> findLibroId(@Param("idLibro") Long idLibro);
+
 }

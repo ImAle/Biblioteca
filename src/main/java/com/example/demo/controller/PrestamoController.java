@@ -20,7 +20,7 @@ public class PrestamoController {
     @Qualifier("prestamoService")
     private PrestamoService prestamoService;
 
-    @PostMapping("")
+    @PostMapping("/{id}")
     public String prestamoLibro(@PathVariable("id") Long id, @AuthenticationPrincipal Usuario usuario, RedirectAttributes redirect){
         try {
             prestamoService.addPrestamo(usuario.getId(), id);
@@ -32,7 +32,7 @@ public class PrestamoController {
         return "redirect:/libros";
     }
 
-    @PostMapping("/devolver")
+    @PostMapping("/devolver/{id}")
     public String devolucion(@PathVariable("id")Long id, RedirectAttributes redirectAttributes){
         System.out.println("id recibida " + id);
         prestamoService.devolucion(id);

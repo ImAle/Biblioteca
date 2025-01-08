@@ -14,9 +14,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service("prestamoService")
 public class PrestamoServiceImpl implements PrestamoService {
+    Logger logger = Logger.getLogger(PrestamoServiceImpl.class.getName());
 
     @Autowired
     @Qualifier("prestamoRepository")
@@ -52,9 +54,10 @@ public class PrestamoServiceImpl implements PrestamoService {
 
     @Override
     public void devolucion(Long libroId) {
-        Optional<Prestamo> prestamo = prestamoRepository.findById(libroId);
-        if (prestamo.isPresent())
-            prestamoRepository.deleteById(prestamo.get().getId());
+        List<Prestamo> prestamo = prestamoRepository.findLibroId(libroId);
+        logger.warning("Valor de prestamo " + prestamo);
+        if (!prestamo.isEmpty())
+            prestamoRepository.deleteById(prestamo.getFirst().getId());
     }
 
     @Override
