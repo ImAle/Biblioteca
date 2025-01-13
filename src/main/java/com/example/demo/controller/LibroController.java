@@ -1,12 +1,8 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.demo.entity.Prestamo;
-import com.example.demo.repository.LibroRepository;
-import com.example.demo.repository.PrestamoRepository;
 import com.example.demo.service.PrestamoService;
 import com.example.demo.upload.FileSystemStorageService;
 import com.example.demo.upload.FileUploadController;
@@ -84,7 +80,11 @@ public class LibroController {
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
 			pagina = "listaLibros";
 		} else if (usuario != null && usuario.getRol().equals("ROLE_USER")) {
-			model.addAttribute("librosPrestados", prestamoService.getAllPrestamosId());
+			// modificar esto
+			List<Long> misPrestamos = prestamoService.getPrestamosByUserId(usuario.getId()).stream().map(prestamo -> prestamo.getLibro().getId()).toList();
+			List<Long> prestamos = prestamoService.getLibrosIdPrestadosDeLosDemas();
+			model.addAttribute("miPrestamos", misPrestamos);
+			model.addAttribute("prestamos", prestamos);
 			return "prestamoLibros";
 		}
 

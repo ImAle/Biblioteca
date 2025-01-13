@@ -25,6 +25,9 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
     List<Long> getIdLibrosPrestados();
 
     @Query("SELECT l.prestamos FROM Libro l WHERE l.id = :idLibro")
-    List<Prestamo> findLibroId(@Param("idLibro") Long idLibro);
+    List<Prestamo> findPrestamosByLibroId(@Param("idLibro") Long idLibro);
 
+    //Obtiene la id del usuario de prestamos
+    @Query("SELECT p.usuario.id FROM Prestamo p WHERE p.libro.id = :idLibro")
+    Optional<Long> findUsuarioIdByPrestamo(@Param("idLibro") Long idLibro);
 }

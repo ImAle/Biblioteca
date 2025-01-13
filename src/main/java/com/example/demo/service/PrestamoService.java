@@ -10,9 +10,11 @@ import java.util.Optional;
 @Service
 public interface PrestamoService {
 
+    List<Prestamo> getAllPrestamos();
     void addPrestamo(Long idUsuario, Long libroId) throws Exception;
     void devolucion(Long libroId);
-    List<Prestamo> getPrestamos(Long userId);
+    List<Prestamo> getPrestamosByUserId(Long userId);
     Prestamo getPrestamo(Long prestamoId);
-    List<Long> getAllPrestamosId();
+    List<Long> getAllPrestamosIdLibro();
+    List<Long> getLibrosIdPrestadosDeLosDemas();
 }
