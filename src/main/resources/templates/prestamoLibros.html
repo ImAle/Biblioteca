@@ -75,7 +75,7 @@
                         <button type="submit" class="btn btn-danger btn-sm">Devolver</button>
                     </form>
                     <!-- Botón de reservar -->
-                    <form th:if="${prestamos != null and #lists.contains(prestamos, libro.id) and miPrestamos != null and !#lists.contains(miPrestamos, libro.id)}" th:action="@{/prestamo/reservar/{id}(id=${libro.id})}" method="post" style="display:inline;">
+                    <form th:if="${prestamos != null and #lists.contains(prestamos, libro.id) and miPrestamos != null and !#lists.contains(miPrestamos, libro.id)}" th:action="@{/reservar/{id}(id=${libro.id})}" method="post" style="display:inline;">
                         <button type="submit" class="btn btn-warning btn-sm">Reservar</button>
                     </form>
                 </div>
