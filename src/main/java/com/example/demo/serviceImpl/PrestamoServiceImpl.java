@@ -54,7 +54,6 @@ public class PrestamoServiceImpl implements PrestamoService {;
     	
         prestamoRepository.save(prestamo);
     }
-    
 
     @Override
     public void devolucion(Long libroId) {
@@ -70,7 +69,7 @@ public class PrestamoServiceImpl implements PrestamoService {;
     			Reserva reserva = reservas.getFirst();
     			
         		reservaService.notificar(reserva.getUsuario().getEmail(), // Email a quien se notifica
-        				"El libro \"" + libro.getTitulo() + "\" ya vuelve ha estar disponible!", // Titulo email
+        				"El libro \"" + libro.getTitulo() + "\" ya vuelve a estar disponible!", // Titulo email
         				"Accede a la plataforma y pidelo prestado antes de que otro lo haga!"); // Cuerpo del email
         		
         		reserva.setEstado("notificado");
@@ -91,7 +90,7 @@ public class PrestamoServiceImpl implements PrestamoService {;
     @Override
     public List<Prestamo> getPrestamosActivosByUserId(Long userId) {
         Optional<Usuario> usuario = usuarioRepository.findById(userId);
-        return prestamoRepository.findPrestamosActivosByUsuarioId(userId);
+        return (usuario.isPresent()) ? prestamoRepository.findPrestamosActivosByUsuarioId(userId) : null;
     }
 
     public List<Long> getAllPrestamosIdLibro(){
@@ -101,7 +100,11 @@ public class PrestamoServiceImpl implements PrestamoService {;
     @Override
     public List<Long> getLibrosIdPrestadosPorLosDemas(Long idUsuarioLogged){
     	List<Prestamo> prestamos = prestamoRepository.findByUsuario_IdNot(idUsuarioLogged);
-        return prestamos.stream().map(prestamo -> prestamo.getLibro().getId()).toList();
+        return getPrestamosActivos(prestamos).stream().map(prestamo -> prestamo.getLibro().getId()).toList();
+    }
+    
+    public List<Prestamo> getPrestamosActivos(List<Prestamo> prestamos){
+    	return prestamos.stream().filter(r -> LocalDate.now().isBefore(r.getFechaFin())).toList();
     }
 
     @Override
