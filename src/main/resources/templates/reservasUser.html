@@ -29,9 +29,9 @@
                         <span th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !#lists.contains(miPrestamos, libro.id))}" class="text-success">Disponible</span>
                     </div>
                     <br>
-                    <form class="d-flex justify-content-center mb-4">
-                        <button class="btn btn-danger btn-sm rounded shadow" type="submit">Cancelar</button>
-                    </form>
+                    <form class="d-flex justify-content-center mb-4" th:action="@{/reservar/cancelar/{id}(id=${reserva.libro.id})}" method="post">
+					    <button class="btn btn-danger btn-sm rounded shadow" type="submit">Cancelar</button>
+					</form>
                 </div>
             </div>
         </div>

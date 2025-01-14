@@ -75,6 +75,7 @@ public class ReservaServiceImpl implements ReservaService{
 
 	@Override
 	public void cancelarReserva(Reserva reserva) {
+		System.out.println("Cancelando reserva");
 		reservaRepository.delete(reserva);
 	}
 	

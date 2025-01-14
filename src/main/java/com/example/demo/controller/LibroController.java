@@ -90,7 +90,6 @@ public class LibroController {
 			model.addAttribute("miPrestamos", misPrestamos);
 			model.addAttribute("prestamos", prestamoService.getLibrosIdPrestadosPorLosDemas(usuario.getId()));
 			model.addAttribute("misReservas", reservaService.getReservasByUserId(usuario.getId()));
-			System.out.println(prestamoService.getLibrosIdPrestadosPorLosDemas(usuario.getId()));
 			return "prestamoLibros";
 		}
 

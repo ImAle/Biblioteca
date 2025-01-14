@@ -88,9 +88,9 @@
                         <button type="submit" class="btn btn-warning btn-sm">Reservar</button>
                     </form>
                     <!-- Botón de cancelar reserva -->
-                    <form th:if="${reservas != null and #lists.contains(misReservas, libro.id)}" th:action="@{/cancelar/{id}(id=${libro.id})}" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm">Cancelar reserva</button>
-                    </form>
+                    <form class="d-flex justify-content-center mb-4" th:action="@{/reservar/cancelar/{id}(id=${libro.id})}" method="post">
+					    <button class="btn btn-danger btn-sm rounded shadow" type="submit">Cancelar</button>
+					</form>
                 </div>
             </div>
         </div>
