@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import jakarta.annotation.Nullable;
@@ -38,7 +39,7 @@ public class Libro {
     private int anioPublicacion;
 
     @OneToMany(mappedBy = "libro")
-    private List<Reserva> reservas;
+    private List<Reserva> reservas = new LinkedList<Reserva>();
 
     @OneToMany(mappedBy = "libro")
     private List<Prestamo> prestamos;

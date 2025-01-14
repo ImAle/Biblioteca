@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import java.time.LocalDate;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +19,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Prestamo {
+	
+	public static final int PRESTAMOS_LIMITES_NUM = 5;
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,5 +43,6 @@ public class Prestamo {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
     }
+    
 }
 

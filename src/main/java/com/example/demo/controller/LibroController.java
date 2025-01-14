@@ -80,10 +80,9 @@ public class LibroController {
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
 			pagina = "listaLibros";
 		} else if (usuario != null && usuario.getRol().equals("ROLE_USER")) {
-			List<Long> misPrestamos = prestamoService.getPrestamosByUserId(usuario.getId()).stream().map(prestamo -> prestamo.getLibro().getId()).toList();
-			List<Long> prestamos = prestamoService.getLibrosIdPrestadosDeLosDemas();
+			List<Long> misPrestamos = prestamoService.getPrestamosActivosByUserId(usuario.getId()).stream().map(prestamo -> prestamo.getLibro().getId()).toList();
 			model.addAttribute("miPrestamos", misPrestamos);
-			model.addAttribute("prestamos", prestamos);
+			model.addAttribute("prestamos", prestamoService.getLibrosIdPrestadosPorLosDemas(usuario.getId()));
 			return "prestamoLibros";
 		}
 

@@ -44,7 +44,13 @@
         <button class="btn btn-primary btn-sm rounded shadow" type="submit">Buscar</button>
     </form>
     <hr>
-
+	
+		<!-- Mensaje de éxito -->
+	<div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+	
+	<!-- Mensaje de error -->
+	<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+	
 
     <!-- Listado de Libros -->
     <div class="row ">

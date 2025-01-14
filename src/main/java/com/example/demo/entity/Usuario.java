@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import jakarta.annotation.Nullable;
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Usuario implements UserDetails{
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,7 +49,7 @@ public class Usuario implements UserDetails{
     private List<Reserva> reservas;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-    private List<Prestamo> prestamos = new ArrayList<>(5);
+    private List<Prestamo> prestamos = new LinkedList<Prestamo>();
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

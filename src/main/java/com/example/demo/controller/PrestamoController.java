@@ -1,7 +1,15 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Libro;
+import com.example.demo.entity.Prestamo;
 import com.example.demo.entity.Usuario;
+import com.example.demo.service.LibroService;
 import com.example.demo.service.PrestamoService;
+import com.example.demo.service.UserService;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,25 +24,39 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/prestamo")
 public class PrestamoController {
 
+	@Autowired
+    @Qualifier("usuarioService")
+    private UserService userService;
+	
     @Autowired
     @Qualifier("prestamoService")
     private PrestamoService prestamoService;
+    
+    @Autowired
+    @Qualifier("libroService")
+    private LibroService libroService;
 
     @PostMapping("/{id}")
     public String prestamoLibro(@PathVariable("id") Long id, @AuthenticationPrincipal Usuario usuario, RedirectAttributes redirect){
         try {
-            prestamoService.addPrestamo(usuario.getId(), id);
-            redirect.addFlashAttribute("success", "Libro prestado correctamente");
-
-        } catch (Exception e) {
+        	Optional<Libro> libro = libroService.getLibro(id);
+        	if (libro.isPresent()) {
+        		Prestamo prestamo = new Prestamo(usuario, libro.get(), LocalDate.now(),LocalDate.now().plusWeeks(1));
+                prestamoService.addPrestamo(prestamo);
+                redirect.addFlashAttribute("success", "Tu periodo de prestamo ha comenzado");
+        	}
+        	
+        } catch (IllegalStateException e) {
             redirect.addFlashAttribute("error", e.getMessage());
+        } catch (Exception e) {
+            redirect.addFlashAttribute("error", "Error al procesar el préstamo.");
         }
+        
         return "redirect:/libros";
     }
 
     @PostMapping("/devolver/{id}")
-    public String devolucion(@PathVariable("id")Long id, RedirectAttributes redirectAttributes){
-        System.out.println("id recibida " + id);
+    public String devolucion(@PathVariable("id")Long id, @AuthenticationPrincipal Usuario usuario, RedirectAttributes redirectAttributes){
         prestamoService.devolucion(id);
         redirectAttributes.addFlashAttribute("mensaje", "Libro devuelto correctamente.");
 

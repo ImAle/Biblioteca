@@ -12,22 +12,13 @@ import java.util.Optional;
 
 @Repository("prestamoRepository")
 public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
-
-    // Metodo para contar cuantos libros tiene el usuario prestados
-    @Query("SELECT COUNT(p) FROM Prestamo p WHERE p.usuario.id = :user AND p.fechaFin >= CURRENT_DATE")
-    int prestamosUsuario(@Param("user") Long user);
-
+	/*
     // Comprueba si el libro esta prestado
     @Query("SELECT COUNT(p) > 0 FROM Prestamo p WHERE p.libro.id = :idLibro")
     boolean isLibroPrestado(@Param("idLibro") Long idLibro);
-
-    @Query("SELECT p.libro.id FROM Prestamo p WHERE p.libro IS NOT NULL")
-    List<Long> getIdLibrosPrestados();
-
-    @Query("SELECT l.prestamos FROM Libro l WHERE l.id = :idLibro")
-    List<Prestamo> findPrestamosByLibroId(@Param("idLibro") Long idLibro);
-
-    //Obtiene la id del usuario de prestamos
-    @Query("SELECT p.usuario.id FROM Prestamo p WHERE p.libro.id = :idLibro")
-    Optional<Long> findUsuarioIdByPrestamo(@Param("idLibro") Long idLibro);
+    */
+    List<Prestamo> findByUsuario_IdNot(Long idUser);
+    
+    @Query("SELECT p FROM Prestamo p WHERE p.usuario.id = :usuarioId AND (p.fechaFin IS NULL OR p.fechaFin > CURRENT_DATE)")
+    List<Prestamo> findPrestamosActivosByUsuarioId(@Param("usuarioId") Long usuarioId);
 }

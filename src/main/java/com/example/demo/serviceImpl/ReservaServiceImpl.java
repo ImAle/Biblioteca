@@ -1,16 +1,20 @@
 package com.example.demo.serviceImpl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Reserva;
 import com.example.demo.entity.Usuario;
 import com.example.demo.repository.ReservaRepository;
 import com.example.demo.repository.UsuarioRepository;
+import com.example.demo.service.EmailService;
 import com.example.demo.service.ReservaService;
 
 @Service("reservaService")
@@ -23,6 +27,10 @@ public class ReservaServiceImpl implements ReservaService{
 	@Autowired
 	@Qualifier("usuarioRepository")
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	@Qualifier("emailService")
+	private EmailService emailService;
 
 	@Override
 	public void addReserva(Reserva reserva) {
@@ -42,24 +50,23 @@ public class ReservaServiceImpl implements ReservaService{
 
 	@Override
 	public List<Reserva> getReservasByUserId(Long userId) {
-		List<Reserva> reservas = null;
 		Optional<Usuario> usuario = usuarioRepository.findById(userId);
-		
-		if(usuario.isPresent())
-			reservas = usuario.get().getReservas();
-		
-		return reservas;
+		return (usuario.isPresent()) ? usuario.get().getReservas() : null;
 	}
 
 	@Override
-	public void notificar() {
-		// TODO Auto-generated method stub
-		
+	public void notificar(String to, String subject, String text) {
+		emailService.sendSimpleEmail(to, subject, text);
 	}
 
 	@Override
 	public void deleteReserva(Reserva reserva) {
 		reservaRepository.delete(reserva);
 	}
+	
+	@Override
+	public Page<Reserva> getReservasFiltered(LocalDate desde, LocalDate hasta, Pageable pageable) {
+        return reservaRepository.findAllByFechaReservaBetween(desde, hasta, pageable);
+    }
 	
 }
