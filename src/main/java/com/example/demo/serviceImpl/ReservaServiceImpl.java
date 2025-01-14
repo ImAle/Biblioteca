@@ -47,6 +47,12 @@ public class ReservaServiceImpl implements ReservaService{
 	public List<Reserva> getAllReservas() {
 		return reservaRepository.findAll();
 	}
+	
+	@Override
+	public List<Reserva> getAllReservasPendientes() {
+		return getAllReservas().stream().filter(r -> r.getEstado().equalsIgnoreCase("pendiente")).toList();
+	}
+
 
 	@Override
 	public List<Reserva> getReservasByUserId(Long userId) {

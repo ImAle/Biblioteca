@@ -13,6 +13,7 @@ public interface ReservaService {
 	void addReserva(Reserva reserva);
 	Reserva getReservaById(Long id);
 	List<Reserva> getAllReservas();
+	List<Reserva> getAllReservasPendientes();
 	List<Reserva> getReservasByUserId(Long userId);
 	List<Reserva> getReservasPendientesByUserId(Long userId);
 	void notificar(String to, String subject, String text);

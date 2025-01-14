@@ -40,12 +40,12 @@ public class ReservaController {
 		String pagina = "reservasUser";
 		List<Reserva> reservas = usuario.getReservas();
 		
-			if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
-				pagina = "reservasAdmin";
-				reservas = reservaService.getAllReservas();
-			}
+		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
+			pagina = "reservasAdmin";
+			reservas = reservaService.getAllReservasPendientes();
+		}
 			
-			model.addAttribute("reservas", reservas);
+		model.addAttribute("reservas", reservas);
 			
 		return pagina;
 	}
