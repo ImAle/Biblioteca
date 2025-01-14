@@ -89,7 +89,7 @@ public class LibroController {
 			List<Long> misPrestamos = prestamoService.getPrestamosActivosByUserId(usuario.getId()).stream().map(prestamo -> prestamo.getLibro().getId()).toList();
 			model.addAttribute("miPrestamos", misPrestamos);
 			model.addAttribute("prestamos", prestamoService.getLibrosIdPrestadosPorLosDemas(usuario.getId()));
-			model.addAttribute("misReservas", reservaService.getReservasByUserId(usuario.getId()));
+			model.addAttribute("misReservas", reservaService.getReservasPendientesByUserId(usuario.getId()));
 			return "prestamoLibros";
 		}
 

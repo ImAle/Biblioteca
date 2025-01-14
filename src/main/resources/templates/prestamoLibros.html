@@ -84,12 +84,12 @@
                         <button type="submit" class="btn btn-danger btn-sm">Devolver</button>
                     </form>
                     <!-- Botón de reservar -->
-                    <form th:if="${prestamos != null and #lists.contains(prestamos, libro.id) and (reservas == null or !#lists.contains(reservas, libro.id))}" th:action="@{/reservar/{id}(id=${libro.id})}" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-warning btn-sm">Reservar</button>
-                    </form>
+					<form th:if="${prestamos != null and #lists.contains(prestamos, libro.id) and (misReservas == null or !#lists.contains(misReservas, libro.id))}" th:action="@{/reservar/{id}(id=${libro.id})}" method="post" style="display:inline;">
+					    <button type="submit" class="btn btn-warning btn-sm">Reservar</button>
+					</form>
                     <!-- Botón de cancelar reserva -->
-                    <form class="d-flex justify-content-center mb-4" th:action="@{/reservar/cancelar/{id}(id=${libro.id})}" method="post">
-					    <button class="btn btn-danger btn-sm rounded shadow" type="submit">Cancelar</button>
+                    <form th:if="${misReservas != null and #lists.contains(misReservas, libro.id)}" class="d-flex justify-content-center mb-4" th:action="@{/reservar/cancelar/{id}(id=${libro.id})}" method="post" style="display:inline;">
+					    <button type="submit" class="btn btn-danger btn-sm rounded shadow">Cancelar</button>
 					</form>
                 </div>
             </div>

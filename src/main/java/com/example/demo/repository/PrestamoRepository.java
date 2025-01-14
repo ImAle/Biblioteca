@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entity.Prestamo;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +15,7 @@ import java.util.Optional;
 public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
 	
     List<Prestamo> findByUsuario_IdNot(Long idUser);
-    
-    @Query("SELECT p FROM Prestamo p WHERE p.usuario.id = :usuarioId AND (p.fechaFin IS NULL OR p.fechaFin > CURRENT_DATE)")
-    List<Prestamo> findPrestamosActivosByUsuarioId(@Param("usuarioId") Long usuarioId);
+    List<Prestamo> findByUsuarioIdAndFechaFinAfterOrFechaFinIsNull(Long usuarioId, LocalDate fecha);
+
+
 }

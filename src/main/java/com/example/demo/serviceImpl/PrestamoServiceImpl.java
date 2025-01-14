@@ -90,7 +90,7 @@ public class PrestamoServiceImpl implements PrestamoService {;
     @Override
     public List<Prestamo> getPrestamosActivosByUserId(Long userId) {
         Optional<Usuario> usuario = usuarioRepository.findById(userId);
-        return (usuario.isPresent()) ? prestamoRepository.findPrestamosActivosByUsuarioId(userId) : null;
+        return (usuario.isPresent()) ? prestamoRepository.findByUsuarioIdAndFechaFinAfterOrFechaFinIsNull(userId, LocalDate.now().plusDays(1)) : null;
     }
 
     public List<Long> getAllPrestamosIdLibro(){

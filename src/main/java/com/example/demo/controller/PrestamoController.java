@@ -58,7 +58,7 @@ public class PrestamoController {
     @PostMapping("/devolver/{id}")
     public String devolucion(@PathVariable("id")Long id, @AuthenticationPrincipal Usuario usuario, RedirectAttributes redirectAttributes){
         prestamoService.devolucion(id);
-        redirectAttributes.addFlashAttribute("mensaje", "Libro devuelto correctamente.");
+        redirectAttributes.addFlashAttribute("mensaje", "Devolución completada");
 
         return "redirect:/libros";
     }

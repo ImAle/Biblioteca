@@ -42,7 +42,7 @@ public class ReservaController {
 	@GetMapping("")
 	public String verReservas(@AuthenticationPrincipal Usuario usuario, Model model) {
 		String pagina = "reservasUser";
-		List<Reserva> reservas = reservaService.getReservasByUserId(usuario.getId());
+		List<Reserva> reservas = reservaService.getReservasPendientesByUserId(usuario.getId());
 		
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
 			pagina = "reservasAdmin";
