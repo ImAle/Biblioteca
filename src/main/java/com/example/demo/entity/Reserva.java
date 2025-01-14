@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -20,6 +21,7 @@ public class Reserva {
     private Long id;
 
     @ManyToOne
+    @ToString.Exclude // Evitar StackoverFlowException
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 

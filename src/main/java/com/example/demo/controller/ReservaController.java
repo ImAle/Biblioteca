@@ -38,13 +38,14 @@ public class ReservaController {
 	@GetMapping("")
 	public String verReservas(@AuthenticationPrincipal Usuario usuario, Model model) {
 		String pagina = "reservasUser";
-		List<Reserva> reservas = usuario.getReservas();
+		List<Reserva> reservas = reservaService.getReservasByUserId(usuario.getId());
 		
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
 			pagina = "reservasAdmin";
 			reservas = reservaService.getAllReservasPendientes();
 		}
-			
+		
+		System.out.println(reservas);
 		model.addAttribute("reservas", reservas);
 			
 		return pagina;

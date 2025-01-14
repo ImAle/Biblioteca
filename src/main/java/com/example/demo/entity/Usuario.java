@@ -1,7 +1,5 @@
 package com.example.demo.entity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +8,7 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -46,6 +46,7 @@ public class Usuario implements UserDetails{
     private String imagen;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @ToString.Exclude // Evitar StackoverFlowException
     private List<Reserva> reservas;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)

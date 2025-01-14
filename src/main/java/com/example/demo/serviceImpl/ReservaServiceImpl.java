@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Reserva;
 import com.example.demo.entity.Usuario;
@@ -55,6 +56,7 @@ public class ReservaServiceImpl implements ReservaService{
 
 
 	@Override
+	@Transactional
 	public List<Reserva> getReservasByUserId(Long userId) {
 		Optional<Usuario> usuario = usuarioRepository.findById(userId);
 		return (usuario.isPresent()) ? usuario.get().getReservas() : null;
