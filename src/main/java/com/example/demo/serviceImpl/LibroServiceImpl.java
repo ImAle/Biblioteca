@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Libro;
+import com.example.demo.entity.Reserva;
 import com.example.demo.repository.LibroRepository;
 import com.example.demo.service.LibroService;
 
@@ -41,6 +42,11 @@ public class LibroServiceImpl implements LibroService {
 			return getAllLibros(pageable);
 
 		return libroRepository.findByFiltros(titulo, genero, autor, pageable);
+	}
+	
+	@Override
+	public List<Reserva> getReservasPedientes(Libro libro){
+		return libro.getReservas().stream().filter(r -> "pendiente".equalsIgnoreCase(r.getEstado())).toList();
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -54,21 +55,28 @@ public class PrestamoServiceImpl implements PrestamoService {;
         prestamoRepository.save(prestamo);
     }
     
-    
 
     @Override
     public void devolucion(Long libroId) {
     	Optional<Libro> libroADevolver = libroRepository.findById(libroId);
     	if(libroADevolver.isPresent()) {
     		Libro libro = libroADevolver.get();
-    		List<Reserva> reservas = libro.getReservas();
+    		
+    		// Filtramos las reservas para obtener solo aquellas que no han sido notificados aún
+    		// Lo ponemos en un LinkedList para asegurar el orden de cola (FIFO)
+    		List<Reserva> reservas = new LinkedList<>(libro.getReservas().stream().filter(r -> "pendiente".equalsIgnoreCase(r.getEstado())).toList());
+    		
     		if (!reservas.isEmpty()) {
     			Reserva reserva = reservas.getFirst();
+    			
         		reservaService.notificar(reserva.getUsuario().getEmail(), // Email a quien se notifica
         				"El libro \"" + libro.getTitulo() + "\" ya vuelve ha estar disponible!", // Titulo email
         				"Accede a la plataforma y pidelo prestado antes de que otro lo haga!"); // Cuerpo del email
-        		reservaService.deleteReserva(reserva);
+        		
+        		reserva.setEstado("notificado");
+        		reservaService.updateReserva(reserva);
     		}
+    		
     		libroADevolver.get().getPrestamos().getFirst().setFechaFin(LocalDate.now());
     		libroRepository.save(libroADevolver.get());
     	}

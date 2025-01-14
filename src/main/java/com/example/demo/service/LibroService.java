@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.example.demo.entity.Libro;
+import com.example.demo.entity.Reserva;
 
 public interface LibroService {
 	
@@ -15,5 +17,6 @@ public interface LibroService {
 	Page<Libro> getLibrosFiltered(String titulo, String genero, String autor, Pageable pageable);
 	Libro updateLibro(Libro Libro);
 	void deleteLibro(Long id);
+	List<Reserva> getReservasPedientes(Libro libro);
 
 }

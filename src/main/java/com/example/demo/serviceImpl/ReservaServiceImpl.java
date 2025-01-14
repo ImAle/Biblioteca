@@ -53,6 +53,12 @@ public class ReservaServiceImpl implements ReservaService{
 		Optional<Usuario> usuario = usuarioRepository.findById(userId);
 		return (usuario.isPresent()) ? usuario.get().getReservas() : null;
 	}
+	
+	@Override
+	public List<Reserva> getReservasPendientesByUserId(Long userId) {
+		Optional<Usuario> usuario = usuarioRepository.findById(userId);
+		return (usuario.isPresent()) ? usuario.get().getReservas().stream().filter(r -> "pendiente".equalsIgnoreCase(r.getEstado())).toList() : null;
+	}
 
 	@Override
 	public void notificar(String to, String subject, String text) {
@@ -60,8 +66,13 @@ public class ReservaServiceImpl implements ReservaService{
 	}
 
 	@Override
-	public void deleteReserva(Reserva reserva) {
+	public void cancelarReserva(Reserva reserva) {
 		reservaRepository.delete(reserva);
+	}
+	
+	@Override
+	public void updateReserva(Reserva reserva) {
+		reservaRepository.save(reserva);
 	}
 	
 	@Override

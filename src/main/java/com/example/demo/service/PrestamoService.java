@@ -12,7 +12,6 @@ public interface PrestamoService {
 
     List<Prestamo> getAllPrestamos();
     void addPrestamo(Prestamo prestamo);
-    //void savePrestamo(Prestamo prestamo);
     void devolucion(Long libroId);
     List<Prestamo> getPrestamosByUserId(Long userId);
     Prestamo getPrestamo(Long prestamoId);

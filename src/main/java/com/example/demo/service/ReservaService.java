@@ -14,8 +14,10 @@ public interface ReservaService {
 	Reserva getReservaById(Long id);
 	List<Reserva> getAllReservas();
 	List<Reserva> getReservasByUserId(Long userId);
+	List<Reserva> getReservasPendientesByUserId(Long userId);
 	void notificar(String to, String subject, String text);
-	void deleteReserva(Reserva reserva);
+	void cancelarReserva(Reserva reserva);
+	void updateReserva(Reserva reserva);
 	Page<Reserva> getReservasFiltered(LocalDate desde, LocalDate hasta, Pageable pageable);
         
 	

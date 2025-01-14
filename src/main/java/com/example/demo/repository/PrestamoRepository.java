@@ -12,11 +12,7 @@ import java.util.Optional;
 
 @Repository("prestamoRepository")
 public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
-	/*
-    // Comprueba si el libro esta prestado
-    @Query("SELECT COUNT(p) > 0 FROM Prestamo p WHERE p.libro.id = :idLibro")
-    boolean isLibroPrestado(@Param("idLibro") Long idLibro);
-    */
+	
     List<Prestamo> findByUsuario_IdNot(Long idUser);
     
     @Query("SELECT p FROM Prestamo p WHERE p.usuario.id = :usuarioId AND (p.fechaFin IS NULL OR p.fechaFin > CURRENT_DATE)")
