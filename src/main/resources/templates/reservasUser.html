@@ -14,24 +14,26 @@
             <hr>
             <!-- Libros en reserva del usuario -->
             <div class="row ">
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div th:each="reserva : ${reservas}" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                     <div class="p-3 bg-body-tertiary text-center border rounded-3" style="background-color: white;">
-                        <img class="card-img-top d-block mx-auto shadow-3 rounded-3" alt="Imagen libro" style="width: 220px; height: 280px; object-fit: cover;">
+                        <img th:src="${reserva.libro.imagen}" class="card-img-top d-block mx-auto shadow-3 rounded-3" alt="Imagen libro" style="width: 220px; height: 280px; object-fit: cover;">
                         <hr>
                         <div class="card-body">
-                            <h4 class="card-title">Titulo</h4>
-                            <p class="card-text">Autor</p>
-                            <p class="card-text">Género</p>
+                            <h4 th:text="${reserva.libro.titulo}" class="card-title">Titulo</h4>
+                            <p th:text="${reserva.libro.autor}" class="card-text">Autor</p>
+                            <p th:text="${reserva.libro.genero}" class="card-text">Género</p>
                         </div>
+                        <!--Revisar-->
+                        <span th:if="${miPrestamos != null and #lists.contains(miPrestamos, libro.id)}" class="text-danger">No disponible</span>
+                        <span th:if="${prestamos != null and #lists.contains(prestamos, libro.id)}" class="text-info">Pendiente</span>
+                        <span th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !#lists.contains(miPrestamos, libro.id))}" class="text-success">Disponible</span>
                     </div>
                     <br>
                     <form class="d-flex justify-content-center mb-4">
                         <button class="btn btn-danger btn-sm rounded shadow" type="submit">Cancelar</button>
-                        <button class="btn btn-primary btn-sm rounded shadow" type="submit">Estado</button>
                     </form>
                 </div>
             </div>
         </div>
-
     </body>
 </html>

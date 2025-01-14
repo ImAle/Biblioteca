@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.service.PrestamoService;
+import com.example.demo.service.ReservaService;
 import com.example.demo.upload.FileSystemStorageService;
 import com.example.demo.upload.FileUploadController;
 import jakarta.validation.Valid;
@@ -48,6 +49,11 @@ public class LibroController {
 	@Qualifier("prestamoService")
 	private PrestamoService prestamoService;
 
+	@Autowired
+	@Qualifier("reservaService")
+	private ReservaService reservaService;
+
+
 	@GetMapping("")
 	public String getLibros(@AuthenticationPrincipal Usuario usuario,
 							@RequestParam(defaultValue = "0") int page,
@@ -83,6 +89,7 @@ public class LibroController {
 			List<Long> misPrestamos = prestamoService.getPrestamosActivosByUserId(usuario.getId()).stream().map(prestamo -> prestamo.getLibro().getId()).toList();
 			model.addAttribute("miPrestamos", misPrestamos);
 			model.addAttribute("prestamos", prestamoService.getLibrosIdPrestadosPorLosDemas(usuario.getId()));
+			model.addAttribute("misReservas", reservaService.getReservasByUserId(usuario.getId()));
 			System.out.println(prestamoService.getLibrosIdPrestadosPorLosDemas(usuario.getId()));
 			return "prestamoLibros";
 		}

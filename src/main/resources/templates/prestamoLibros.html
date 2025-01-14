@@ -67,9 +67,12 @@
                     <p class="card-text" th:text="${libro.genero}">Género</p>
                     <!-- Indica si esta o no disponible el libro-->
                     <p class="card-text">
-                        <strong>Disponibilidad:</strong>
+                        <strong th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !#lists.contains(miPrestamos, libro.id))}">Disponibilidad:</strong>
+                        <strong th:if="${miPrestamos != null and #lists.contains(miPrestamos, libro.id)}">Disponibilidad:</strong>
+                        <strong th:if="${prestamos != null and #lists.contains(prestamos, libro.id)}">Estado:</strong>
+
                         <span th:if="${miPrestamos != null and #lists.contains(miPrestamos, libro.id)}" class="text-danger">No disponible</span>
-                        <span th:if="${prestamos != null and #lists.contains(prestamos, libro.id)}" class="text-danger">No disponible</span>
+                        <span th:if="${prestamos != null and #lists.contains(prestamos, libro.id)}" class="text-info">Pendiente</span>
                         <span th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !#lists.contains(miPrestamos, libro.id))}" class="text-success">Disponible</span>
                     </p>
                     <!-- Botón de prestar -->
@@ -81,8 +84,12 @@
                         <button type="submit" class="btn btn-danger btn-sm">Devolver</button>
                     </form>
                     <!-- Botón de reservar -->
-                    <form th:if="${prestamos != null and #lists.contains(prestamos, libro.id) and miPrestamos != null and !#lists.contains(miPrestamos, libro.id)}" th:action="@{/reservar/{id}(id=${libro.id})}" method="post" style="display:inline;">
+                    <form th:if="${prestamos != null and #lists.contains(prestamos, libro.id) and (reservas == null or !#lists.contains(reservas, libro.id))}" th:action="@{/reservar/{id}(id=${libro.id})}" method="post" style="display:inline;">
                         <button type="submit" class="btn btn-warning btn-sm">Reservar</button>
+                    </form>
+                    <!-- Botón de cancelar reserva -->
+                    <form th:if="${reservas != null and #lists.contains(misReservas, libro.id)}" th:action="@{/cancelar/{id}(id=${libro.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Cancelar reserva</button>
                     </form>
                 </div>
             </div>

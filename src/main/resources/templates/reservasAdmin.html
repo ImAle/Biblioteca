@@ -24,10 +24,10 @@
                         </tr>
                         </thead>
                         <tbody class="table-secondary text-center">
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <tr th:each="reserva : ${reservas}">
+                            <td th:text="${reserva.usuario.email}">email</td>
+                            <td th:text="${reserva.libro.titulo}">titulo</td>
+                            <td>Fecha</td>
                             <td>
                                 <form>
                                     <button class="btn btn-primary btn-sm rounded shadow" type="submit">Gestionar</button>
