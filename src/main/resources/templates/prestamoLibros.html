@@ -67,16 +67,16 @@
                     <p class="card-text" th:text="${libro.genero}">Género</p>
                     <!-- Indica si esta o no disponible el libro-->
                     <p class="card-text">
-                        <strong th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !#lists.contains(miPrestamos, libro.id))}">Disponibilidad:</strong>
-                        <strong th:if="${miPrestamos != null and #lists.contains(miPrestamos, libro.id)}">Disponibilidad:</strong>
+                        <strong th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !miPrestamos.containsKey(libro.id))}">Disponibilidad:</strong>
+                        <strong th:if="${miPrestamos != null and miPrestamos.containsKey(libro.id)}">Disponibilidad:</strong>
                         <strong th:if="${prestamos != null and #lists.contains(prestamos, libro.id)}">Estado:</strong>
 
-                        <span th:if="${miPrestamos != null and #lists.contains(miPrestamos, libro.id)}" class="text-danger">No disponible</span>
+                        <span th:if="${miPrestamos != null and miPrestamos.containsKey(libro.id)}" class="text-danger">No disponible</span>
                         <span th:if="${prestamos != null and #lists.contains(prestamos, libro.id)}" class="text-info">Pendiente</span>
-                        <span th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !#lists.contains(miPrestamos, libro.id))}" class="text-success">Disponible</span>
+                        <span th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !miPrestamos.containsKey(libro.id))}" class="text-success">Disponible</span>
                     </p>
                     <!-- Botón de prestar -->
-                    <form th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !#lists.contains(miPrestamos, libro.id))}" th:action="@{/prestamo/{id}(id=${libro.id})}" method="post" style="display:inline;">
+                    <form th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !miPrestamos.containsKey(libro.id))}" th:action="@{/prestamo/{id}(id=${libro.id})}" method="post" style="display:inline;">
                         <button type="submit" class="btn btn-primary btn-sm">Pedir prestado</button>
                     </form>
                     <!-- Botón de devolver -->
