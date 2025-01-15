@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -50,7 +52,8 @@ public class ReservaController {
 			pagina = "reservasAdmin";
 
 			if (fechaInicio != null && fechaFin != null) {
-				reservas = reservaService.getReservasFiltered(fechaInicio, fechaFin, Pageable.unpaged()).getContent();
+				Pageable pageable = PageRequest.of(0, 12);
+				reservas = reservaService.getReservasFiltered(fechaInicio, fechaFin, pageable).getContent();
 			} else {
 				reservas = reservaService.getAllReservasPendientes();
 			}
