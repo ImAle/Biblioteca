@@ -56,10 +56,11 @@ public class PrestamoServiceImpl implements PrestamoService {;
     }
 
     @Override
-    public void devolucion(Long libroId) {
-    	Optional<Libro> libroADevolver = libroRepository.findById(libroId);
-    	if(libroADevolver.isPresent()) {
-    		Libro libro = libroADevolver.get();
+    public void devolucion(Long PrestamoId) { // Me llega el id del prestamo ahora
+    	Prestamo prestamo = getPrestamo(PrestamoId);
+    	
+    	if(prestamo != null) {
+    		Libro libro = prestamo.getLibro();
     		
     		// Filtramos las reservas para obtener solo aquellas que no han sido notificados aún
     		// Lo ponemos en un LinkedList para asegurar el orden de cola (FIFO)
@@ -76,8 +77,8 @@ public class PrestamoServiceImpl implements PrestamoService {;
         		reservaService.updateReserva(reserva);
     		}
     		
-    		libroADevolver.get().getPrestamos().getFirst().setFechaFin(LocalDate.now());
-    		libroRepository.save(libroADevolver.get());
+    		prestamo.setFechaFin(LocalDate.now());
+    		prestamoRepository.save(prestamo);
     	}
     }
 

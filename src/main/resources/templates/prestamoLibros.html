@@ -80,7 +80,9 @@
                         <button type="submit" class="btn btn-primary btn-sm">Pedir prestado</button>
                     </form>
                     <!-- Botón de devolver -->
-                    <form th:if="${miPrestamos != null and #lists.contains(miPrestamos, libro.id)}" th:action="@{/prestamo/devolver/{id}(id=${libro.id})}" method="post" style="display:inline;">
+                    <form th:if="${miPrestamos != null and miPrestamos.containsKey(libro.id)}"
+                          th:action="@{/prestamo/devolver/{id}(id=${miPrestamos[libro.id]})}"
+                          method="post" style="display:inline;">
                         <button type="submit" class="btn btn-danger btn-sm">Devolver</button>
                     </form>
                     <!-- Botón de reservar -->

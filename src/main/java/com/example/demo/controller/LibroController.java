@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.example.demo.service.PrestamoService;
 import com.example.demo.service.ReservaService;
@@ -30,6 +32,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Libro;
+import com.example.demo.entity.Prestamo;
 import com.example.demo.entity.Usuario;
 import com.example.demo.service.LibroService;
 
@@ -86,7 +89,10 @@ public class LibroController {
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
 			pagina = "listaLibros";
 		} else if (usuario != null && usuario.getRol().equals("ROLE_USER")) {
-			List<Long> misPrestamos = prestamoService.getPrestamosActivosByUserId(usuario.getId()).stream().map(prestamo -> prestamo.getLibro().getId()).toList();
+			Map<Long, Long> misPrestamos = prestamoService.getPrestamosActivosByUserId(usuario.getId())
+				    .stream()
+				    .collect(Collectors.toMap(p -> p.getLibro().getId(), Prestamo::getId));
+			
 			model.addAttribute("miPrestamos", misPrestamos);
 			model.addAttribute("prestamos", prestamoService.getLibrosIdPrestadosPorLosDemas(usuario.getId()));
 			model.addAttribute("misReservas", reservaService.getReservasPendientesByUserId(usuario.getId()));
