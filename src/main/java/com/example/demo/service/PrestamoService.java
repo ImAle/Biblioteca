@@ -17,8 +17,10 @@ public interface PrestamoService {
     void devolucion(Long libroId);
     List<Prestamo> getPrestamosByUserId(Long userId);
     Prestamo getPrestamo(Long prestamoId);
+    List<Prestamo> getAllPrestamosActivos();
     List<Long> getAllPrestamosIdLibro();
     List<Long> getLibrosIdPrestadosPorLosDemas(Long idUsuarioLogged);
     List<Prestamo> getPrestamosActivosByUserId(Long userId);
     Map<Usuario, Integer> getNumeroPrestamosPorUsuario();
+    List<Prestamo> getPrestamosPorMes(int mes);
 }

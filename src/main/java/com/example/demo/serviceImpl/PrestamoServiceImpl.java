@@ -108,6 +108,11 @@ public class PrestamoServiceImpl implements PrestamoService {;
     public List<Prestamo> getPrestamosActivos(List<Prestamo> prestamos){
     	return prestamos.stream().filter(r -> LocalDate.now().isBefore(r.getFechaFin())).toList();
     }
+    
+    @Override
+    public List<Prestamo> getAllPrestamosActivos(){
+    	return getAllPrestamos().stream().filter(r -> LocalDate.now().isBefore(r.getFechaFin())).toList();
+    }
 
     @Override
     public Prestamo getPrestamo(Long prestamoId) {
@@ -118,6 +123,11 @@ public class PrestamoServiceImpl implements PrestamoService {;
 	@Override
 	public Map<Usuario, Integer> getNumeroPrestamosPorUsuario() {
 		return usuarioRepository.findAll().stream().collect(Collectors.toMap(u -> u, u -> u.getPrestamos().size()));
+	}
+
+	@Override
+	public List<Prestamo> getPrestamosPorMes(int mes) {
+		return getAllPrestamosActivos().stream().filter(p -> p.getFechaInicio().getMonth().getValue() == mes).toList();
 	}
     
 }
