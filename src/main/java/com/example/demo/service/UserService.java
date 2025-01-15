@@ -88,7 +88,6 @@ public class UserService implements UserDetailsService{
 	}
 
 	public Long contarUsuario(){
-		Long numUsuario = usuarioRepository.count();
-		return numUsuario;
+		return usuarioRepository.count();
 	}
 }
