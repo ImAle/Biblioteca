@@ -65,5 +65,11 @@ public class UsuarioController {
 		userService.desactivarUsuario(userId);
 		return "redirect:/user/usuarios";
 	}
-	
+
+	@PreAuthorize("ROLE_ADMIN")
+	@PostMapping("/informes/usuarios")
+	public String contarLosUsuarios(Model model){
+		model.addAttribute("numUsuario", userService.contarUsuario());
+		return "informesAdmin";
+	}
 }

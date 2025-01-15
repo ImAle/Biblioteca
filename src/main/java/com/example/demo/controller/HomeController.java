@@ -84,7 +84,11 @@ public class HomeController {
 		return "reservasAdmin";
 	}
 
-
+	@PreAuthorize("ROLE_ADMIN")
+	@GetMapping("/informes")
+	public String informeAdminPage(){
+		return "informesAdmin";
+	}
 	// ====== Para probar el error 500 ======
 	/*
 	@GetMapping("/prueba")
