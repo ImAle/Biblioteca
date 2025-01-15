@@ -1,7 +1,13 @@
 package com.example.demo.serviceImpl;
 
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,9 +18,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Libro;
+import com.example.demo.entity.Prestamo;
 import com.example.demo.entity.Reserva;
 import com.example.demo.repository.LibroRepository;
 import com.example.demo.service.LibroService;
+import com.example.demo.service.PrestamoService;
 
 @Service("libroService")
 public class LibroServiceImpl implements LibroService {
@@ -22,6 +30,10 @@ public class LibroServiceImpl implements LibroService {
 	@Autowired
 	@Qualifier("libroRepository")
 	public LibroRepository libroRepository;
+	
+	@Autowired
+	@Qualifier("prestamoService")
+	public PrestamoService prestamoService;
 	
 	@Override
 	public Optional<Libro> getLibro(Long id) {
@@ -62,5 +74,19 @@ public class LibroServiceImpl implements LibroService {
 	@Override
 	public Libro updateLibro(Libro libro) {
 		return libroRepository.save(libro);
+	}
+
+	@Override
+	public List<Libro> getLibrosMasPrestados() {
+		Map<Long, Long> libroApariciones = new TreeMap<>(Comparator.reverseOrder());
+
+	    // Recorrer todos los préstamos y contar cuántas veces aparece cada libro
+	    for (Prestamo prestamo : prestamoService.getAllPrestamos()) {
+	        Long libroId = prestamo.getLibro().getId();
+	        libroApariciones.put(libroId, libroApariciones.getOrDefault(libroId, 0L) + 1);
+	    }
+	   
+		// Me devuelve los libros en el orden del treemap y sacando los posibles null de la lista
+		return libroApariciones.keySet().stream().map(libroId -> getLibro(libroId).orElse(null)).filter(Objects::nonNull).toList();
 	}
 }

@@ -15,6 +15,7 @@ public interface LibroService {
 	Optional<Libro> getLibro(Long id);
 	Page<Libro> getAllLibros(Pageable pageable);
 	Page<Libro> getLibrosFiltered(String titulo, String genero, String autor, Pageable pageable);
+	List<Libro> getLibrosMasPrestados();
 	Libro updateLibro(Libro Libro);
 	void deleteLibro(Long id);
 	List<Reserva> getReservasPedientes(Libro libro);
