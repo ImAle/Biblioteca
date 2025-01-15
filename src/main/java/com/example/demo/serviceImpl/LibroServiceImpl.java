@@ -89,4 +89,16 @@ public class LibroServiceImpl implements LibroService {
 		// Me devuelve los libros en el orden del treemap y sacando los posibles null de la lista
 		return libroApariciones.keySet().stream().map(libroId -> getLibro(libroId).orElse(null)).filter(Objects::nonNull).toList();
 	}
+
+	@Override
+	public Map<String, Integer> getNumeroLibrosPorCategoria() {
+		Map<String, Integer> generosApariciones = new HashMap<>();
+		List<String> generos = libroRepository.findAllUniqueGeneros();
+		
+		for (String genero : generos) {
+			generosApariciones.put(genero, libroRepository.findByGenero(genero).size());
+		}
+		
+		return generosApariciones;
+	}
 }

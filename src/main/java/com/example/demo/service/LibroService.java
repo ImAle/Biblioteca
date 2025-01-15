@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -19,5 +20,5 @@ public interface LibroService {
 	Libro updateLibro(Libro Libro);
 	void deleteLibro(Long id);
 	List<Reserva> getReservasPedientes(Libro libro);
-
+	Map<String, Integer> getNumeroLibrosPorCategoria();
 }
