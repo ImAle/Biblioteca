@@ -16,6 +16,7 @@ public interface ReservaService {
 	List<Reserva> getAllReservasPendientes();
 	List<Reserva> getReservasByUserId(Long userId);
 	List<Reserva> getReservasPendientesByUserId(Long userId);
+	List<Long> getLibrosIdReservasPendientesByUserId(Long userId);
 	void notificar(String to, String subject, String text);
 	void cancelarReserva(Reserva reserva);
 	void updateReserva(Reserva reserva);

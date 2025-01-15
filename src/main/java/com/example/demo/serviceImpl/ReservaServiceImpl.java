@@ -67,6 +67,19 @@ public class ReservaServiceImpl implements ReservaService{
 		Optional<Usuario> usuario = usuarioRepository.findById(userId);
 		return (usuario.isPresent()) ? usuario.get().getReservas().stream().filter(r -> "pendiente".equalsIgnoreCase(r.getEstado())).toList() : null;
 	}
+	
+	@Override
+	public List<Long> getLibrosIdReservasPendientesByUserId(Long userId) {
+		List<Long> libros = null;
+		Optional<Usuario> usuario = usuarioRepository.findById(userId);
+		
+		if(usuario.isPresent()) {
+			List<Reserva> reservas = usuario.get().getReservas().stream().filter(r -> "pendiente".equalsIgnoreCase(r.getEstado())).toList();
+			libros = reservas.stream().map(r -> r.getLibro()).map(l -> l.getId()).toList();
+		}
+		
+		return libros;
+	}
 
 	@Override
 	public void notificar(String to, String subject, String text) {

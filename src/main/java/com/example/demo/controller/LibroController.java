@@ -95,7 +95,7 @@ public class LibroController {
 			
 			model.addAttribute("miPrestamos", misPrestamos);
 			model.addAttribute("prestamos", prestamoService.getLibrosIdPrestadosPorLosDemas(usuario.getId()));
-			model.addAttribute("misReservas", reservaService.getReservasPendientesByUserId(usuario.getId()));
+			model.addAttribute("misReservas", reservaService.getLibrosIdReservasPendientesByUserId(usuario.getId()));
 			return "prestamoLibros";
 		}
 
