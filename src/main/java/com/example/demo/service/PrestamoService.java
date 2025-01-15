@@ -2,10 +2,12 @@ package com.example.demo.service;
 
 
 import com.example.demo.entity.Prestamo;
+import com.example.demo.entity.Usuario;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Service
 public interface PrestamoService {
@@ -18,4 +20,5 @@ public interface PrestamoService {
     List<Long> getAllPrestamosIdLibro();
     List<Long> getLibrosIdPrestadosPorLosDemas(Long idUsuarioLogged);
     List<Prestamo> getPrestamosActivosByUserId(Long userId);
+    Map<Usuario, Integer> getNumeroPrestamosPorUsuario();
 }
