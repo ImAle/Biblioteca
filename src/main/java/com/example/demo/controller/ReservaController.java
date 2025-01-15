@@ -6,13 +6,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Libro;
 import com.example.demo.entity.Reserva;
@@ -38,19 +37,27 @@ public class ReservaController {
 	@Autowired
 	@Qualifier("usuarioService")
 	private UserService userService;
-	
+
 	@GetMapping("")
-	public String verReservas(@AuthenticationPrincipal Usuario usuario, Model model) {
+	public String verReservas(@AuthenticationPrincipal Usuario usuario,
+							  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+							  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin,
+							  Model model) {
 		String pagina = "reservasUser";
 		List<Reserva> reservas = reservaService.getReservasPendientesByUserId(usuario.getId());
-		
+
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
 			pagina = "reservasAdmin";
-			reservas = reservaService.getAllReservasPendientes();
+
+			if (fechaInicio != null && fechaFin != null) {
+				reservas = reservaService.getReservasFiltered(fechaInicio, fechaFin, Pageable.unpaged()).getContent();
+			} else {
+				reservas = reservaService.getAllReservasPendientes();
+			}
 		}
-		
+
 		model.addAttribute("reservas", reservas);
-			
+
 		return pagina;
 	}
 	
