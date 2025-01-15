@@ -33,6 +33,7 @@
                         <tr class="text-uppercase">
                             <th>Usuario</th>
                             <th>Libro reservado</th>
+                            <th>Estado de reserva</th>
                             <th>Fecha de reserva</th>
                             <th>Gestionar</th>
                         </tr>
@@ -41,7 +42,8 @@
                         <tr th:each="reserva : ${reservas}">
                             <td th:text="${reserva.usuario.email}">email</td>
                             <td th:text="${reserva.libro.titulo}">titulo</td>
-                            <td>Fecha</td>
+                            <td th:text="${reserva.estado}">estado</td>
+                            <td th:text="${reserva.fechaReserva}">Fecha</tdth:text>
                             <td>
                                 <form class="d-flex justify-content-center mb-4" th:action="@{/reservar/admin/cancelar/{usuario}/{id}(usuario=${reserva.usuario.email}, id=${reserva.libro.id})}" method="post">
 								    <button class="btn btn-danger btn-sm rounded shadow" type="submit">Cancelar</button>
