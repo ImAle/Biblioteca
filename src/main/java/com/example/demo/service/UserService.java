@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.security.Security;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -89,5 +85,10 @@ public class UserService implements UserDetailsService{
 			usuario.get().setEnabled(false);
 			usuarioRepository.save(usuario.get());
 		}
+	}
+
+	public Long contarUsuario(){
+		Long numUsuario = usuarioRepository.count();
+		return numUsuario;
 	}
 }
