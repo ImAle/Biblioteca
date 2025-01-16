@@ -10,71 +10,86 @@
 <body>
 <div th:replace="~{global :: navbar}"></div>
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Informes y Gráficos</h1>
+    <h1 class="text-center mb-4">Informes</h1>
     <hr>
     <!-- Tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="informes-tab" data-bs-toggle="tab" href="#informes" role="tab" aria-controls="informes" aria-selected="true">Informes</a>
+            <a class="nav-link active" id="historial-tab" data-bs-toggle="tab" href="#historial" role="tab" aria-controls="historial" aria-selected="true">Historial de Préstamos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="graficos-tab" data-bs-toggle="tab" href="#graficos" role="tab" aria-controls="graficos" aria-selected="false">Gráficos</a>
+            <a class="nav-link" id="libros-tab" data-bs-toggle="tab" href="#libros" role="tab" aria-controls="libros" aria-selected="false">Libros Más Prestados</a>
         </li>
     </ul>
 
     <div class="tab-content">
-        <!-- Tab de informes -->
-        <div class="tab-pane fade show active" id="informes" role="tabpanel" aria-labelledby="informes-tab">
+        <!-- Tab de historial de préstamos -->
+        <div class="tab-pane fade show active" id="historial" role="tabpanel" aria-labelledby="historial-tab">
             <div class="p-4">
-                <div class="d-flex justify-content-between">
-                    <div class="border rounded shadow p-3 mb-3 w-700">
-                        <h5>Historial de préstamos</h5>
-                        <hr>
-                        <table class="table table-bordered border-light-subtle mb-0">
-                            <thead class="table-dark">
-                            <tr class="text-uppercase">
-                                <th>Usuario</th>
-                                <th>Historial de préstamos</th>
-                            </tr>
-                            </thead>
-                            <tbody class="table-secondary text-center">
-                            <tr th:each="libro : ${libros}">
-                                <td th:text="${libro.prestamos}"></td>
-                                <td></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                <div class="border rounded shadow p-3 mb-3 row">
+                    <h5>Historial de Préstamos</h5>
+                    <hr>
+                    <div class="col-md-6">
+                        <div class="border rounded shadow p-3 mb-3">
+                            <h5>Usuarios <span th:text="${numUsuario}" class="text-sm-end">Nº usuarios</span></h5>
+                            <hr>
+                            <table class="table table-bordered border-light-subtle mb-0">
+                                <thead class="table-dark">
+                                <tr class="text-uppercase">
+                                    <th>Usuario</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-secondary text-center">
+                                <tr th:each="usuario : ${usuarios}">
+                                    <td th:text="${usuario.nombre}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="border rounded shadow p-3 mb-3 w-700">
-                        <h5>Libros más prestados</h5>
-                        <hr>
-                        <table class="table table-bordered border-light-subtle mb-0">
-                            <thead class="table-dark">
-                            <tr class="text-uppercase">
-                                <th>Título</th>
-                                <th>Nº veces prestado</th>
-                            </tr>
-                            </thead>
-                            <tbody class="table-secondary text-center">
-                            <tr th:each="libro : ${libros}">
-                                <td th:text="${libro.titulo}"></td>
-                                <td></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="border rounded shadow p-3 mb-3 w-700">
-                        <h5>Usuarios registrados</h5>
-                        <hr>
-                        <p th:text="${numUsuario}">Usuarios registrados</p>
+                    <!-- Contenedor de prestamos -->
+                    <div class="col-md-6">
+                        <div class="border rounded shadow p-3 mb-3">
+                            <h5>Préstamos de Usuarios</h5>
+                            <hr>
+                            <table class="table table-bordered border-light-subtle mb-0">
+                                <thead class="table-dark">
+                                <tr class="text-uppercase">
+                                    <th>Préstamo</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-secondary text-center">
+                                <tr th:each="prestamo : ${prestamos}">
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Tab de Gráficas -->
-        <div class="tab-pane fade" id="graficos" role="tabpanel" aria-labelledby="graficos-tab">
+        <!-- Tab de libros mas prestados -->
+        <div class="tab-pane fade" id="libros" role="tabpanel" aria-labelledby="libros-tab">
             <div class="p-4">
+                <div class="border rounded shadow p-3 mb-3">
+                    <h5>Libros más prestados</h5>
+                    <hr>
+                    <table class="table table-bordered border-light-subtle mb-0">
+                        <thead class="table-dark">
+                        <tr class="text-uppercase">
+                            <th>Título</th>
+                            <th>Nº Veces Prestado</th>
+                        </tr>
+                        </thead>
+                        <tbody class="table-secondary text-center">
+                        <tr th:each="libro : ${libros}">
+                            <td th:text="${libro.titulo}"></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
