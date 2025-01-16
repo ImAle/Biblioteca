@@ -102,17 +102,6 @@ public class LibroController {
 		return pagina;
 	}
 	
-	@GetMapping("/{id}")
-	public String getLibro(@PathVariable("id") Long id, Model model) {
-		Optional<Libro> libro = libroService.getLibro(id);
-		if(libro.isPresent())
-			model.addAttribute("libro", libro);
-		else
-			model.addAttribute("error", "No existe este libro");
-		
-		return "libro";
-	}
-	
 	@GetMapping("/createForm")
 	public String showForm(Model model) {
 		model.addAttribute("libro", new Libro());
