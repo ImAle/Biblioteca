@@ -41,7 +41,7 @@
                                 </thead>
                                 <tbody class="table-secondary text-center">
                                 <tr th:each="usuario : ${usuarios}">
-                                    <td th:text="${usuario.nombre}"></td>
+                                    <td><a th:href="@{'/user/informes/' + ${usuario.id}}" th:text="${usuario.nombre}"></a></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -55,12 +55,16 @@
                             <table class="table table-bordered border-light-subtle mb-0">
                                 <thead class="table-dark">
                                 <tr class="text-uppercase">
-                                    <th>Préstamo</th>
+                                    <th>Título</th>
+                                    <th>Prestamo</th>
+                                    <th>Devolución</th>
                                 </tr>
                                 </thead>
                                 <tbody class="table-secondary text-center">
                                 <tr th:each="prestamo : ${historialPrestamo}">
-                                    <td th:text="${prestamo.libro_id}"></td>
+                                    <td th:text="${prestamo.libro.titulo}"></td>
+                                    <td th:text="${prestamo.fechaInicio}"></td>
+                                    <td th:text="${prestamo.fechaFin}"></td>
                                 </tr>
                                 </tbody>
                             </table>
