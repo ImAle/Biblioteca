@@ -21,7 +21,7 @@ public interface PrestamoService {
     List<Long> getAllPrestamosIdLibro();
     List<Long> getLibrosIdPrestadosPorLosDemas(Long idUsuarioLogged);
     List<Prestamo> getPrestamosActivosByUserId(Long userId);
-    Map<Usuario, Integer> getNumeroPrestamosPorUsuario();
+    Map<String, Integer> getNumeroPrestamosPorUsuario();
     List<Prestamo> getPrestamosPorMes(int mes);
     Map<String, Integer> getCantidadPrestamosPorMes();
 }

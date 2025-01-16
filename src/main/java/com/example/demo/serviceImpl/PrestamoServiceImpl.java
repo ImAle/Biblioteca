@@ -117,8 +117,8 @@ public class PrestamoServiceImpl implements PrestamoService {;
     }
 
 	@Override
-	public Map<Usuario, Integer> getNumeroPrestamosPorUsuario() {
-		return usuarioRepository.findAll().stream().filter(u -> u.getRol().equals("ROLE_USER")).collect(Collectors.toMap(u -> u, u -> u.getPrestamos().size()));
+	public Map<String, Integer> getNumeroPrestamosPorUsuario() {
+		return usuarioRepository.findAll().stream().filter(u -> u.getRol().equals("ROLE_USER")).collect(Collectors.toMap(u -> u.getEmail(), u -> u.getPrestamos().size()));
 	}
 
 	@Override

@@ -41,7 +41,7 @@
                                 </thead>
                                 <tbody class="table-secondary text-center">
                                 <tr th:each="usuario : ${usuarios}">
-                                    <td><a th:href="@{'/user/informes/' + ${usuario.id}}" th:text="${usuario.nombre}"></a></td>
+                                    <td><a th:href="@{'/user/informes/' + ${usuario.id}}" th:text="${usuario.email}"></a></td>
                                 </tr>
                                 </tbody>
                             </table>

@@ -172,7 +172,6 @@ public class LibroController {
 	public String getGrafica(Model model) {
 		model.addAttribute("numLibrosPorCategoria", libroService.getNumeroLibrosPorCategoria());
 		model.addAttribute("numPrestamosPorMes", prestamoService.getCantidadPrestamosPorMes());
-		System.out.println(prestamoService.getCantidadPrestamosPorMes());
 		model.addAttribute("numPrestamosPorUsuario", prestamoService.getNumeroPrestamosPorUsuario());
 		return "graficasAdmin";
 	}
