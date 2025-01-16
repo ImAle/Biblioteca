@@ -31,11 +31,13 @@
 							<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
 								<a class="nav-link text-white" th:href="@{/user/usuarios}">Usuarios</a>
 							</li>
-							<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
-								<a class="nav-link text-white" th:href="@{/user/informes}">Informes</a>
-							</li>
-							<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
-								<a class="nav-link text-white" th:href="@{/libros/grafica}">Gráficas</a>
+							<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item active dropdown">
+								<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									Dashboard</a>
+								<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<li><a class="dropdown-item" th:href="@{/user/informes}">Informes</a></li>
+									<li><a class="dropdown-item" th:href="@{/libros/grafica}">Gráficas</a></li>
+								</ul>
 							</li>
 						</ul>
 							<div class="collapse navbar-collapse">
