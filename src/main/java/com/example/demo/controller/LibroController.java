@@ -89,8 +89,7 @@ public class LibroController {
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
 			pagina = "listaLibros";
 		} else if (usuario != null && usuario.getRol().equals("ROLE_USER")) {
-			Map<Long, Long> misPrestamos = prestamoService.getPrestamosActivosByUserId(usuario.getId())
-				    .stream()
+			Map<Long, Long> misPrestamos = prestamoService.getPrestamosActivosByUserId(usuario.getId()).stream()
 				    .collect(Collectors.toMap(p -> p.getLibro().getId(), Prestamo::getId));
 			
 			model.addAttribute("miPrestamos", misPrestamos);
@@ -109,8 +108,9 @@ public class LibroController {
 	}
 	
 	@PostMapping("/createForm")
-	public String postForm(@Valid @ModelAttribute("libro") Libro libro, BindingResult result,
-						   RedirectAttributes redirect, @RequestParam("file") MultipartFile file) {
+	public String postForm(@Valid @ModelAttribute("libro") Libro libro, BindingResult result, RedirectAttributes redirect
+			, @RequestParam("file") MultipartFile file) {
+		
 		if(result.hasErrors()) {
 			return "libroForm";
 		}
@@ -172,6 +172,7 @@ public class LibroController {
 	public String getGrafica(Model model) {
 		model.addAttribute("numLibrosPorCategoria", libroService.getNumeroLibrosPorCategoria());
 		model.addAttribute("numPrestamosPorMes", prestamoService.getCantidadPrestamosPorMes());
+		System.out.println(prestamoService.getCantidadPrestamosPorMes());
 		model.addAttribute("numPrestamosPorUsuario", prestamoService.getNumeroPrestamosPorUsuario());
 		return "graficasAdmin";
 	}

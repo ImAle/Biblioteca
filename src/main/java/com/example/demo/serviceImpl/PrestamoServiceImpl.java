@@ -12,20 +12,12 @@ import com.example.demo.service.ReservaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.logging.Logger;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("prestamoService")
@@ -131,12 +123,12 @@ public class PrestamoServiceImpl implements PrestamoService {;
 
 	@Override
 	public List<Prestamo> getPrestamosPorMes(int mes) {
-		return getAllPrestamosActivos().stream().filter(p -> p.getFechaInicio().getMonth().getValue() == mes).toList();
+		return getAllPrestamos().stream().filter(p -> p.getFechaInicio().getMonth().getValue() == mes).toList();
 	}
 	
 	@Override
 	public Map<String, Integer> getCantidadPrestamosPorMes(){
-		Map<String, Integer> mesCantidad = new HashMap<>();
+		Map<String, Integer> mesCantidad = new LinkedHashMap<>();
 		for(int i = 1; i<=12; i++) {
 			String mes = Month.of(i).getDisplayName(TextStyle.FULL, Locale.forLanguageTag("es"));
 			mes = mes.substring(0, 1).toUpperCase() + mes.substring(1);
