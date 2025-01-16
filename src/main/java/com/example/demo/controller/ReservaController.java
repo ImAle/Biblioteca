@@ -46,11 +46,11 @@ public class ReservaController {
 							  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
 							  @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin,
 							  Model model) {
-		String pagina = "reservasUser";
+		String pagina = "/usuario/reservas";
 		List<Reserva> reservas = reservaService.getReservasPendientesByUserId(usuario.getId());
 
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
-			pagina = "reservasAdmin";
+			pagina = "/admin/reservas";
 
 			if (fechaInicio != null && fechaFin != null) {
 				Pageable pageable = PageRequest.of(0, 12);

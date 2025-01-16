@@ -34,20 +34,20 @@ public class HomeController {
 	@GetMapping("/login")
 	public String showLogin(Model model) {
 		model.addAttribute("usuario", new Usuario());
-		return "login";
+		return "autenticacion/login";
 	}
 	
 	@GetMapping("/register")
 	public String showRegister(Model model) {
 		model.addAttribute("usuario", new Usuario());
-		return "register";
+		return "autenticacion/register";
 	}
 	
 	@PostMapping("/register")
 	public String registerUser(@Valid @ModelAttribute Usuario usuario, BindingResult result,
 							   RedirectAttributes redirectAttributes, Model model) {
 		if(result.hasErrors()){
-			return "/register";
+			return "redirect:/register";
 		}
 
 		String pagina = "/register";

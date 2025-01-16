@@ -38,14 +38,14 @@ public class UsuarioController {
 	public String perfilPage(@AuthenticationPrincipal Usuario usuario, Model model) {
 		ModelMapper modelMapper = new ModelMapper();
 		model.addAttribute("usuario", modelMapper.map(usuario, UsuarioDto.class));
-		return "perfil";
+		return "/usuario/perfil";
 	}
 	
 	@PostMapping("/perfil")
 	public String updatePerfilPage(@Valid @ModelAttribute("usuario") UsuarioDto usuarioDto,
 								   BindingResult result, @AuthenticationPrincipal Usuario usuario) {
 		if (result.hasErrors()) {
-	        return "perfil";
+	        return "/usuario/perfil";
 	    }
 		
 		usuario.setNombre(usuarioDto.getNombre());
@@ -59,7 +59,7 @@ public class UsuarioController {
 	@GetMapping("/usuarios")
     public String listarUsuarios(Model model) {
         model.addAttribute("usuarios", userService.findAll());
-        return "listaUsuarios";
+        return "/admin/listaUsuarios";
     }
 
 	@PostMapping("/usuarios/activar/{id}")
@@ -78,7 +78,7 @@ public class UsuarioController {
 	@GetMapping("/informes")
 	public String informeUsuario(Model model){
 		getHistorialDatos(model);
-		return "informesAdmin";
+		return "/admin/informes";
 	}
 	
 	@PreAuthorize("ROLE_ADMIN")
@@ -87,7 +87,7 @@ public class UsuarioController {
 		getHistorialDatos(model);
 		model.addAttribute("historialPrestamo", prestamoService.getPrestamosByUserId(userId));
 
-		return "informesAdmin";
+		return "/admin/informes";
 	}
 	
 	private void getHistorialDatos(Model model) {

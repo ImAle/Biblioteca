@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -87,7 +86,7 @@ public class LibroController {
 		model.addAttribute("direccion", direccion);
 
 		if(usuario != null && usuario.getRol().equals("ROLE_ADMIN")) {
-			pagina = "listaLibros";
+			pagina = "admin/verLibros";
 		} else if (usuario != null && usuario.getRol().equals("ROLE_USER")) {
 			Map<Long, Long> misPrestamos = prestamoService.getPrestamosActivosByUserId(usuario.getId()).stream()
 				    .collect(Collectors.toMap(p -> p.getLibro().getId(), Prestamo::getId));
@@ -95,7 +94,7 @@ public class LibroController {
 			model.addAttribute("miPrestamos", misPrestamos);
 			model.addAttribute("prestamos", prestamoService.getLibrosIdPrestadosPorLosDemas(usuario.getId()));
 			model.addAttribute("misReservas", reservaService.getLibrosIdReservasPendientesByUserId(usuario.getId()));
-			return "prestamoLibros";
+			return "usuario/verLibros";
 		}
 
 		return pagina;
@@ -104,7 +103,7 @@ public class LibroController {
 	@GetMapping("/createForm")
 	public String showForm(Model model) {
 		model.addAttribute("libro", new Libro());
-		return "LibroForm";
+		return "/libros/LibroForm";
 	}
 	
 	@PostMapping("/createForm")
@@ -112,7 +111,7 @@ public class LibroController {
 			, @RequestParam("file") MultipartFile file) {
 		
 		if(result.hasErrors()) {
-			return "libroForm";
+			return "/libros/libroForm";
 		}
 
 		libroService.createLibro(libro);
@@ -136,7 +135,7 @@ public class LibroController {
 		if (libro.isPresent())
 			model.addAttribute("libro", libro.get());
 
-		return "libroForm";
+		return "/libros/libroForm";
 	}
 	
 	@PostMapping("/updateForm")
@@ -144,7 +143,7 @@ public class LibroController {
 								 Model model, @RequestParam("file") MultipartFile file) {
 
 		if (result.hasErrors()) {
-			return "libroForm";
+			return "/libros/libroForm";
 		}
 
 		if(!file.isEmpty()){
@@ -156,7 +155,7 @@ public class LibroController {
 		libroService.updateLibro(libro);
 		model.addAttribute("success", "Libro actualizado con exito");
 		
-		return "libroForm";
+		return "/libros/libroForm";
 	}
 
 	@PreAuthorize("ROLE_ADMIN")
@@ -173,7 +172,7 @@ public class LibroController {
 		model.addAttribute("numLibrosPorCategoria", libroService.getNumeroLibrosPorCategoria());
 		model.addAttribute("numPrestamosPorMes", prestamoService.getCantidadPrestamosPorMes());
 		model.addAttribute("numPrestamosPorUsuario", prestamoService.getNumeroPrestamosPorUsuario());
-		return "graficasAdmin";
+		return "/admin/graficas";
 	}
 
 }
