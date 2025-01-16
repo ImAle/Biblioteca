@@ -78,7 +78,7 @@ public class LibroServiceImpl implements LibroService {
 
 	@Override
 	public List<Libro> getLibrosMasPrestados() {
-		Map<Long, Long> libroApariciones = new TreeMap<>(Comparator.reverseOrder());
+		Map<Long, Long> libroApariciones = new HashMap<>();
 
 	    // Recorrer todos los préstamos y contar cuántas veces aparece cada libro
 	    for (Prestamo prestamo : prestamoService.getAllPrestamos()) {
@@ -86,8 +86,12 @@ public class LibroServiceImpl implements LibroService {
 	        libroApariciones.put(libroId, libroApariciones.getOrDefault(libroId, 0L) + 1);
 	    }
 	   
-		// Me devuelve los libros en el orden del treemap y sacando los posibles null de la lista
-		return libroApariciones.keySet().stream().map(libroId -> getLibro(libroId).orElse(null)).filter(Objects::nonNull).toList();
+		// Me devuelve los libros en el orden descendente y sacando los posibles null de la lista
+		return libroApariciones.entrySet().stream()
+				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))  // Orden descendente
+				.map(entry -> getLibro(entry.getKey()).orElse(null))  // Obtener el objeto Libro
+				.filter(Objects::nonNull)  // Eliminar posibles null
+				.toList();
 	}
 
 	@Override

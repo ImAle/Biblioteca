@@ -73,22 +73,6 @@ public class HomeController {
 		return "contacto";
 	}	
 
-	@GetMapping("/reservas")
-	public String reservaPage(){
-		return "reservasUser";
-	}
-
-	@PreAuthorize("ROLE_ADMIN")
-	@GetMapping("/gestionReservas")
-	public String reservaAdminPage(){
-		return "reservasAdmin";
-	}
-
-	@PreAuthorize("ROLE_ADMIN")
-	@GetMapping("/informes")
-	public String informeAdminPage(){
-		return "informesAdmin";
-	}
 	// ====== Para probar el error 500 ======
 	/*
 	@GetMapping("/prueba")

@@ -33,7 +33,7 @@ public class SecurityConfig {
 	    http.csrf(Customizer.withDefaults())
 	        .authorizeHttpRequests(auth -> auth
 	            .requestMatchers("/", "/register", "/css/**", "/js/**", "/images/**", "/public/**", "/index", "/libros" ,"/contacto", "/fotos/**").permitAll()
-	            .requestMatchers("/user/usuarios", "/user/usuarios/**", "/libros/createForm", "/libros/updateForm", "/libros/graficas", "/reservar/admin/cancelar", "/user/informes/usuarios").hasRole("ADMIN")
+	            .requestMatchers("/user/usuarios", "/user/usuarios/**", "/libros/createForm", "/libros/updateForm", "/libros/graficas", "/reservar/admin/cancelar", "/user/informes").hasRole("ADMIN")
 	            .anyRequest().authenticated() // Todo lo demás requiere autenticación
 	        ).exceptionHandling(exceptions -> exceptions
 	                .accessDeniedPage("/index") // Redirigir a /index en caso de error 403

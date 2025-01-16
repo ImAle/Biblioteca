@@ -32,10 +32,10 @@
 								<a class="nav-link text-white" th:href="@{/user/usuarios}">Usuarios</a>
 							</li>
 							<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
-								<a class="nav-link text-white" th:href="@{/informes}">Informes</a>
+								<a class="nav-link text-white" th:href="@{/user/informes}">Informes</a>
 							</li>
 							<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
-								<a class="nav-link text-white" th:href="@{/grafica}">Gráficas</a>
+								<a class="nav-link text-white" th:href="@{/libros/grafica}">Gráficas</a>
 							</li>
 						</ul>
 							<div class="collapse navbar-collapse">

@@ -85,7 +85,7 @@
                         <tbody class="table-secondary text-center">
                         <tr th:each="libro : ${librosPrestados}">
                             <td th:text="${libro.titulo}"></td>
-                            <td th:text="${librosPrestados}"></td>
+                            <td th:text="${libro.prestamos.size}"></td>
                         </tr>
                         </tbody>
                     </table>

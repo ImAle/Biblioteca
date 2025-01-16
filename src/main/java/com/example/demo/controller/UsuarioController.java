@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.UsuarioDto;
+import com.example.demo.entity.Libro;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +20,8 @@ import com.example.demo.service.PrestamoService;
 import com.example.demo.service.UserService;
 
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -77,14 +80,14 @@ public class UsuarioController {
 	}
 
 	@PreAuthorize("ROLE_ADMIN")
-	@GetMapping("/informes/usuarios")
+	@GetMapping("/informes")
 	public String informeUsuario(Model model){
 		getHistorialDatos(model);
 		return "informesAdmin";
 	}
 	
 	@PreAuthorize("ROLE_ADMIN")
-	@PostMapping("/informes/usuarios/{id}")
+	@GetMapping("/informes/{id}")
 	public String getHistorialInforme(@PathVariable("id") Long userId, Model model){
 		getHistorialDatos(model);
 		model.addAttribute("historialPrestamo", prestamoService.getPrestamosByUserId(userId));
