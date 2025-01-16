@@ -23,6 +23,7 @@ import com.example.demo.service.ReservaService;
 import com.example.demo.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/reservar")
@@ -65,7 +66,7 @@ public class ReservaController {
 	}
 	
 	@PostMapping("/{id}")
-	public String reservarLibro(@PathVariable("id") Long id, @AuthenticationPrincipal Usuario usuario) {
+	public String reservarLibro(@PathVariable("id") Long id, @AuthenticationPrincipal Usuario usuario, RedirectAttributes redirect) {
 		Optional<Libro> libro = libroService.getLibro(id);
 		
 		if (libro.isPresent()) {
@@ -74,15 +75,17 @@ public class ReservaController {
 			reserva.setUsuario(usuario);
 			reserva.setFechaReserva(LocalDate.now());
 			reserva.setLibro(libro.get());
-			
+			redirect.addFlashAttribute("success", libro.get().getTitulo() + " ha sido reservado");
 			reservaService.addReserva(reserva);
+		}else{
+			redirect.addFlashAttribute("error", "Ha sucedido un error, inténtelo más tarde");
 		}
 		
 		return "redirect:/libros";
 	}
 	
 	@PostMapping("/cancelar/{id}")
-	public String cancelarReserva(@PathVariable("id") Long id, HttpServletRequest request, @AuthenticationPrincipal Usuario usuario) {
+	public String cancelarReserva(@PathVariable("id") Long id, HttpServletRequest request, @AuthenticationPrincipal Usuario usuario, RedirectAttributes redirect) {
 		Optional<Libro> libro = libroService.getLibro(id);
 		
 		// Obtener la URL previa
@@ -93,15 +96,19 @@ public class ReservaController {
 			.findFirst()
 		    .orElse(null); // Obtenemos el primer libro en estado 'pendiente' del usuario que guarda relacion con el libro en cuestión
 			
-			if (reserva != null)
+			if (reserva != null) {
 				reservaService.cancelarReserva(reserva);
+				redirect.addFlashAttribute("success", "Cancelación aplicada con exito");
+			}else {
+				redirect.addFlashAttribute("error", "Ha ocurrido un error, inténtelo mas tarde");
+			}
 		}
 		
 		return "redirect:" + referer; // Lo envíamos de vuelta a la página donde se realizó la acción
 	}
 	
 	@PostMapping("/admin/cancelar/{usuario}/{id}")
-	public String cancelarReservaAdmin(@PathVariable("id") Long id, @PathVariable("usuario") String email, HttpServletRequest request) {
+	public String cancelarReservaAdmin(@PathVariable("id") Long id, @PathVariable("usuario") String email, HttpServletRequest request, RedirectAttributes redirect) {
 		Optional<Libro> libro = libroService.getLibro(id);
 		Usuario usuario = userService.findByEmail(email);
 		
@@ -109,12 +116,16 @@ public class ReservaController {
 	    String referer = request.getHeader("Referer");
 		
 		if (libro.isPresent()) {
-			Reserva reserva = reservaService.getReservasByUserId(usuario.getId()).stream().filter(r -> r.getLibro().equals(libro.get()))	
+			Reserva reserva = reservaService.getReservasByUserId(usuario.getId()).stream().filter(r -> r.getLibro().equals(libro.get()))
 			.findFirst()
 		    .orElse(null); // Obtenemos el primer libro en estado 'pendiente' del usuario que guarda relacion con el libro en cuestión
-			
-			if (reserva != null)
+
+			if (reserva != null) {
 				reservaService.cancelarReserva(reserva);
+				redirect.addFlashAttribute("success", "Cancelación aplicada con exito");
+			}else {
+				redirect.addFlashAttribute("error", "Ha ocurrido un error, inténtelo mas tarde");
+			}
 		}
 		
 		return "redirect:" + referer; // Lo envíamos de vuelta a la página donde se realizó la acción
