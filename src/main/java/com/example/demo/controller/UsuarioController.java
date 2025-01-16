@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Usuario;
+import com.example.demo.service.LibroService;
+import com.example.demo.service.PrestamoService;
 import com.example.demo.service.UserService;
 
 import jakarta.validation.Valid;
@@ -24,7 +26,15 @@ public class UsuarioController {
 
 	@Autowired
 	@Qualifier("usuarioService")
-	UserService userService;
+	private UserService userService;
+	
+	@Autowired
+	@Qualifier("prestamoService")
+	private PrestamoService prestamoService;
+	
+	@Autowired
+	@Qualifier("libroService")
+	private LibroService libroService;
 
 	@GetMapping("/perfil")
 	public String perfilPage(@AuthenticationPrincipal Usuario usuario, Model model) {
@@ -67,9 +77,25 @@ public class UsuarioController {
 	}
 
 	@PreAuthorize("ROLE_ADMIN")
-	@PostMapping("/informes/usuarios")
-	public String contarLosUsuarios(Model model){
-		model.addAttribute("numUsuario", userService.contarUsuario());
+	@GetMapping("/informes/usuarios")
+	public String informeUsuario(Model model){
+		model.addAttribute("usuarios", userService.getUsuariosNoAdmin());
+		model.addAttribute("librosPrestados", libroService.getLibrosMasPrestados());
+		model.addAttribute("numUsuario", userService.contarUsuariosNoAdmin());
+		
 		return "informesAdmin";
 	}
+	
+	@PreAuthorize("ROLE_ADMIN")
+	@PostMapping("/informes/usuarios/{id}")
+	public String getHistorialInforme(@PathVariable("id") Long userId, Model model){
+		model.addAttribute("usuarios", userService.getUsuariosNoAdmin());
+		model.addAttribute("librosPrestados", libroService.getLibrosMasPrestados());
+		model.addAttribute("numUsuario", userService.contarUsuariosNoAdmin());
+		model.addAttribute("historialPrestamo", prestamoService.getPrestamosByUserId(userId));
+		
+		return "informesAdmin";
+	}
+	
+	
 }

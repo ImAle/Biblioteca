@@ -86,8 +86,12 @@ public class UserService implements UserDetailsService{
 			usuarioRepository.save(usuario.get());
 		}
 	}
+	
+	public List<Usuario> getUsuariosNoAdmin(){
+		return usuarioRepository.findByRolNot("ROLE_ADMIN");
+	}
 
-	public Long contarUsuario(){
-		return usuarioRepository.count();
+	public int contarUsuariosNoAdmin(){
+		return getUsuariosNoAdmin().size();
 	}
 }
