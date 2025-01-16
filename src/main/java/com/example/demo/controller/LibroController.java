@@ -177,5 +177,14 @@ public class LibroController {
 		redirect.addFlashAttribute("success", "Libro eliminado con éxito");
 		return "redirect:/libros";
 	}
+	
+	@PreAuthorize("ROLE_ADMIN")
+	@GetMapping("/grafica")
+	public String getGrafica(Model model) {
+		model.addAttribute("numLibrosPorCategoria", libroService.getNumeroLibrosPorCategoria());
+		model.addAttribute("numPrestamosPorMes", prestamoService.getCantidadPrestamosPorMes());
+		model.addAttribute("numPrestamosPorsuario", prestamoService.getNumeroPrestamosPorUsuario());
+		return "";
+	}
 
 }

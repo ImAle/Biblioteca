@@ -79,23 +79,23 @@ public class UsuarioController {
 	@PreAuthorize("ROLE_ADMIN")
 	@GetMapping("/informes/usuarios")
 	public String informeUsuario(Model model){
-		model.addAttribute("usuarios", userService.getUsuariosNoAdmin());
-		model.addAttribute("librosPrestados", libroService.getLibrosMasPrestados());
-		model.addAttribute("numUsuario", userService.contarUsuariosNoAdmin());
-		
+		getHistorialDatos(model);
 		return "informesAdmin";
 	}
 	
 	@PreAuthorize("ROLE_ADMIN")
 	@PostMapping("/informes/usuarios/{id}")
 	public String getHistorialInforme(@PathVariable("id") Long userId, Model model){
-		model.addAttribute("usuarios", userService.getUsuariosNoAdmin());
-		model.addAttribute("librosPrestados", libroService.getLibrosMasPrestados());
-		model.addAttribute("numUsuario", userService.contarUsuariosNoAdmin());
+		getHistorialDatos(model);
 		model.addAttribute("historialPrestamo", prestamoService.getPrestamosByUserId(userId));
-		
+
 		return "informesAdmin";
 	}
 	
-	
+	private void getHistorialDatos(Model model) {
+	    model.addAttribute("usuarios", userService.getUsuariosNoAdmin());
+	    model.addAttribute("librosPrestados", libroService.getLibrosMasPrestados());
+	    model.addAttribute("numUsuario", userService.contarUsuariosNoAdmin());
+	}
+		
 }

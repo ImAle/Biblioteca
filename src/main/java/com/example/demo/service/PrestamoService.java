@@ -23,4 +23,5 @@ public interface PrestamoService {
     List<Prestamo> getPrestamosActivosByUserId(Long userId);
     Map<Usuario, Integer> getNumeroPrestamosPorUsuario();
     List<Prestamo> getPrestamosPorMes(int mes);
+    Map<String, Integer> getCantidadPrestamosPorMes();
 }
