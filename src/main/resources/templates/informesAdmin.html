@@ -59,8 +59,8 @@
                                 </tr>
                                 </thead>
                                 <tbody class="table-secondary text-center">
-                                <tr th:each="prestamo : ${prestamos}">
-                                    <td></td>
+                                <tr th:each="prestamo : ${historialPrestamo}">
+                                    <td th:text="${prestamo.libro_id}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -83,9 +83,9 @@
                         </tr>
                         </thead>
                         <tbody class="table-secondary text-center">
-                        <tr th:each="libro : ${libros}">
+                        <tr th:each="libro : ${librosPrestados}">
                             <td th:text="${libro.titulo}"></td>
-                            <td></td>
+                            <td th:text="${librosPrestados}"></td>
                         </tr>
                         </tbody>
                     </table>

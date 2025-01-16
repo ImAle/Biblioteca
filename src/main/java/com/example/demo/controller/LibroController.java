@@ -184,7 +184,7 @@ public class LibroController {
 		model.addAttribute("numLibrosPorCategoria", libroService.getNumeroLibrosPorCategoria());
 		model.addAttribute("numPrestamosPorMes", prestamoService.getCantidadPrestamosPorMes());
 		model.addAttribute("numPrestamosPorsuario", prestamoService.getNumeroPrestamosPorUsuario());
-		return "";
+		return "graficasAdmin";
 	}
 
 }

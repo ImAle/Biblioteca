@@ -31,6 +31,12 @@
 							<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
 								<a class="nav-link text-white" th:href="@{/user/usuarios}">Usuarios</a>
 							</li>
+							<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
+								<a class="nav-link text-white" th:href="@{/informes}">Informes</a>
+							</li>
+							<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
+								<a class="nav-link text-white" th:href="@{/grafica}">Gráficas</a>
+							</li>
 						</ul>
 							<div class="collapse navbar-collapse">
 								<ul class="navbar-nav ms-auto">
