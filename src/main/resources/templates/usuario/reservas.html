@@ -23,11 +23,8 @@
                             <p th:text="${reserva.libro.autor}" class="card-text">Autor</p>
                             <p th:text="${reserva.libro.genero}" class="card-text">Género</p>
                         </div>
-                        <!--Revisar-->
-                        <span th:if="${miPrestamos != null and #lists.contains(miPrestamos, libro.id)}" class="text-danger">No disponible</span>
-                        <span th:if="${prestamos != null and #lists.contains(prestamos, libro.id)}" class="text-info">Pendiente</span>
-                        <span th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !#lists.contains(miPrestamos, libro.id))}" class="text-success">Disponible</span>
-                    </div>
+                        	<span class="text-info">Pendiente</span>
+                        </div>
                     <br>
                     <form class="d-flex justify-content-center mb-4" th:action="@{/reservar/cancelar/{id}(id=${reserva.libro.id})}" method="post">
 					    <button class="btn btn-danger btn-sm rounded shadow" type="submit">Cancelar</button>

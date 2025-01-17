@@ -8,6 +8,8 @@ import com.example.demo.service.LibroService;
 import com.example.demo.service.PrestamoService;
 import com.example.demo.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -40,7 +42,7 @@ public class PrestamoController {
     
     @GetMapping("")
     public String verPrestamos(@AuthenticationPrincipal Usuario usuario, Model model) {
-    	model.addAttribute("prestamos", prestamoService.getPrestamosActivosByUserId(usuario.getId()).stream().map(p -> p.getLibro()).toList());
+    	model.addAttribute("prestamos", prestamoService.getPrestamosActivosByUserId(usuario.getId()));
     	return "/usuario/prestamos";
     }
 
@@ -64,10 +66,13 @@ public class PrestamoController {
     }
 
     @PostMapping("/devolver/{id}")
-    public String devolucion(@PathVariable("id")Long id, @AuthenticationPrincipal Usuario usuario, RedirectAttributes redirectAttributes){
-        prestamoService.devolucion(id);
+    public String devolucion(@PathVariable("id")Long id, HttpServletRequest request , RedirectAttributes redirectAttributes){
+    	// Obtener la URL previa
+	    String referer = request.getHeader("Referer");
+    	
+    	prestamoService.devolucion(id);
         redirectAttributes.addFlashAttribute("success", "Devolución completada con exito");
 
-        return "redirect:/libros";
+        return "redirect:" + referer;
     }
 }
