@@ -41,7 +41,7 @@ public class PrestamoController {
     @GetMapping("")
     public String verPrestamos(@AuthenticationPrincipal Usuario usuario, Model model) {
     	model.addAttribute("prestamos", prestamoService.getPrestamosActivosByUserId(usuario.getId()).stream().map(p -> p.getLibro()).toList());
-    	return "/usuario/verPrestamos";
+    	return "/usuario/prestamos";
     }
 
     @PostMapping("/{id}")
