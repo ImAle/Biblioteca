@@ -79,11 +79,12 @@
                     <!-- Indica si esta o no disponible el libro-->
                     <p class="card-text">
                         <strong th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !miPrestamos.containsKey(libro.id))}">Disponibilidad:</strong>
-                        <strong th:if="${miPrestamos != null and miPrestamos.containsKey(libro.id)}">Disponibilidad:</strong>
+                        <strong th:if="${miPrestamos != null and miPrestamos.containsKey(libro.id)}">Estado:</strong>
                         <strong th:if="${prestamos != null and #lists.contains(prestamos, libro.id) and (misReservas == null or !#lists.contains(misReservas, libro.id))}">Disponibilidad:</strong>
                         <strong th:if="${misReservas != null and #lists.contains(misReservas, libro.id)}">Estado:</strong>
 
                         <span th:if="${prestamos != null and #lists.contains(prestamos, libro.id) and (misReservas == null or !#lists.contains(misReservas, libro.id))}" class="text-danger">No disponible</span>
+                        <span th:if="${miPrestamos != null and miPrestamos.containsKey(libro.id)}" class="text-warning">En posesión</span>
                         <span th:if="${misReservas != null and #lists.contains(misReservas, libro.id)}" class="text-info">Pendiente</span>
                         <span th:if="${(prestamos == null or !#lists.contains(prestamos, libro.id)) and (miPrestamos == null or !miPrestamos.containsKey(libro.id))}" class="text-success">Disponible</span>
 
