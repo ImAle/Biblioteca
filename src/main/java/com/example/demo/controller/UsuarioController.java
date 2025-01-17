@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.UsuarioDto;
+import com.example.demo.entity.Prestamo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +18,9 @@ import com.example.demo.service.PrestamoService;
 import com.example.demo.service.UserService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -85,7 +89,13 @@ public class UsuarioController {
 	@GetMapping("/informes/{id}")
 	public String getHistorialInforme(@PathVariable("id") Long userId, Model model){
 		getHistorialDatos(model);
-		model.addAttribute("historialPrestamo", prestamoService.getPrestamosByUserId(userId));
+		List<Prestamo> prestamos = prestamoService.getPrestamosByUserId(userId);
+		if (prestamos.isEmpty()) {
+			System.out.println(prestamos);
+			model.addAttribute("error", "Este usuario no tiene prestamos");
+		}
+
+		model.addAttribute("historialPrestamo", prestamos);
 
 		return "/admin/informes";
 	}
