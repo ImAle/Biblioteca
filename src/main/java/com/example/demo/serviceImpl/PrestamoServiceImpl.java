@@ -91,17 +91,16 @@ public class PrestamoServiceImpl implements PrestamoService {;
         return (usuario.isPresent()) ? prestamoRepository.findByUsuarioIdAndFechaFinAfterOrFechaFinIsNull(userId, LocalDate.now().plusDays(1)) : null;
     }
 
-    public List<Long> getAllPrestamosIdLibro(){
-    	return prestamoRepository.findAll().stream().map(prestamo -> prestamo.getLibro().getId()).toList();
-    }
+ 
     
     @Override
     public List<Long> getLibrosIdPrestadosPorLosDemas(Long idUsuarioLogged){
     	List<Prestamo> prestamos = prestamoRepository.findByUsuario_IdNot(idUsuarioLogged);
-        return getPrestamosActivos(prestamos).stream().map(prestamo -> prestamo.getLibro().getId()).toList();
+        return getPrestamosActivosFromList(prestamos).stream().map(prestamo -> prestamo.getLibro().getId()).toList();
     }
     
-    public List<Prestamo> getPrestamosActivos(List<Prestamo> prestamos){
+    @Override
+    public List<Prestamo> getPrestamosActivosFromList(List<Prestamo> prestamos){
     	return prestamos.stream().filter(r -> LocalDate.now().isBefore(r.getFechaFin())).toList();
     }
     

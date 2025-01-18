@@ -48,18 +48,15 @@ public class PrestamoController {
 
     @PostMapping("/{id}")
     public String prestamoLibro(@PathVariable("id") Long id, @AuthenticationPrincipal Usuario usuario, RedirectAttributes redirect){
-        try {
-        	Optional<Libro> libro = libroService.getLibro(id);
-        	if (libro.isPresent()) {
-        		Prestamo prestamo = new Prestamo(usuario, libro.get(), LocalDate.now(),LocalDate.now().plusWeeks(1));
+        Optional<Libro> libro = libroService.getLibro(id);
+        Libro libroPresente = (libro.isPresent()) ? libro.get() : null;
+        
+        if (libroPresente != null && prestamoService.getPrestamosActivosFromList(libroPresente.getPrestamos()).isEmpty()) {
+        		Prestamo prestamo = new Prestamo(usuario, libroPresente, LocalDate.now(),LocalDate.now().plusWeeks(1));
                 prestamoService.addPrestamo(prestamo);
                 redirect.addFlashAttribute("success", "Tu periodo de prestamo ha comenzado");
-        	}
-        	
-        } catch (IllegalStateException e) {
-            redirect.addFlashAttribute("error", e.getMessage());
-        } catch (Exception e) {
-            redirect.addFlashAttribute("error", "Error al procesar el préstamo.");
+        }else {
+        	redirect.addFlashAttribute("error", "Error al procesar el préstamo.");
         }
         
         return "redirect:/libros";
