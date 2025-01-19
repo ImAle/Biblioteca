@@ -21,8 +21,11 @@
 <body>
 <div th:replace="~{global :: navbar}"></div>
 <div class="container w-75 mt-5">
-    <h2 class="text-center mb-4">Prestamos</h2>
+    <h2 class="text-center mb-4">Préstamos</h2>
     <hr>
+    <div th:if="${prestamos == null or prestamos.isEmpty()}" class="text-center">
+        <p class="text-muted">No tienes ningún préstamos.</p>
+    </div>
     <!-- Mensaje de éxito -->
 	<div th:if="${success}" class="alert alert-success" id="successMessage" th:text="${success}"></div>
 	
