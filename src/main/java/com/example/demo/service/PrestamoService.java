@@ -27,4 +27,5 @@ public interface PrestamoService {
     Map<String, Integer> getCantidadPrestamosPorMes();
     void notificarNuevoPrestamo(String email, String titulo, LocalDate fechainicio, LocalDate fechaFin);
     void notificarDevolucion(String email, String titulo, LocalDate fechaFin);
+    List<Prestamo> getPrestamosByFilter(Long libroId, Long usuarioId, LocalDate fechaInicio, LocalDate fechaFin);
 }

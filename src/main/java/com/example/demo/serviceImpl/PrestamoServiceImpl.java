@@ -96,8 +96,6 @@ public class PrestamoServiceImpl implements PrestamoService {;
         Optional<Usuario> usuario = usuarioRepository.findById(userId);
         return (usuario.isPresent()) ? prestamoRepository.findByUsuarioIdAndFechaFinAfterOrFechaFinIsNull(userId, LocalDate.now().plusDays(1)) : null;
     }
-
- 
     
     @Override
     public List<Long> getLibrosIdPrestadosPorLosDemas(Long idUsuarioLogged){
@@ -154,6 +152,11 @@ public class PrestamoServiceImpl implements PrestamoService {;
 	public void notificarDevolucion(String email, String titulo, LocalDate fechaFin) {
 		emailService.sendSimpleEmail(email, "Se ha completado su devolución", "Su devolución del libro \"" 
 	    		+ titulo + "\" se ha realizado correctamente a fecha de " + fechaFin);
+	}
+
+	@Override
+	public List<Prestamo> getPrestamosByFilter(Long libroId, Long usuarioId, LocalDate fechaInicio, LocalDate fechaFin) {
+		return prestamoRepository.findPrestamosByFilters(libroId, usuarioId, fechaInicio, fechaFin);
 	}
     
 }

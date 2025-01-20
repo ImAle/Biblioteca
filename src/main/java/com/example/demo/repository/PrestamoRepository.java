@@ -16,5 +16,13 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Long>{
 	
     List<Prestamo> findByUsuario_IdNot(Long idUser);
     List<Prestamo> findByUsuarioIdAndFechaFinAfterOrFechaFinIsNull(Long usuarioId, LocalDate fecha);
+    @Query("SELECT p FROM Prestamo p WHERE p.libro.id = :libroId " +
+            "AND (:usuarioId IS NULL OR p.usuario.id = :usuarioId) " +
+            "AND (:fechaInicio IS NULL OR p.fechaInicio >= :fechaInicio) " +
+            "AND (:fechaFin IS NULL OR p.fechaFin <= :fechaFin)")
+     List<Prestamo> findPrestamosByFilters(@Param("libroId") Long libroId, 
+    		 								@Param("usuarioId") Long usuarioId, 
+    		 								@Param("fechaInicio") LocalDate fechaInicio, 
+    		 								@Param("fechaFin") LocalDate fechaFin);
 
 }

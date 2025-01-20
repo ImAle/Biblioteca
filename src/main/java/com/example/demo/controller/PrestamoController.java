@@ -11,10 +11,13 @@ import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -44,6 +48,29 @@ public class PrestamoController {
     public String verPrestamos(@AuthenticationPrincipal Usuario usuario, Model model) {
     	model.addAttribute("prestamos", prestamoService.getPrestamosActivosByUserId(usuario.getId()));
     	return "/usuario/prestamos";
+    }
+    
+    @PreAuthorize("ROLE_ADMIN")
+    @GetMapping("/{id}")
+    public String showPrestamosByLibroId(@PathVariable("id") Long id, 
+    									@RequestParam(required = false) Long usuarioId, 
+    									@RequestParam(required = false) String fechaInicio,
+    									@RequestParam(required = false) String fechaFin,
+    									Model model) {
+    	Optional<Libro> libro = libroService.getLibro(id);
+    	
+    	// Si no existe tal libro
+    	if(libro.isEmpty()) {
+    		return "/error/404";
+    	}
+    	
+    	LocalDate inicio = (fechaInicio != null) ? LocalDate.parse(fechaInicio) : null;
+    	LocalDate fin = (fechaFin != null) ? LocalDate.parse(fechaFin) : null;
+    	
+    	List<Prestamo> prestamos = prestamoService.getPrestamosByFilter(id, usuarioId, inicio, fin);    	
+    	model.addAttribute("prestamos", prestamos);
+    	
+    	return "/libros/historialLibro";
     }
 
     @PostMapping("/{id}")
