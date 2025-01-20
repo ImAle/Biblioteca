@@ -75,6 +75,10 @@
                                 Eliminar
                             </button>
                         </form>
+                        <a th:href="@{/prestamo/{id}(id=${libro.id})}" method="get"
+                           class="btn btn-warning btn-sm">
+                            Historial
+                        </a>
                     </div>
                 </td>
             </tr>
