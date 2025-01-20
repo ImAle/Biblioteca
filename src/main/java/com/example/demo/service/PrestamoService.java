@@ -6,6 +6,7 @@ import com.example.demo.entity.Usuario;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -24,4 +25,6 @@ public interface PrestamoService {
     Map<String, Integer> getNumeroPrestamosPorUsuario();
     List<Prestamo> getPrestamosPorMes(int mes);
     Map<String, Integer> getCantidadPrestamosPorMes();
+    void notificarNuevoPrestamo(String email, String titulo, LocalDate fechainicio, LocalDate fechaFin);
+    void notificarDevolucion(String email, String titulo, LocalDate fechaFin);
 }

@@ -82,8 +82,10 @@ public class ReservaServiceImpl implements ReservaService{
 	}
 
 	@Override
-	public void notificar(String to, String subject, String text) {
-		emailService.sendSimpleEmail(to, subject, text);
+	public void notificar(String email, String titulo) {
+		emailService.sendSimpleEmail(email, 
+				"El libro \"" + titulo + "\" ya vuelve a estar disponible!", 
+				"Accede a la plataforma y pidelo prestado antes de que otro lo haga!");
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import com.example.demo.entity.Usuario;
 import com.example.demo.repository.LibroRepository;
 import com.example.demo.repository.PrestamoRepository;
 import com.example.demo.repository.UsuarioRepository;
+import com.example.demo.service.EmailService;
 import com.example.demo.service.PrestamoService;
 import com.example.demo.service.ReservaService;
 
@@ -36,6 +37,10 @@ public class PrestamoServiceImpl implements PrestamoService {;
     private LibroRepository libroRepository;
     
     @Autowired
+	@Qualifier("emailService")
+	private EmailService emailService;
+    
+    @Autowired
     @Qualifier("reservaService")
     private ReservaService reservaService;
 
@@ -49,6 +54,7 @@ public class PrestamoServiceImpl implements PrestamoService {;
     	if(getPrestamosActivosByUserId(prestamo.getUsuario().getId()).size() >= Prestamo.PRESTAMOS_LIMITES_NUM)
     		throw new IllegalStateException("Has alcanzado tu límite de prestamos");
     	
+    	notificarNuevoPrestamo(prestamo.getUsuario().getEmail(), prestamo.getLibro().getTitulo(), prestamo.getFechaInicio(), prestamo.getFechaFin());
         prestamoRepository.save(prestamo);
     }
 
@@ -65,16 +71,16 @@ public class PrestamoServiceImpl implements PrestamoService {;
     		
     		if (!reservas.isEmpty()) {
     			Reserva reserva = reservas.getFirst();
-    			
-        		reservaService.notificar(reserva.getUsuario().getEmail(), // Email a quien se notifica
-        				"El libro \"" + libro.getTitulo() + "\" ya vuelve a estar disponible!", // Titulo email
-        				"Accede a la plataforma y pidelo prestado antes de que otro lo haga!"); // Cuerpo del email
+    			// Notificar al usuario en reserva
+        		reservaService.notificar(reserva.getUsuario().getEmail() , libro.getTitulo());
         		
         		reserva.setEstado("notificado");
         		reservaService.updateReserva(reserva);
     		}
     		
     		prestamo.setFechaFin(LocalDate.now());
+    		notificarDevolucion(prestamo.getUsuario().getEmail(), libro.getTitulo(), prestamo.getFechaFin());
+    		
     		prestamoRepository.save(prestamo);
     	}
     }
@@ -136,6 +142,18 @@ public class PrestamoServiceImpl implements PrestamoService {;
 		}
 		
 		return mesCantidad;
+	}
+
+	@Override
+	public void notificarNuevoPrestamo(String email, String titulo, LocalDate fechainicio, LocalDate fechaFin) {
+		emailService.sendSimpleEmail(email, "Nuevo libro prestado", "Su periodo de prestamo para el libro \"" + titulo 
+    			+ "\" ha comenzado a fecha de " + fechainicio + " y con fecha de devolución " + fechaFin);
+	}
+	
+	@Override
+	public void notificarDevolucion(String email, String titulo, LocalDate fechaFin) {
+		emailService.sendSimpleEmail(email, "Se ha completado su devolución", "Su devolución del libro \"" 
+	    		+ titulo + "\" se ha realizado correctamente a fecha de " + fechaFin);
 	}
     
 }

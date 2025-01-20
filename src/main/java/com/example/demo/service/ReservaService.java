@@ -17,7 +17,7 @@ public interface ReservaService {
 	List<Reserva> getReservasByUserId(Long userId);
 	List<Reserva> getReservasPendientesByUserId(Long userId);
 	List<Long> getLibrosIdReservasPendientesByUserId(Long userId);
-	void notificar(String to, String subject, String text);
+	void notificar(String email, String titulo);
 	void cancelarReserva(Reserva reserva);
 	void updateReserva(Reserva reserva);
 	Page<Reserva> getReservasFiltered(LocalDate desde, LocalDate hasta, Pageable pageable);
