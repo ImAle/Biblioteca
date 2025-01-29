@@ -31,6 +31,8 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SERVER_ADDRESS: 0.0.0.0
+    ports: 
+      - "8080:8080"
     volumes:
       - ./src/main/resources/static:/app/static
     networks:
