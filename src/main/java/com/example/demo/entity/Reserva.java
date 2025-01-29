@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Data
-@NoArgsConstructor
 public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

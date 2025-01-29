@@ -19,8 +19,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Data
-@NoArgsConstructor
 public class Usuario implements UserDetails{
 	
     @Id

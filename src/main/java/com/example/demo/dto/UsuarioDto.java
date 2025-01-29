@@ -1,15 +1,10 @@
 package com.example.demo.dto;
 
-import com.example.demo.entity.Usuario;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
 public class UsuarioDto {
 	
 	@NotBlank(message = "El nombre no puede estar vacío")

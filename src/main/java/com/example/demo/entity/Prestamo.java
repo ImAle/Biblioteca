@@ -16,9 +16,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
 public class Prestamo {
 	
 	public static final int PRESTAMOS_LIMITES_NUM = 5;
