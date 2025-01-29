@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,23 +53,28 @@ public class PrestamoController {
     
     @PreAuthorize("ROLE_ADMIN")
     @GetMapping("/{id}")
-    public String showPrestamosByLibroId(@PathVariable("id") Long id, 
-    									@RequestParam(required = false) Long usuarioId, 
+    public String showPrestamosByLibroId(@PathVariable("id") Long id,
+    									@RequestParam(required = false) Long usuario,
     									@RequestParam(required = false) String fechaInicio,
     									@RequestParam(required = false) String fechaFin,
     									Model model) {
+
     	Optional<Libro> libro = libroService.getLibro(id);
     	
     	// Si no existe tal libro
     	if(libro.isEmpty()) {
     		return "/error/404";
     	}
+    	List<Prestamo> todosPrestamos = libro.get().getPrestamos();
+    	LocalDate inicio = (fechaInicio != null && !fechaInicio.isEmpty()) ? LocalDate.parse(fechaInicio) : null;
+    	LocalDate fin = (fechaFin != null && !fechaFin.isEmpty()) ? LocalDate.parse(fechaFin) : null;
     	
-    	LocalDate inicio = (fechaInicio != null) ? LocalDate.parse(fechaInicio) : null;
-    	LocalDate fin = (fechaFin != null) ? LocalDate.parse(fechaFin) : null;
-    	
-    	List<Prestamo> prestamos = prestamoService.getPrestamosByFilter(id, usuarioId, inicio, fin);    	
-    	model.addAttribute("prestamos", prestamos);
+    	List<Prestamo> prestamos = prestamoService.getPrestamosByFilter(id, usuario, inicio, fin);
+        Set<Usuario> usuarios = todosPrestamos.stream().map(prestamo -> prestamo.getUsuario()).collect(Collectors.toSet());
+    	model.addAttribute("libroId", id);
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("prestamos", prestamos);
+        model.addAttribute("usuarios", usuarios);
     	
     	return "/libros/historialLibro";
     }
