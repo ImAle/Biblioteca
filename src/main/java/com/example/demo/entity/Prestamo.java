@@ -38,12 +38,53 @@ public class Prestamo {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
 
+    public Prestamo(){}
+
     public Prestamo(Usuario usuario, Libro libro, LocalDate fechaInicio, LocalDate fechaFin) {
         this.usuario = usuario;
         this.libro = libro;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
     }
-    
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Libro getLibro() {
+        return libro;
+    }
+
+    public void setLibro(Libro libro) {
+        this.libro = libro;
+    }
+
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public LocalDate getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
+    }
 }
 

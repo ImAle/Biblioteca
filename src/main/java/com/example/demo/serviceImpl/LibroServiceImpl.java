@@ -78,12 +78,12 @@ public class LibroServiceImpl implements LibroService {
 
 	@Override
 	public List<Libro> getLibrosMasPrestados() {
-		Map<Long, Long> libroApariciones = new HashMap<>();
+		Map<Long, Integer> libroApariciones = new HashMap<>();
 
 	    // Recorrer todos los préstamos y contar cuántas veces aparece cada libro
 	    for (Prestamo prestamo : prestamoService.getAllPrestamos()) {
 	        Long libroId = prestamo.getLibro().getId();
-	        libroApariciones.put(libroId, libroApariciones.getOrDefault(libroId, 0L) + 1);
+	        libroApariciones.put(libroId, libroApariciones.getOrDefault(libroId, 0) + 1);
 	    }
 	   
 		// Me devuelve los libros en el orden descendente y sacando los posibles null de la lista
