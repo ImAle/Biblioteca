@@ -103,7 +103,7 @@ public class LibroController {
 	@GetMapping("/createForm")
 	public String showForm(Model model) {
 		model.addAttribute("libro", new Libro());
-		return "/libros/LibroForm";
+		return "libros/LibroForm";
 	}
 	
 	@PostMapping("/createForm")
@@ -111,7 +111,7 @@ public class LibroController {
 			, @RequestParam("file") MultipartFile file) {
 		
 		if(result.hasErrors()) {
-			return "/libros/libroForm";
+			return "libros/libroForm";
 		}
 
 		libroService.createLibro(libro);
@@ -135,7 +135,7 @@ public class LibroController {
 		if (libro.isPresent())
 			model.addAttribute("libro", libro.get());
 
-		return "/libros/libroForm";
+		return "libros/libroForm";
 	}
 	
 	@PostMapping("/updateForm")
@@ -143,7 +143,7 @@ public class LibroController {
 								 Model model, @RequestParam("file") MultipartFile file) {
 
 		if (result.hasErrors()) {
-			return "/libros/libroForm";
+			return "libros/libroForm";
 		}
 
 		if(!file.isEmpty()){
@@ -155,7 +155,7 @@ public class LibroController {
 		libroService.updateLibro(libro);
 		model.addAttribute("success", "Libro actualizado con exito");
 		
-		return "/libros/libroForm";
+		return "libros/libroForm";
 	}
 
 	@PreAuthorize("ROLE_ADMIN")
@@ -172,7 +172,7 @@ public class LibroController {
 		model.addAttribute("numLibrosPorCategoria", libroService.getNumeroLibrosPorCategoria());
 		model.addAttribute("numPrestamosPorMes", prestamoService.getCantidadPrestamosPorMes());
 		model.addAttribute("numPrestamosPorUsuario", prestamoService.getNumeroPrestamosPorUsuario());
-		return "/admin/graficas";
+		return "admin/graficas";
 	}
 
 }

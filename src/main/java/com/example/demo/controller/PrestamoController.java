@@ -48,7 +48,7 @@ public class PrestamoController {
     @GetMapping("")
     public String verPrestamos(@AuthenticationPrincipal Usuario usuario, Model model) {
     	model.addAttribute("prestamos", prestamoService.getPrestamosActivosByUserId(usuario.getId()));
-    	return "/usuario/prestamos";
+    	return "usuario/prestamos";
     }
     
     @PreAuthorize("ROLE_ADMIN")
@@ -76,7 +76,7 @@ public class PrestamoController {
         model.addAttribute("prestamos", prestamos);
         model.addAttribute("usuarios", usuarios);
     	
-    	return "/libros/historialLibro";
+    	return "libros/historialLibro";
     }
 
     @PostMapping("/{id}")
