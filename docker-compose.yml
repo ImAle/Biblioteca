@@ -30,6 +30,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/biblioteca
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+      SERVER_ADDRESS: 0.0.0.0
     volumes:
       - ./src/main/resources/static:/app/static
     networks:
@@ -43,32 +44,35 @@ services:
     container_name: apache_container
     ports:
       - "80:80"
-    volumes:
-      - ./apache/my-site.conf:/usr/local/apache2/conf/extra/my-site.conf
     networks:
       - app-net
     command: |
       /bin/bash -c "
-      # 1. Habilitar módulos de proxy
+      # 1. Habilitar módulos requeridos
       echo 'LoadModule proxy_module modules/mod_proxy.so' >> /usr/local/apache2/conf/httpd.conf
       echo 'LoadModule proxy_http_module modules/mod_proxy_http.so' >> /usr/local/apache2/conf/httpd.conf
+      echo 'LoadModule rewrite_module modules/mod_rewrite.so' >> /usr/local/apache2/conf/httpd.conf
 
-      # 2. Sobrescribir el VirtualHost por defecto
-      sed -i 's|#IncludeOptional conf/extra/*.conf|IncludeOptional conf/extra/*.conf|' /usr/local/apache2/conf/httpd.conf
-      echo 'Include conf/extra/proxy.conf' >> /usr/local/apache2/conf/httpd.conf
-
-      # 3. Eliminar el archivo de bienvenida de Apache
-      sed -i 's|DocumentRoot "/usr/local/apache2/htdocs"|#DocumentRoot "/usr/local/apache2/htdocs"|' /usr/local/apache2/conf/httpd.conf
+      # 2. Deshabilitar DocumentRoot y eliminar archivo de bienvenida
+      sed -i 's|^DocumentRoot "/usr/local/apache2/htdocs"|#DocumentRoot deshabilitado|' /usr/local/apache2/conf/httpd.conf
+      sed -i 's|^<Directory "/usr/local/apache2/htdocs">|#<Directory deshabilitado>|' /usr/local/apache2/conf/httpd.conf
       rm -f /usr/local/apache2/htdocs/index.html
 
-      # 4. Generar VirtualHost de proxy
-      echo '<VirtualHost *:80>
+      # 3. Configurar VirtualHost para redirigir TODO el tráfico a Spring
+      echo '
+      <VirtualHost *:80>
         ProxyPreserveHost On
         ProxyPass / http://spring-app:8080/
         ProxyPassReverse / http://spring-app:8080/
+
         # Redirección de raíz a /index
-        RedirectMatch ^/$ /index
-      </VirtualHost>' > /usr/local/apache2/conf/extra/proxy.conf
+        RewriteEngine On
+        RewriteRule ^/$ /index [R=302,L]
+      </VirtualHost>
+      ' > /usr/local/apache2/conf/extra/proxy.conf
+
+      # 4. Incluir configuración del proxy
+      echo 'Include conf/extra/proxy.conf' >> /usr/local/apache2/conf/httpd.conf
 
       # 5. Iniciar Apache
       exec httpd -DFOREGROUND

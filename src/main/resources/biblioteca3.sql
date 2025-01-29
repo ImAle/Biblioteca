@@ -141,7 +141,7 @@ CREATE TABLE `reserva` (
 INSERT INTO `reserva` (`id`, `estado`, `fecha_reserva`, `libro_id`, `usuario_id`) VALUES
 (3, 'notificado', '2025-01-15', 20, 3),
 (7, 'notificado', '2025-01-16', 22, 5),
-(12, 'pendiente', '2025-01-17', 17, 3);
+(12, 'notificado', '2025-01-17', 17, 3);
 
 -- --------------------------------------------------------
 
