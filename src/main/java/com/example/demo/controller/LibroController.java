@@ -150,6 +150,9 @@ public class LibroController {
 			String imagen = fileService.store(file, libro.getId());
 			libro.setImagen(MvcUriComponentsBuilder.
 					fromMethodName(FileUploadController.class, "serveFile", imagen).build().toUriString());
+		}else{
+			Optional<Libro> oldLibro = libroService.getLibro(libro.getId());
+            oldLibro.ifPresent(value -> libro.setImagen(value.getImagen()));
 		}
 
 		libroService.updateLibro(libro);
