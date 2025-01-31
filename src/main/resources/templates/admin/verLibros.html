@@ -55,7 +55,7 @@
             <tbody class="table-secondary text-center">
             <tr th:each="libro : ${libros}">
                 <td>
-                    <img th:src="${libro.imagen != null && libro.imagen != '' ? libro.imagen : 'http://localhost:80/fotos/default.jpg'}"
+                    <img th:src="${libro.imagen != null && libro.imagen != '' ? libro.imagen : 'http://biblioteca3.duckdns.org/fotos/default.jpg'}"
                          alt="Imagen" class="rounded-circle center-block"
                          style="width: 50px; height: 50px; object-fit: cover;">
                 </td>
