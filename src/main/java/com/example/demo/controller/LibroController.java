@@ -103,7 +103,7 @@ public class LibroController {
 	@GetMapping("/createForm")
 	public String showForm(Model model) {
 		model.addAttribute("libro", new Libro());
-		return "libros/LibroForm";
+		return "libros/libroForm";
 	}
 	
 	@PostMapping("/createForm")
