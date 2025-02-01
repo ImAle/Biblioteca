@@ -22,7 +22,7 @@ En esta documentación se explica todo el proceso de despligue de la aplicación
 
 ## Proceso de despligue <a id="id2"></a>
 
-Para la implementación de la aplicación se ha utilizado un Docker. Se trata de una herramiento que se utiliza para la ejecución de aplicaciones en contenedores.
+Para la implementación de la aplicación se ha utilizado un Docker. Se trata de una herramienta que se utiliza para la ejecución de aplicaciones en contenedores.
 
 ### Paso 1: Dockerfile <a id="id3"></a>
 
@@ -41,17 +41,17 @@ COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]
 ```
-En el código superior se especifica el IDE desde el cual se contruye el docker, la carpeta desde la cual se trabajará en el contenedor, los permisos, el jdk de Java y otros elementos.<br>
+En el código superior se muestra como primero usando el jdk 23 de java estamós empaquetando el programa para convertirlo en un ejecutable. En la segunda parte del código especificamos el jdk que ejecutará el programa, un directorio de trabajo, donde está el ejecutable, etc. Este último corresponde a la creación del contenedor<br>
 
 ### Paso 2: Dockercompose <a id="id4"></a>
 
-En el archivo de *docker-compose* se utilizará para la base de datos en MySQL, la cual es la base de datos utilizada para el proyecto.
+En el archivo de *docker-compose* tenemos el contenedor de la aplicación junto a la base de datos MySQL. Docker-compose nos permite relacionar ambos contenedores para que se comuniquen y se levanten a la vez al ejecutar el docker-compose.
 
 ### Paso 3: Creación de instancia en Google Cloud <a id="id5"></a>
 
-Haciendo uso de la prueba gratuita de Google Cloud se creó una máquina virtual la cual será la encargada de tener nuestra aplicación.<br>
+Haciendo uso de la prueba gratuita de Google Cloud se creó una máquina virtual la cual será la encargada de ejecutar nuestra aplicación.<br>
 
-Para la creación de la MV iremos, en nuestro GCP, al apartado de *Compute Engine* -> *Instancias de VM*. Una vez estamemos ahi le damos en *Crear instancia*.<br>
+Para la creación de la MV iremos, en nuestro GCP, al apartado de *Compute Engine* -> *Instancias de VM*. Una vez estamemos ahí le damos en *Crear instancia*.<br>
 
 Al darle nos aparecerá las opciones de personalización de nuestra MV, el sistema operativo que usará nuestra maquina virtual es Ubuntu 20.04 LTS
 
@@ -69,11 +69,11 @@ Para poder hacer uso de nuestra aplicación en el servidor web asignaremos una d
 
 ### Paso 5: Asignación de dominio <a id="id7"></a>
 
-Vamos a añadirle un nombre de dominio (DNS) a nuestra aplicación, para ello usaremos la web de <a href="https://www.duckdns.org">duckdns.org</a> ya que es un sitio gratuito.
+Añadimos un nombre de dominio a nuestra aplicación, para obtener el dominio usaremos la web de <a href="https://www.duckdns.org">duckdns.org</a> ya que es un sitio gratuito, en esa misma página nos permite modificar su dns para que el dominio registrado apunte a la ip de nuestra instancia en GCP.
 
 ### Paso 6: Configuración de firewall <a id="id8"></a>
 
-En este paso se modifica el firewall para que se habiliten los puerto 80 (http) y 25 (SMTP).
+Por las necesidades de nuestra aplicación, se modifica el firewall para que se habiliten los puerto 80 (http) y 25 (SMTP).
 
 ![Dirección ip](/imagenesDocu/firewall.png)
 
@@ -81,12 +81,12 @@ En este paso se modifica el firewall para que se habiliten los puerto 80 (http) 
 
 A continuación, instalaremos en nuestra MV el git para clonar el repositorio de nuestra aplicación y el Docker.<br>
 
-Lo primero que haremos es instalar Git, para ello ejecutaremos el siguiente comando en nuestra terminal:
+Lo primero que haremos es instalar Git (Si es que no viene ya por defecto), para ello ejecutaremos el siguiente comando en nuestra terminal:
+> Se recomianda usar previamente el comando de `sudo apt update` para buscar posibles actualizaciones.
+
 ```
 sudo apt install git
 ```
-
-> Se recomianda usar previamente el comando de `sudo apt update` para buscar posibles actualizaciones.
 
 Una vez instalado comprobaremos que todo esta correcto mirando la versión, para ello usamos el comando:
 
@@ -94,10 +94,9 @@ Una vez instalado comprobaremos que todo esta correcto mirando la versión, para
 git --version
 ```
 
-Ahora instalaremos Docker, para ello usaremos el siguiente comando:
-```
-sudo apt install docker-ce
-```
+Ahora instalaremos Docker, para ello usaremos la guía proporcionada por docker para instalarlo en ubuntu:
+
+https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 
 ### Paso 8: Clonación del repositorio <a id="id10"></a>
 
@@ -121,6 +120,6 @@ Si todo esta correcto nuestra aplicación se ejecutará sin problema alguno.
 Durante el proceso de despligue de la aplicación fueron necesarias ciertas modificaciones para su correcto funcionamiento, las cuales se detallan a continuación:
 
 - Modificación del properties para que TomCat use el `puerto 80` en lugar del `8080`.
-- Modificación de ficheros html, hardcodeado el `localhost` para las imagenes, se modifico para que apunte al dominio de la página.
-- Modificación del archivo sql con los libros por defecto, sustituyendo el `localhost` por el nombre de dominio.
-- Modificación del properties en la conexión del MySQL, apuntando al contenedor MySQL del Docker. 
+- Modificación de ficheros html, el hardcodeado de `localhost` para las imagenes fue sustituido por el nombre de dominio.
+- Modificación del archivo sql con los libros por defecto, sustituyendo `localhost` por el nombre de dominio.
+- Modificación del properties en la conexión al servicio de MySQL, apuntando al contenedor de MySQL. 
