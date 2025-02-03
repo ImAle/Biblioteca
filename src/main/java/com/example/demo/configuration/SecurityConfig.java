@@ -1,41 +1,43 @@
 package com.example.demo.configuration;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import com.example.demo.entity.Usuario;
-import com.example.demo.service.UserService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	@Qualifier("jwtAuthFilter")
+	private JwtAuthFilter jwtAuthFilter;
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	    http.csrf(Customizer.withDefaults())
+	    http.csrf(csrf -> csrf
+	    		.ignoringRequestMatchers("/api/**") // Deshabilita CSRF para APIs
+	    	    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
 	        .authorizeHttpRequests(auth -> auth
 	            .requestMatchers("/", "/register", "/css/**", "/js/**", "/images/**", "/public/**", "/index", "/libros" ,"/contacto", "/fotos/**").permitAll()
 	            .requestMatchers("/user/usuarios", "/user/usuarios/**", "/libros/createForm", "/libros/updateForm", "/libros/graficas", "/reservar/admin/cancelar", "/user/informes").hasRole("ADMIN")
 	            .requestMatchers(HttpMethod.GET, "/prestamo/{id}").hasRole("ADMIN")
+	            // API
+	            .requestMatchers("/api/auth/**").permitAll()
 	            .anyRequest().authenticated() // Todo lo demás requiere autenticación
 	        ).exceptionHandling(exceptions -> exceptions
 	                .accessDeniedPage("/index") // Redirigir a /index en caso de error 403
@@ -45,6 +47,9 @@ public class SecurityConfig {
 	                .failureUrl("/login?error=true") 
 	                .permitAll() 
 	            )
+	        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+	        .userDetailsService(userDetailsService)
 	        .logout(logout -> logout
 	            .logoutUrl("/logout")
 	            .logoutSuccessUrl("/login?logout=true") // Redirigir tras logout
@@ -52,7 +57,7 @@ public class SecurityConfig {
 	        );
 
 	    return http.build();
-	}
+	}	
 
     
 	@Bean
