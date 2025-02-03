@@ -44,6 +44,7 @@ public class Usuario implements UserDetails{
     private boolean enabled;
     @Nullable
     private String imagen;
+    private String token;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
     @ToString.Exclude // Evitar StackoverFlowException
