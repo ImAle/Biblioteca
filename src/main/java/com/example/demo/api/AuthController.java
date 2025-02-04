@@ -89,7 +89,7 @@ public class AuthController {
     	}catch(AuthenticationException aex) {
     		return ResponseEntity.badRequest().body("Fallo al autenticarse"); 
     	}catch(Exception e) {
-    		return ResponseEntity.badRequest().body(e.getMessage()); 
+    		return ResponseEntity.badRequest().body("Error inseperado"); 
     	}
     	
     }

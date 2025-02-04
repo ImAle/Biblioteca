@@ -33,12 +33,13 @@ public class SecurityConfig {
 	    		.ignoringRequestMatchers("/api/**") // Deshabilita CSRF para APIs
 	    	    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
 	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/", "/register", "/css/**", "/js/**", "/images/**", "/public/**", "/index", "/libros" ,"/contacto", "/fotos/**").permitAll()
+	        	// Web
+	            .requestMatchers("/", "/register", "/css/**", "/js/**", "/images/**", "/public/**", "/index", "/libros" ,"/contacto", "/fotos/**", "/api/auth/**", "/api/reservas/**").permitAll()
 	            .requestMatchers("/user/usuarios", "/user/usuarios/**", "/libros/createForm", "/libros/updateForm", "/libros/graficas", "/reservar/admin/cancelar", "/user/informes").hasRole("ADMIN")
 	            .requestMatchers(HttpMethod.GET, "/prestamo/{id}").hasRole("ADMIN")
 	            // API
-	            .requestMatchers("/api/auth/**", "/api/reservas/**").permitAll()
-					.requestMatchers("/api/reservas/consultar", "/api/reservas/borrar").hasRole("ADMIN")
+	            .requestMatchers("/api/reservas/reservar", "/api/reservas/misReservas", "/api/reservas/historico").hasRole("USER")
+				.requestMatchers("/api/reservas/consultar", "/api/reservas/borrar").hasRole("ADMIN")
 	            .anyRequest().authenticated() // Todo lo demás requiere autenticación
 	        ).exceptionHandling(exceptions -> exceptions
 	                .accessDeniedPage("/index") // Redirigir a /index en caso de error 403

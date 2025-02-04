@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.entity.Libro;
 import com.example.demo.entity.Prestamo;
 import com.example.demo.entity.Usuario;
 
@@ -28,4 +29,5 @@ public interface PrestamoService {
     void notificarNuevoPrestamo(String email, String titulo, LocalDate fechainicio, LocalDate fechaFin);
     void notificarDevolucion(String email, String titulo, LocalDate fechaFin);
     List<Prestamo> getPrestamosByFilter(Long libroId, Long usuarioId, LocalDate fechaInicio, LocalDate fechaFin);
+    boolean isLibroPrestado(Libro libro);
 }

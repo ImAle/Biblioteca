@@ -21,4 +21,5 @@ public interface LibroService {
 	void deleteLibro(Long id);
 	List<Reserva> getReservasPedientes(Libro libro);
 	Map<String, Integer> getNumeroLibrosPorCategoria();
+	
 }

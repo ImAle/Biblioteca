@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -26,7 +27,8 @@ public class JwtService {
     private static final long EXPIRACION = HORAS_EXPIRACION * 60 * 60 * 1000;
 
     // Generar clave segura para HS512
-    private final SecretKey secretKey = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS512);
+    private final String secretString = "EraseUnaVezEnUnPuebloBienLejanoYBienSecretoALasAfuerasDeSevilla90321943141405425972528";
+    private final SecretKey secretKey = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
 
     public String generateToken(UserDetails user){
         return Jwts.builder()
@@ -42,6 +44,11 @@ public class JwtService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+    
+    public Usuario getUser(String token) {
+    	token = token.replace("Bearer ","");
+        return userService.findByEmail(extractUsername(token));
     }
     
     public String extractUsername(String token) {
@@ -61,10 +68,8 @@ public class JwtService {
         boolean respuesta = false;
 
         token = token.replace("Bearer ","");
-        String email = extractUsername(token);
-        Usuario usuario = userService.findByEmail(email);
 
-        if (usuario.getRol().equals("ROLE_ADMIN"))
+        if (getUser(token).getRol().equals("ROLE_ADMIN"))
             respuesta = true;
 
         return respuesta;

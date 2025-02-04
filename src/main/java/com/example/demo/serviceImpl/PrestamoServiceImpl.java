@@ -158,5 +158,14 @@ public class PrestamoServiceImpl implements PrestamoService {;
 	public List<Prestamo> getPrestamosByFilter(Long libroId, Long usuarioId, LocalDate fechaInicio, LocalDate fechaFin) {
 		return prestamoRepository.findPrestamosByFilters(libroId, usuarioId, fechaInicio, fechaFin);
 	}
+	
+	@Override
+	public boolean isLibroPrestado(Libro libro) {
+		boolean respuesta = false;
+		if (!getPrestamosActivosFromList(libro.getPrestamos()).isEmpty())
+			respuesta = true;
+		
+		return respuesta;
+	}
     
 }
