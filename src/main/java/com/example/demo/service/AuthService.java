@@ -17,10 +17,6 @@ public class AuthService {
     private AuthenticationManager authenticationManager;
 
 	@Autowired
-	@Qualifier("usuarioRepository")
-	private UsuarioRepository usuarioRepository;
-
-	@Autowired
 	@Qualifier("usuarioService")
     private UserService userService;
 	
@@ -48,7 +44,7 @@ public class AuthService {
 		
 		String token = jwtService.generateToken(user);
 		user.setToken(token);
-		usuarioRepository.save(user);
+		userService.save(user);
 		
 		return token;
 	}

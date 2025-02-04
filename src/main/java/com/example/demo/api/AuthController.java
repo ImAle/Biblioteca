@@ -2,14 +2,27 @@ package com.example.demo.api;
 
 import com.example.demo.entity.Usuario;
 import com.example.demo.service.AuthService;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -26,7 +39,9 @@ public class AuthController {
 									  @RequestParam String password,
 									  @RequestParam String passwordConfirmation,
 									  @RequestParam String imagen){
-    	System.out.println("Registroooo");
+    	
+    	List<String> errores = new ArrayList<>();	
+    	
 		if (!password.equals(passwordConfirmation))
 			return ResponseEntity.badRequest().body("Las constraseñas no coinciden");
 
@@ -37,6 +52,19 @@ public class AuthController {
 			usuario.setEmail(email);
 			usuario.setImagen(imagen);
 			usuario.setPassword(password);
+			
+			// Checkeo con las validaciones que hay en la entidad usuario
+			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+			Validator validator = factory.getValidator();
+			Set<ConstraintViolation<Usuario>> violaciones = validator.validate(usuario);
+
+			for (ConstraintViolation<Usuario> violacion : violaciones) {
+				errores.add(violacion.getMessage());
+				}
+
+			 if (!errores.isEmpty()) {
+				 return ResponseEntity.badRequest().body(errores);
+			    }
 
         	String token = authService.registro(usuario);
         	
