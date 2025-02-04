@@ -1,10 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,11 @@ import javax.crypto.SecretKey;
 
 
 @Service("jwtService")
-public class jwtService {
+public class JwtService {
+
+    @Autowired
+    @Qualifier("usuarioService")
+    private UserService userService;
 
     private static final long HORAS_EXPIRACION= 48; // 48 horas
     private static final long EXPIRACION = HORAS_EXPIRACION * 60 * 60 * 1000;
@@ -49,5 +55,18 @@ public class jwtService {
 
     private boolean isTokenExpired(String token) {
         return getClaims(token).getExpiration().before(new Date());
+    }
+
+    public boolean isAdmin(String token){
+        boolean respuesta = false;
+
+        token = token.replace("Bearer ","");
+        String email = extractUsername(token);
+        Usuario usuario = userService.findByEmail(email);
+
+        if (usuario.getRol().equals("ROLE_ADMIN"))
+            respuesta = true;
+
+        return respuesta;
     }
 }

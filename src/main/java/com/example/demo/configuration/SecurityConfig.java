@@ -37,7 +37,8 @@ public class SecurityConfig {
 	            .requestMatchers("/user/usuarios", "/user/usuarios/**", "/libros/createForm", "/libros/updateForm", "/libros/graficas", "/reservar/admin/cancelar", "/user/informes").hasRole("ADMIN")
 	            .requestMatchers(HttpMethod.GET, "/prestamo/{id}").hasRole("ADMIN")
 	            // API
-	            .requestMatchers("/api/auth/**").permitAll()
+	            .requestMatchers("/api/auth/**", "/api/reservas/**").permitAll()
+					.requestMatchers("/api/reservas/consultar", "/api/reservas/borrar").hasRole("ADMIN")
 	            .anyRequest().authenticated() // Todo lo demás requiere autenticación
 	        ).exceptionHandling(exceptions -> exceptions
 	                .accessDeniedPage("/index") // Redirigir a /index en caso de error 403

@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +21,7 @@ public class AuthService {
 	
 	@Autowired
 	@Qualifier("jwtService")
-    private jwtService jwtService;
+    private JwtService jwtService;
 
     public String login(String email, String password) {
         Authentication authentication = authenticationManager.authenticate(
