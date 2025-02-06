@@ -70,8 +70,6 @@ public class AuthController {
         	
         	return ResponseEntity.ok(Map.of("token", token));
         	
-        }catch(RuntimeException rte) {
-        	return ResponseEntity.badRequest().body(rte.getMessage());
         }catch(Exception e) {
         	return ResponseEntity.badRequest().body("Error inesperado");
         }

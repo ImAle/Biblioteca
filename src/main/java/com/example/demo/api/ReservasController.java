@@ -35,15 +35,15 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/reservas")
 public class ReservasController {
-	
+
 	@Autowired
 	@Qualifier("reservaService")
 	private ReservaService reservaService;
-	
+
 	@Autowired
 	@Qualifier("libroService")
 	private LibroService libroService;
-	
+
 	@Autowired
 	@Qualifier("prestamoService")
 	private PrestamoService prestamoService;
@@ -55,7 +55,7 @@ public class ReservasController {
 	@Autowired
 	@Qualifier("usuarioService")
 	private UserService userService;
-	
+
 	@GetMapping("/consultar")
 	public ResponseEntity<?> consultar(
 			@RequestHeader("Authorization") String token,
@@ -63,145 +63,115 @@ public class ReservasController {
 			@RequestParam("hasta") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta,
 			@PageableDefault(size = 10) Pageable pageable) {
 
-		try {
-            if (!jwtService.isAdmin(token))
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
-            
-            Page<Reserva> reservas = reservaService.getReservasFiltered(desde, hasta, pageable);
-            
-    		if (reservas.isEmpty())
-    			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No hay reservas en estas fechas");
-    		
-			ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
-			
-    		List<ReservasDelUsuarioDto> reservasDto = reservas.getContent().stream().map(reserva -> reservasDelUsuarioDto.fromEntityToDto(reserva)).toList();
-    		
-    		return ResponseEntity.ok().body(reservasDto);
-            
-            
-        } catch (MalformedJwtException mje) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido: Formato incorrecto");
-        } catch (SignatureException se) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido: Firma no coincide");
-        }
-		
+		if (!jwtService.isAdmin(token))
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+
+		Page<Reserva> reservas = reservaService.getReservasFiltered(desde, hasta, pageable);
+
+		if (reservas.isEmpty())
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No hay reservas en estas fechas");
+
+		ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
+
+		List<ReservasDelUsuarioDto> reservasDto = reservas.getContent().stream().map(reserva -> reservasDelUsuarioDto.fromEntityToDto(reserva)).toList();
+
+		return ResponseEntity.ok().body(reservasDto);
 	}
 
 	@DeleteMapping("/borrar")
 	public ResponseEntity<?> borrar(@RequestHeader("Authorization") String token,
-									@RequestParam("id") long id){
+			@RequestParam("id") long id) {
 
-		try {
-            if (!jwtService.isAdmin(token)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
-            }
-        } catch (MalformedJwtException mje) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido: Formato incorrecto");
-        } catch (SignatureException se) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido: Firma no coincide");
-        }
+		if (!jwtService.isAdmin(token))
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
 
-		Reserva reserva = reservaService.getReservaById(id);
-		if (reserva == null)
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe esta reserva");
 
-		reservaService.cancelarReserva(reserva);
-		return ResponseEntity.ok().body("Reserva cancelada");
+			Reserva reserva = reservaService.getReservaById(id);
+			if (reserva == null)
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe esta reserva");
+
+			reservaService.cancelarReserva(reserva);
+			return ResponseEntity.ok().body("Reserva cancelada");
 
 	}
-	
-	@PostMapping("/reservar")
-	public ResponseEntity<?> reservar(@RequestHeader("Authorization") String token, @RequestParam("id") long id) {
-		
-		if (!jwtService.isUser(token)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
-        }
-		
-		Usuario usuario = jwtService.getUser(token);
-		if(usuario == null)
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Este usuario no existe");
-		
-		Optional<Libro> libroOno = libroService.getLibro(id);
-		
-		if(libroOno.isEmpty())
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe tal libro");
-		
-		Libro libro = libroOno.get();
-		
-		if (prestamoService.isLibroPrestado(libro) == false)
-			return ResponseEntity.badRequest().body("Este libro no está disponible para ser reservado");
-		
-		Reserva reserva = new Reserva();
-		reserva.setLibro(libro);
-		reserva.setUsuario(usuario);
-		reserva.setEstado("pendiente");
-		reserva.setFechaReserva(LocalDate.now());
-		
-		reservaService.addReserva(reserva);
-		
-		reservaService.notificar(usuario.getEmail(), libro.getTitulo());
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body("Libro reservado correctamente");
-	}
-	
-	@GetMapping("/misReservas")
-	public ResponseEntity<?> misReservas(@RequestHeader("Authorization") String token){
-		
-		try {
+
+		@PostMapping("/reservar")
+		public ResponseEntity<?> reservar(@RequestHeader("Authorization") String token, @RequestParam("id") long id) {
+
 			if (!jwtService.isUser(token)) {
-	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
-	        }
-			
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+			}
+
 			Usuario usuario = jwtService.getUser(token);
-			
 			if(usuario == null)
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Este usuario no existe");
-			
+
+			Optional<Libro> libroOno = libroService.getLibro(id);
+
+			if(libroOno.isEmpty())
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe tal libro");
+
+			Libro libro = libroOno.get();
+
+			if (!prestamoService.isLibroPrestado(libro))
+				return ResponseEntity.badRequest().body("Este libro no está disponible para ser reservado");
+
+			Reserva reserva = new Reserva();
+			reserva.setLibro(libro);
+			reserva.setUsuario(usuario);
+			reserva.setEstado("pendiente");
+			reserva.setFechaReserva(LocalDate.now());
+
+			reservaService.addReserva(reserva);
+
+			reservaService.notificar(usuario.getEmail(), libro.getTitulo());
+
+			return ResponseEntity.status(HttpStatus.CREATED).body("Libro reservado correctamente");
+		}
+
+		@GetMapping("/misReservas")
+		public ResponseEntity<?> misReservas(@RequestHeader("Authorization") String token){
+
+			if (!jwtService.isUser(token)) {
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+			}
+
+			Usuario usuario = jwtService.getUser(token);
+
+			if(usuario == null)
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Este usuario no existe");
+
 			ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
-			
+
 			List<ReservasDelUsuarioDto> reservasDto = reservaService.getReservasPendientesByUserId(usuario.getId()).stream()
 					.map(reserva -> reservasDelUsuarioDto.fromEntityToDto(reserva))
 					.toList();
-			
+
 			return ResponseEntity.ok().body(reservasDto);
-			
-        } catch (MalformedJwtException mje) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido: Formato incorrecto");
-            
-        } catch (SignatureException se) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido: Firma no coincide");
-        }
-		
-	}
+
+		}
 
 
-	@GetMapping("/historico")
-	public ResponseEntity<?> historial(@RequestHeader("Authorization") String token) {
-		
-		try {
+		@GetMapping("/historico")
+		public ResponseEntity<?> historial(@RequestHeader("Authorization") String token) {
+
 			if (!jwtService.isUser(token)) {
-	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
-	        }
-			
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+			}
+
 			Usuario usuario = jwtService.getUser(token);
-			
+
 			if(usuario == null)
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Este usuario no existe");
-			
+
 			ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
-			
+
 			List<ReservasDelUsuarioDto> reservasDto = usuario.getReservas().stream()
 					.map(reserva -> reservasDelUsuarioDto.fromEntityToDto(reserva))
 					.toList();
-			
+
 			return ResponseEntity.ok().body(reservasDto);
-			
-        } catch (MalformedJwtException mje) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido: Formato incorrecto");
-            
-        } catch (SignatureException se) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token JWT inválido: Firma no coincide");
-        }	
+
+		}
+
 	}
-	
-}
