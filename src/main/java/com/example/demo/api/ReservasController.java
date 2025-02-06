@@ -112,6 +112,11 @@ public class ReservasController {
 	
 	@PostMapping("/reservar")
 	public ResponseEntity<?> reservar(@RequestHeader("Authorization") String token, @RequestParam("id") long id) {
+		
+		if (!jwtService.isUser(token)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+        }
+		
 		Usuario usuario = jwtService.getUser(token);
 		if(usuario == null)
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Este usuario no existe");
@@ -143,6 +148,10 @@ public class ReservasController {
 	public ResponseEntity<?> misReservas(@RequestHeader("Authorization") String token){
 		
 		try {
+			if (!jwtService.isUser(token)) {
+	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+	        }
+			
 			Usuario usuario = jwtService.getUser(token);
 			
 			if(usuario == null)
@@ -170,6 +179,10 @@ public class ReservasController {
 	public ResponseEntity<?> historial(@RequestHeader("Authorization") String token) {
 		
 		try {
+			if (!jwtService.isUser(token)) {
+	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+	        }
+			
 			Usuario usuario = jwtService.getUser(token);
 			
 			if(usuario == null)

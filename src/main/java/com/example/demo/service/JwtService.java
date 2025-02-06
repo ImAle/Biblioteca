@@ -74,4 +74,15 @@ public class JwtService {
 
         return respuesta;
     }
+    
+    public boolean isUser(String token){
+        boolean respuesta = false;
+
+        token = token.replace("Bearer ","");
+
+        if (getUser(token).getRol().equals("ROLE_USER"))
+            respuesta = true;
+
+        return respuesta;
+    }
 }
