@@ -37,8 +37,7 @@ public class AuthController {
 									  @RequestParam String apellido,
 									  @RequestParam String email,
 									  @RequestParam String password,
-									  @RequestParam String passwordConfirmation,
-									  @RequestParam String imagen){
+									  @RequestParam String passwordConfirmation){
     	
     	List<String> errores = new ArrayList<>();	
     	
@@ -50,7 +49,7 @@ public class AuthController {
 			usuario.setNombre(nombre);
 			usuario.setApellido(apellido);
 			usuario.setEmail(email);
-			usuario.setImagen(imagen);
+			usuario.setImagen(null);
 			usuario.setPassword(password);
 			
 			// Checkeo con las validaciones que hay en la entidad usuario
