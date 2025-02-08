@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -15,6 +16,7 @@ import lombok.ToString;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +34,11 @@ public class Reserva {
     private LocalDate fechaReserva;
     private String estado; // "pendiente", "notificada"
 
+    public Reserva(Libro libro, Usuario usuario){
+        this.libro = libro;
+        this.usuario = usuario;
+        this.fechaReserva = LocalDate.now();
+        this.estado = "pendiente";
+    }
 }
 

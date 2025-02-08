@@ -116,15 +116,9 @@ public class ReservasController {
 			if (!prestamoService.isLibroPrestado(libro))
 				return ResponseEntity.badRequest().body("Este libro no está disponible para ser reservado");
 
-			Reserva reserva = new Reserva();
-			reserva.setLibro(libro);
-			reserva.setUsuario(usuario);
-			reserva.setEstado("pendiente");
-			reserva.setFechaReserva(LocalDate.now());
+			Reserva reserva = new Reserva(libro, usuario);
 
 			reservaService.addReserva(reserva);
-
-			reservaService.notificar(usuario.getEmail(), libro.getTitulo());
 
 			return ResponseEntity.status(HttpStatus.CREATED).body("Libro reservado correctamente");
 		}
@@ -143,8 +137,9 @@ public class ReservasController {
 
 			ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
 
+			// Mapeando las reservas del usuario a un formato adecuado para el frontend
 			List<ReservasDelUsuarioDto> reservasDto = reservaService.getReservasPendientesByUserId(usuario.getId()).stream()
-					.map(reserva -> reservasDelUsuarioDto.fromEntityToDto(reserva))
+					.map(reservasDelUsuarioDto::fromEntityToDto)
 					.toList();
 
 			return ResponseEntity.ok().body(reservasDto);
@@ -166,8 +161,9 @@ public class ReservasController {
 
 			ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
 
+			// Mapeando las reservas del usuario a un formato adecuado para el frontend
 			List<ReservasDelUsuarioDto> reservasDto = usuario.getReservas().stream()
-					.map(reserva -> reservasDelUsuarioDto.fromEntityToDto(reserva))
+					.map(reservasDelUsuarioDto::fromEntityToDto)
 					.toList();
 
 			return ResponseEntity.ok().body(reservasDto);

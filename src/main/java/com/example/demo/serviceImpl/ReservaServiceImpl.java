@@ -36,6 +36,7 @@ public class ReservaServiceImpl implements ReservaService{
 	@Override
 	public void addReserva(Reserva reserva) {
 		reservaRepository.save(reserva);
+		notificar(reserva.getUsuario().getEmail(), reserva.getLibro().getTitulo());
 	}
 	
 	@Override

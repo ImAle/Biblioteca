@@ -70,11 +70,7 @@ public class ReservaController {
 		Optional<Libro> libro = libroService.getLibro(id);
 		
 		if (libro.isPresent()) {
-			Reserva reserva = new Reserva();
-			reserva.setEstado("pendiente");
-			reserva.setUsuario(usuario);
-			reserva.setFechaReserva(LocalDate.now());
-			reserva.setLibro(libro.get());
+			Reserva reserva = new Reserva(libro.get(), usuario);
 			redirect.addFlashAttribute("success", libro.get().getTitulo() + " ha sido reservado");
 			reservaService.addReserva(reserva);
 		}else{

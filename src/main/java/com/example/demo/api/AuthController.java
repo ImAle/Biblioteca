@@ -38,41 +38,23 @@ public class AuthController {
 									  @RequestParam String email,
 									  @RequestParam String password,
 									  @RequestParam String passwordConfirmation){
-    	
-    	List<String> errores = new ArrayList<>();	
-    	
+
 		if (!password.equals(passwordConfirmation))
 			return ResponseEntity.badRequest().body("Las constraseñas no coinciden");
 
-        try {
-			Usuario usuario = new Usuario();
-			usuario.setNombre(nombre);
-			usuario.setApellido(apellido);
-			usuario.setEmail(email);
-			usuario.setImagen(null);
-			usuario.setPassword(password);
-			
-			// Checkeo con las validaciones que hay en la entidad usuario
-			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-			Validator validator = factory.getValidator();
-			Set<ConstraintViolation<Usuario>> violaciones = validator.validate(usuario);
+		Usuario usuario = new Usuario(nombre, apellido, email, password);
 
-			for (ConstraintViolation<Usuario> violacion : violaciones) {
-				errores.add(violacion.getMessage());
-				}
+		try{
+			List<String> respuesta = authService.registro(usuario);
 
-			 if (!errores.isEmpty()) {
-				 return ResponseEntity.badRequest().body(errores);
-			    }
+			if (respuesta.size() > 1)
+				return ResponseEntity.badRequest().body(respuesta);
 
-        	String token = authService.registro(usuario);
-        	
-        	return ResponseEntity.ok(Map.of("token", token));
-        	
-        }catch(Exception e) {
-        	return ResponseEntity.badRequest().body("Error inesperado");
-        }
-        
+			return ResponseEntity.ok(Map.of("token", respuesta.getFirst()));
+
+		}catch (RuntimeException rte){
+			return ResponseEntity.badRequest().body(rte.getMessage());
+		}
     }
 
 
