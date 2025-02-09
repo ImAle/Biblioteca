@@ -64,18 +64,18 @@ public class ReservasController {
 			@PageableDefault(size = 10) Pageable pageable) {
 
 		if (!jwtService.isAdmin(token))
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje","No tienes autorización"));
 
 		Page<Reserva> reservas = reservaService.getReservasFiltered(desde, hasta, pageable);
 
 		if (reservas.isEmpty())
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No hay reservas en estas fechas");
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Map.of("mensaje","No hay reservas en estas fechas"));
 
 		ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
 
 		List<ReservasDelUsuarioDto> reservasDto = reservas.getContent().stream().map(reserva -> reservasDelUsuarioDto.fromEntityToDto(reserva)).toList();
 
-		return ResponseEntity.ok().body(reservasDto);
+		return ResponseEntity.ok().body(Map.of("reservas", reservasDto));
 	}
 
 	@DeleteMapping("/borrar")
@@ -83,15 +83,15 @@ public class ReservasController {
 			@RequestParam("id") long id) {
 
 		if (!jwtService.isAdmin(token))
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje","No tienes autorización"));
 
 
 			Reserva reserva = reservaService.getReservaById(id);
 			if (reserva == null)
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe esta reserva");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje","No existe esta reserva"));
 
 			reservaService.cancelarReserva(reserva);
-			return ResponseEntity.ok().body("Reserva cancelada");
+			return ResponseEntity.ok().body(Map.of("mensaje","Reserva cancelada"));
 
 	}
 
@@ -99,41 +99,41 @@ public class ReservasController {
 		public ResponseEntity<?> reservar(@RequestHeader("Authorization") String token, @RequestParam("id") long id) {
 
 			if (!jwtService.isUser(token)) {
-				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje","No tienes autorización"));
 			}
 
 			Usuario usuario = jwtService.getUser(token);
 			if(usuario == null)
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Este usuario no existe");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje","Este usuario no existe"));
 
 			Optional<Libro> libroOno = libroService.getLibro(id);
 
 			if(libroOno.isEmpty())
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe tal libro");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje","No existe tal libro"));
 
 			Libro libro = libroOno.get();
 
 			if (!prestamoService.isLibroPrestado(libro))
-				return ResponseEntity.badRequest().body("Este libro no está disponible para ser reservado");
+				return ResponseEntity.badRequest().body(Map.of("mensaje","Este libro no está disponible para ser reservado"));
 
 			Reserva reserva = new Reserva(libro, usuario);
 
 			reservaService.addReserva(reserva);
 
-			return ResponseEntity.status(HttpStatus.CREATED).body("Libro reservado correctamente");
+			return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("mensaje","Libro reservado correctamente"));
 		}
 
 		@GetMapping("/misReservas")
 		public ResponseEntity<?> misReservas(@RequestHeader("Authorization") String token){
 
 			if (!jwtService.isUser(token)) {
-				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje","No tienes autorización"));
 			}
 
 			Usuario usuario = jwtService.getUser(token);
 
 			if(usuario == null)
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Este usuario no existe");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje","Este usuario no existe"));
 
 			ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
 
@@ -142,7 +142,7 @@ public class ReservasController {
 					.map(reservasDelUsuarioDto::fromEntityToDto)
 					.toList();
 
-			return ResponseEntity.ok().body(reservasDto);
+			return ResponseEntity.ok().body(Map.of("reservas", reservasDto));
 
 		}
 
@@ -151,13 +151,13 @@ public class ReservasController {
 		public ResponseEntity<?> historial(@RequestHeader("Authorization") String token) {
 
 			if (!jwtService.isUser(token)) {
-				return ResponseEntity.status(HttpStatus.FORBIDDEN).body("No tienes autorización");
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje","No tienes autorización"));
 			}
 
 			Usuario usuario = jwtService.getUser(token);
 
 			if(usuario == null)
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Este usuario no existe");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje","Este usuario no existe"));
 
 			ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
 
@@ -166,7 +166,7 @@ public class ReservasController {
 					.map(reservasDelUsuarioDto::fromEntityToDto)
 					.toList();
 
-			return ResponseEntity.ok().body(reservasDto);
+			return ResponseEntity.ok().body(Map.of("reservas", reservasDto));
 
 		}
 

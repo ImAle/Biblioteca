@@ -19,10 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -40,7 +37,7 @@ public class AuthController {
 									  @RequestParam String passwordConfirmation){
 
 		if (!password.equals(passwordConfirmation))
-			return ResponseEntity.badRequest().body("Las constraseñas no coinciden");
+			return ResponseEntity.badRequest().body(Map.of("error", "Las constraseñas no coinciden"));
 
 		Usuario usuario = new Usuario(nombre, apellido, email, password);
 
@@ -64,11 +61,11 @@ public class AuthController {
     		String token = authService.login(email, password);
     		return ResponseEntity.ok(Map.of("token", token));
     	}catch(BadCredentialsException bcex) {
-    		return ResponseEntity.badRequest().body("Credenciales inválidas");
+    		return ResponseEntity.badRequest().body(Map.of("error", "Credenciales inválidas"));
     	}catch(AuthenticationException aex) {
-    		return ResponseEntity.badRequest().body("Fallo al autenticarse"); 
+    		return ResponseEntity.badRequest().body(Map.of("error", "Fallo al autenticarse"));
     	}catch(Exception e) {
-    		return ResponseEntity.badRequest().body("Error inseperado"); 
+    		return ResponseEntity.badRequest().body(Map.of("error", "Error inseperado"));
     	}
     	
     }
