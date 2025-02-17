@@ -3,20 +3,12 @@ package com.example.demo.api;
 import com.example.demo.entity.Usuario;
 import com.example.demo.service.AuthService;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-
-import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -50,7 +42,7 @@ public class AuthController {
 			return ResponseEntity.ok(Map.of("token", respuesta.getFirst()));
 
 		}catch (RuntimeException rte){
-			return ResponseEntity.badRequest().body(rte.getMessage());
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(rte.getMessage());
 		}
     }
 
