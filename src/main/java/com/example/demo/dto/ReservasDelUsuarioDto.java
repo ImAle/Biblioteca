@@ -5,11 +5,6 @@ import java.time.LocalDate;
 import com.example.demo.entity.Libro;
 import com.example.demo.entity.Reserva;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
 public class ReservasDelUsuarioDto {
 	
 	private Long id;
@@ -31,4 +26,52 @@ public class ReservasDelUsuarioDto {
 		return reservaDto;
 	}
 
+	public ReservasDelUsuarioDto(){}
+
+	public ReservasDelUsuarioDto(LocalDate fechaReserva, String estado, long idLibro, String tituloLibro) {
+		this.fechaReserva = fechaReserva;
+		this.estado = estado;
+		this.idLibro = idLibro;
+		this.tituloLibro = tituloLibro;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public LocalDate getFechaReserva() {
+		return fechaReserva;
+	}
+
+	public void setFechaReserva(LocalDate fechaReserva) {
+		this.fechaReserva = fechaReserva;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public long getIdLibro() {
+		return idLibro;
+	}
+
+	public void setIdLibro(long idLibro) {
+		this.idLibro = idLibro;
+	}
+
+	public String getTituloLibro() {
+		return tituloLibro;
+	}
+
+	public void setTituloLibro(String tituloLibro) {
+		this.tituloLibro = tituloLibro;
+	}
 }
