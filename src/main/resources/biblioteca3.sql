@@ -41,36 +41,36 @@ CREATE TABLE `libro` (
 --
 
 INSERT INTO `libro` (`id`, `anio_publicacion`, `autor`, `genero`, `imagen`, `titulo`) VALUES
-(1, 1997, 'J.K. Rowling', 'Fantasía', 'http://localhost:8080/fotos/harry_potter.jpg', 'Harry Potter y la piedra filosofal'),
-(2, 1954, 'J.R.R. Tolkien', 'Fantasía', 'http://localhost:8080/fotos/el_senor_de_los_anillos.jpg', 'El Señor de los Anillos: La comunidad del anillo'),
-(3, 2003, 'Dan Brown', 'Thriller', 'http://localhost:8080/fotos/el_codigo_da_vinci.jpg', 'El Código Da Vinci'),
-(4, 1813, 'Jane Austen', 'Romántico', 'http://localhost:8080/fotos/orgullo_y_prejuicio.jpg', 'Orgullo y prejuicio'),
-(5, 2005, 'Stephen King', 'Terror', 'http://localhost:8080/fotos/la_cupula.jpg', 'La cúpula'),
-(6, 1949, 'George Orwell', 'Distópico', 'http://localhost:8080/fotos/1984.jpg', '1984'),
-(7, 1960, 'Harper Lee', 'Ficción', 'http://localhost:8080/fotos/matar_un_ruiseñor.jpg', 'Matar un ruiseñor'),
-(8, 2009, 'Suzanne Collins', 'Distópico', 'http://localhost:8080/fotos/los_juegos_del_hambre.jpg', 'Los juegos del hambre'),
-(9, 1990, 'Stephen King', 'Terror', 'http://localhost:8080/fotos/it.jpg', 'It'),
-(10, 2001, 'J.K. Rowling', 'Fantasía', 'http://localhost:8080/fotos/harry_potter_2.jpg', 'Harry Potter y la cámara secreta'),
-(11, 1987, 'Margaret Atwood', 'Ciencia ficción', 'http://localhost:8080/fotos/el_cuento_de_la_criada.jpg', 'El cuento de la criada'),
-(12, 2017, 'Angie Thomas', 'Juvenil', 'http://localhost:8080/fotos/the_hate_u_give.jpg', 'The Hate U Give'),
-(13, 1999, 'John Grisham', 'Legal', 'http://localhost:8080/fotos/el_abogado.jpg', 'El abogado del diablo'),
-(14, 2020, 'Colleen Hoover', 'Romántico', 'http://localhost:8080/fotos/it_ends_with_us.jpg', 'It Ends With Us'),
-(15, 2011, 'Veronica Roth', 'Distópico', 'http://localhost:8080/fotos/divergente.jpg', 'Divergente'),
-(16, 1985, 'Douglas Adams', 'Ciencia ficción', 'http://localhost:8080/fotos/guia_del_autostopista.jpg', 'Guía del autoestopista galáctico'),
-(17, 2004, 'John Green', 'Juvenil', 'http://localhost:8080/fotos/bajo_la_misma_estrella.jpg', 'Bajo la misma estrella'),
-(18, 2014, 'Paulo Coelho', 'Filosofía', 'http://localhost:8080/fotos/el_alquimista.jpg', 'El alquimista'),
-(19, 2003, 'Terry Pratchett', 'Fantasía', 'http://localhost:8080/fotos/guardias_guardias.jpg', 'Guardias! Guardias!'),
-(20, 1992, 'Neil Gaiman', 'Fantasía', 'http://localhost:8080/fotos/american_gods.jpg', 'American Gods'),
-(21, 2012, 'Ransom Riggs', 'Fantasía', 'http://localhost:8080/fotos/el_instituto_de_tesoros.jpg', 'El instituto de tesoros'),
-(22, 2007, 'C.S. Lewis', 'Fantasía', 'http://localhost:8080/fotos/el_leon_la_bruja_y_el_armario.jpg', 'El león, la bruja y el armario'),
-(23, 2010, 'Stieg Larsson', 'Thriller', 'http://localhost:8080/fotos/los_hombres_que_no_amaban_a_las_mujeres.jpg', 'Los hombres que no amaban a las mujeres'),
-(24, 1994, 'Michael Ende', 'Fantasía', 'http://localhost:8080/fotos/la_historia_interminable.jpg', 'La historia interminable'),
-(25, 1998, 'J.K. Rowling', 'Fantasía', 'http://localhost:8080/fotos/harry_potter_3.jpg', 'Harry Potter y el prisionero de Azkaban'),
-(26, 1995, 'Roald Dahl', 'Infantil', 'http://localhost:8080/fotos/matilda.jpg', 'Matilda'),
-(27, 2018, 'Gail Honeyman', 'Ficción', 'http://localhost:8080/fotos/eleanor_oliphant.jpg', 'Eleanor Oliphant está perfectamente'),
-(28, 2008, 'Stephenie Meyer', 'Romántico', 'http://localhost:8080/fotos/crepusculo.jpg', 'Crepúsculo'),
-(29, 2000, 'Carlos Ruiz Zafón', 'Ficción', 'http://localhost:8080/fotos/la_sombra_del_viento.jpg', 'La sombra del viento'),
-(30, 2013, 'Jojo Moyes', 'Romántico', 'http://localhost:8080/fotos/yo_porque_yo.jpg', 'Yo antes de ti');
+(1, 1997, 'J.K. Rowling', 'Fantasía', 'http://biblioteca3.duckdns.org/fotos/harry_potter.jpg', 'Harry Potter y la piedra filosofal'),
+(2, 1954, 'J.R.R. Tolkien', 'Fantasía', 'http://biblioteca3.duckdns.org/fotos/el_senor_de_los_anillos.jpg', 'El Señor de los Anillos: La comunidad del anillo'),
+(3, 2003, 'Dan Brown', 'Thriller', 'http://biblioteca3.duckdns.org/fotos/el_codigo_da_vinci.jpg', 'El Código Da Vinci'),
+(4, 1813, 'Jane Austen', 'Romántico', 'http://biblioteca3.duckdns.org/fotos/orgullo_y_prejuicio.jpg', 'Orgullo y prejuicio'),
+(5, 2005, 'Stephen King', 'Terror', 'http://biblioteca3.duckdns.org/fotos/la_cupula.jpg', 'La cúpula'),
+(6, 1949, 'George Orwell', 'Distópico', 'http://biblioteca3.duckdns.org/fotos/1984.jpg', '1984'),
+(7, 1960, 'Harper Lee', 'Ficción', 'http://biblioteca3.duckdns.org/fotos/matar_un_ruiseñor.jpg', 'Matar un ruiseñor'),
+(8, 2009, 'Suzanne Collins', 'Distópico', 'http://biblioteca3.duckdns.org/fotos/los_juegos_del_hambre.jpg', 'Los juegos del hambre'),
+(9, 1990, 'Stephen King', 'Terror', 'http://biblioteca3.duckdns.org/fotos/it.jpg', 'It'),
+(10, 2001, 'J.K. Rowling', 'Fantasía', 'http://biblioteca3.duckdns.org/fotos/harry_potter_2.jpg', 'Harry Potter y la cámara secreta'),
+(11, 1987, 'Margaret Atwood', 'Ciencia ficción', 'http://biblioteca3.duckdns.org/fotos/el_cuento_de_la_criada.jpg', 'El cuento de la criada'),
+(12, 2017, 'Angie Thomas', 'Juvenil', 'http://biblioteca3.duckdns.org/fotos/the_hate_u_give.jpg', 'The Hate U Give'),
+(13, 1999, 'John Grisham', 'Legal', 'http://biblioteca3.duckdns.org/fotos/el_abogado.jpg', 'El abogado del diablo'),
+(14, 2020, 'Colleen Hoover', 'Romántico', 'http://biblioteca3.duckdns.org/fotos/it_ends_with_us.jpg', 'It Ends With Us'),
+(15, 2011, 'Veronica Roth', 'Distópico', 'http://biblioteca3.duckdns.org/fotos/divergente.jpg', 'Divergente'),
+(16, 1985, 'Douglas Adams', 'Ciencia ficción', 'http://biblioteca3.duckdns.org/fotos/guia_del_autostopista.jpg', 'Guía del autoestopista galáctico'),
+(17, 2004, 'John Green', 'Juvenil', 'http://biblioteca3.duckdns.org/fotos/bajo_la_misma_estrella.jpg', 'Bajo la misma estrella'),
+(18, 2014, 'Paulo Coelho', 'Filosofía', 'http://biblioteca3.duckdns.org/fotos/el_alquimista.jpg', 'El alquimista'),
+(19, 2003, 'Terry Pratchett', 'Fantasía', 'http://biblioteca3.duckdns.org/fotos/guardias_guardias.jpg', 'Guardias! Guardias!'),
+(20, 1992, 'Neil Gaiman', 'Fantasía', 'http://biblioteca3.duckdns.org/fotos/american_gods.jpg', 'American Gods'),
+(21, 2012, 'Ransom Riggs', 'Fantasía', 'http://biblioteca3.duckdns.org/fotos/el_instituto_de_tesoros.jpg', 'El instituto de tesoros'),
+(22, 2007, 'C.S. Lewis', 'Fantasía', 'http://biblioteca3.duckdns.org/fotos/el_leon_la_bruja_y_el_armario.jpg', 'El león, la bruja y el armario'),
+(23, 2010, 'Stieg Larsson', 'Thriller', 'http://biblioteca3.duckdns.org/fotos/los_hombres_que_no_amaban_a_las_mujeres.jpg', 'Los hombres que no amaban a las mujeres'),
+(24, 1994, 'Michael Ende', 'Fantasía', 'http://biblioteca3.duckdns.org/fotos/la_historia_interminable.jpg', 'La historia interminable'),
+(25, 1998, 'J.K. Rowling', 'Fantasía', 'http://biblioteca3.duckdns.org/fotos/harry_potter_3.jpg', 'Harry Potter y el prisionero de Azkaban'),
+(26, 1995, 'Roald Dahl', 'Infantil', 'http://biblioteca3.duckdns.org/fotos/matilda.jpg', 'Matilda'),
+(27, 2018, 'Gail Honeyman', 'Ficción', 'http://biblioteca3.duckdns.org/fotos/eleanor_oliphant.jpg', 'Eleanor Oliphant está perfectamente'),
+(28, 2008, 'Stephenie Meyer', 'Romántico', 'http://biblioteca3.duckdns.org/fotos/crepusculo.jpg', 'Crepúsculo'),
+(29, 2000, 'Carlos Ruiz Zafón', 'Ficción', 'http://biblioteca3.duckdns.org/fotos/la_sombra_del_viento.jpg', 'La sombra del viento'),
+(30, 2013, 'Jojo Moyes', 'Romántico', 'http://biblioteca3.duckdns.org/fotos/yo_porque_yo.jpg', 'Yo antes de ti');
 
 -- --------------------------------------------------------
 
@@ -141,7 +141,7 @@ CREATE TABLE `reserva` (
 INSERT INTO `reserva` (`id`, `estado`, `fecha_reserva`, `libro_id`, `usuario_id`) VALUES
 (3, 'notificado', '2025-01-15', 20, 3),
 (7, 'notificado', '2025-01-16', 22, 5),
-(12, 'pendiente', '2025-01-17', 17, 3);
+(12, 'notificado', '2025-01-17', 17, 3);
 
 -- --------------------------------------------------------
 

@@ -65,7 +65,7 @@ public class HomeController {
 	
 	@GetMapping("/index")
 	public String indexPage() {
-		return "index";
+		return "Index";
 	}
 	
 	@GetMapping("/contacto")
