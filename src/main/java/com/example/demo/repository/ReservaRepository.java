@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,4 +14,5 @@ import com.example.demo.entity.Reserva;
 public interface ReservaRepository extends JpaRepository<Reserva, Long>{
 	
 	Page<Reserva> findAllByFechaReservaBetween(LocalDate desde, LocalDate hasta, Pageable pageable);
+	List<Reserva> findAllByFechaReservaBetween(LocalDate desde, LocalDate hasta);
 }
