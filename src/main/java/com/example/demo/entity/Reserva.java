@@ -8,8 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
@@ -31,6 +29,13 @@ public class Reserva {
     private String estado; // "pendiente", "notificada"
 
     public Reserva(){}
+
+    public Reserva(Libro libro ,Usuario usuario) {
+        this.usuario = usuario;
+        this.libro = libro;
+        this.fechaReserva = LocalDate.now();
+        this.estado = "pendiente";
+    }
 
     public Reserva(Long id, Usuario usuario, Libro libro, LocalDate fechaReserva, String estado) {
         this.id = id;
