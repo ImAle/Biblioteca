@@ -60,20 +60,19 @@ public class ReservasController {
 	public ResponseEntity<?> consultar(
 			@RequestHeader("Authorization") String token,
 			@RequestParam("desde") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
-			@RequestParam("hasta") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta,
-			@PageableDefault(size = 10) Pageable pageable) {
+			@RequestParam("hasta") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
 
 		if (!jwtService.isAdmin(token))
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje","No tienes autorización"));
 
-		Page<Reserva> reservas = reservaService.getReservasFiltered(desde, hasta, pageable);
+		List<Reserva> reservas = reservaService.getReservasFiltered(desde, hasta);
 
 		if (reservas.isEmpty())
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Map.of("mensaje","No hay reservas en estas fechas"));
 
 		ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
 
-		List<ReservasDelUsuarioDto> reservasDto = reservas.getContent().stream().map(reserva -> reservasDelUsuarioDto.fromEntityToDto(reserva)).toList();
+		List<ReservasDelUsuarioDto> reservasDto = reservas.stream().map(reserva -> reservasDelUsuarioDto.fromEntityToDto(reserva)).toList();
 
 		return ResponseEntity.ok().body(Map.of("reservas", reservasDto));
 	}

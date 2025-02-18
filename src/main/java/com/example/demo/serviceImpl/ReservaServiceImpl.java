@@ -55,7 +55,6 @@ public class ReservaServiceImpl implements ReservaService{
 		return getAllReservas().stream().filter(r -> r.getEstado().equalsIgnoreCase("pendiente")).toList();
 	}
 
-
 	@Override
 	@Transactional
 	public List<Reserva> getReservasByUserId(Long userId) {
@@ -103,5 +102,10 @@ public class ReservaServiceImpl implements ReservaService{
 	public Page<Reserva> getReservasFiltered(LocalDate desde, LocalDate hasta, Pageable pageable) {
         return reservaRepository.findAllByFechaReservaBetween(desde, hasta, pageable);
     }
+
+	@Override
+	public List<Reserva> getReservasFiltered(LocalDate desde, LocalDate hasta) {
+		return reservaRepository.findAllByFechaReservaBetween(desde, hasta);
+	}
 	
 }
