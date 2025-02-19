@@ -35,33 +35,16 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-        .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/api/**")
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-            )
+        .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 // Endpoints PÚBLICOS (Web y API)
-                .requestMatchers(
-                    "/", "/register", "/login", "/css/**", "/js/**", 
-                    "/images/**", "/public/**", "/index", "/libros", 
-                    "/contacto", "/fotos/**", "/api/auth/**"
-                ).permitAll()
-                
-                // Endpoints de ADMIN (Web)
-                .requestMatchers(
-                    "/user/usuarios", "/user/usuarios/**", 
-                    "/libros/createForm", "/libros/updateForm", 
-                    "/libros/graficas", "/reservar/admin/cancelar", 
-                    "/user/informes"
-                ).hasRole("ADMIN")
-                
+                .requestMatchers("/api/auth/**").permitAll()
                 // Endpoints de USER (API)
                 .requestMatchers(
                     "/api/reservas/reservar", 
                     "/api/reservas/misReservas", 
                     "/api/reservas/historico"
                 ).hasRole("USER")
-                
                 // Endpoints de ADMIN (API)
                 .requestMatchers(
                     "/api/reservas/consultar", 
@@ -72,22 +55,13 @@ public class SecurityConfig {
                 .anyRequest().authenticated())
             .exceptionHandling(exceptions -> exceptions
 	                .accessDeniedPage("/index")) // Redirigir a /index en caso de error 403
-	                .formLogin(form -> form
-	                .loginPage("/login") // Ruta personalizada para la vista de login
-	                .defaultSuccessUrl("/index", true) 
-	                .failureUrl("/login?error=true") 
-	                .permitAll() 
+	                .formLogin(form -> form.disable()
 	            )
 	        .sessionManagement(sess -> sess
-	        		.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-	                .sessionFixation().migrateSession())
+	        		.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 	        .userDetailsService(userDetailsService)
-	        .logout(logout -> logout
-	            .logoutUrl("/logout")
-	            .logoutSuccessUrl("/login?logout=true") // Redirigir tras logout
-	            .permitAll()
-	        );
+	        .logout(logout -> logout.disable());
 
 	    return http.build();
 	}	

@@ -22,6 +22,6 @@ public interface ReservaService {
 	void updateReserva(Reserva reserva);
 	Page<Reserva> getReservasFiltered(LocalDate desde, LocalDate hasta, Pageable pageable);
 	List<Reserva> getReservasFiltered(LocalDate desde, LocalDate hasta);
-
+	List<Reserva> getReservasActivasFrom(List<Reserva> reservas);
 
 }

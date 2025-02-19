@@ -107,5 +107,10 @@ public class ReservaServiceImpl implements ReservaService{
 	public List<Reserva> getReservasFiltered(LocalDate desde, LocalDate hasta) {
 		return reservaRepository.findAllByFechaReservaBetween(desde, hasta);
 	}
+
+	@Override
+	public List<Reserva> getReservasActivasFrom(List<Reserva> reservas){
+		return reservas.stream().filter(reserva -> reserva.getEstado().equalsIgnoreCase("pendiente")).toList();
+	}
 	
 }

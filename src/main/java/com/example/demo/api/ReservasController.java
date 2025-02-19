@@ -36,137 +36,137 @@ import java.util.Optional;
 @RequestMapping("/api/reservas")
 public class ReservasController {
 
-	@Autowired
-	@Qualifier("reservaService")
-	private ReservaService reservaService;
+    @Autowired
+    @Qualifier("reservaService")
+    private ReservaService reservaService;
 
-	@Autowired
-	@Qualifier("libroService")
-	private LibroService libroService;
+    @Autowired
+    @Qualifier("libroService")
+    private LibroService libroService;
 
-	@Autowired
-	@Qualifier("prestamoService")
-	private PrestamoService prestamoService;
+    @Autowired
+    @Qualifier("prestamoService")
+    private PrestamoService prestamoService;
 
-	@Autowired
-	@Qualifier("jwtService")
-	private JwtService jwtService;
+    @Autowired
+    @Qualifier("jwtService")
+    private JwtService jwtService;
 
-	@Autowired
-	@Qualifier("usuarioService")
-	private UserService userService;
+    @Autowired
+    @Qualifier("usuarioService")
+    private UserService userService;
 
-	@GetMapping("/consultar")
-	public ResponseEntity<?> consultar(
-			@RequestHeader("Authorization") String token,
-			@RequestParam("desde") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
-			@RequestParam("hasta") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
+    @GetMapping("/consultar")
+    public ResponseEntity<?> consultar(
+            @RequestHeader("Authorization") String token,
+            @RequestParam("desde") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+            @RequestParam("hasta") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
 
-		if (!jwtService.isAdmin(token))
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje","No tienes autorización"));
+        if (!jwtService.isAdmin(token))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje", "No tienes autorización"));
 
-		List<Reserva> reservas = reservaService.getReservasFiltered(desde, hasta);
+        List<Reserva> reservas = reservaService.getReservasActivasFrom(reservaService.getReservasFiltered(desde, hasta));
 
-		if (reservas.isEmpty())
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Map.of("mensaje","No hay reservas en estas fechas"));
+        if (reservas.isEmpty())
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Map.of("mensaje", "No hay reservas en estas fechas"));
 
-		ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
+        ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
 
-		List<ReservasDelUsuarioDto> reservasDto = reservas.stream().map(reserva -> reservasDelUsuarioDto.fromEntityToDto(reserva)).toList();
+        List<ReservasDelUsuarioDto> reservasDto = reservas.stream().map(reserva -> reservasDelUsuarioDto.fromEntityToDto(reserva)).toList();
 
-		return ResponseEntity.ok().body(Map.of("reservas", reservasDto));
-	}
+        return ResponseEntity.ok().body(Map.of("reservas", reservasDto));
+    }
 
-	@DeleteMapping("/borrar")
-	public ResponseEntity<?> borrar(@RequestHeader("Authorization") String token,
-			@RequestParam("id") long id) {
+    @DeleteMapping("/borrar")
+    public ResponseEntity<?> borrar(@RequestHeader("Authorization") String token,
+                                    @RequestParam("id") long id) {
 
-		if (!jwtService.isAdmin(token))
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje","No tienes autorización"));
-
-
-			Reserva reserva = reservaService.getReservaById(id);
-			if (reserva == null)
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje","No existe esta reserva"));
-
-			reservaService.cancelarReserva(reserva);
-			return ResponseEntity.ok().body(Map.of("mensaje","Reserva cancelada"));
-
-	}
-
-		@PostMapping("/reservar")
-		public ResponseEntity<?> reservar(@RequestHeader("Authorization") String token, @RequestParam("id") long id) {
-
-			if (!jwtService.isUser(token)) {
-				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje","No tienes autorización"));
-			}
-
-			Usuario usuario = jwtService.getUser(token);
-			if(usuario == null)
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje","Este usuario no existe"));
-
-			Optional<Libro> libroOno = libroService.getLibro(id);
-
-			if(libroOno.isEmpty())
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje","No existe tal libro"));
-
-			Libro libro = libroOno.get();
-
-			if (!prestamoService.isLibroPrestado(libro))
-				return ResponseEntity.badRequest().body(Map.of("mensaje","Este libro no está disponible para ser reservado"));
-
-			Reserva reserva = new Reserva(libro, usuario);
-
-			reservaService.addReserva(reserva);
-
-			return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("mensaje","Libro reservado correctamente"));
-		}
-
-		@GetMapping("/misReservas")
-		public ResponseEntity<?> misReservas(@RequestHeader("Authorization") String token){
-
-			if (!jwtService.isUser(token)) {
-				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje","No tienes autorización"));
-			}
-
-			Usuario usuario = jwtService.getUser(token);
-
-			if(usuario == null)
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje","Este usuario no existe"));
-
-			ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
-
-			// Mapeando las reservas del usuario a un formato adecuado para el frontend
-			List<ReservasDelUsuarioDto> reservasDto = reservaService.getReservasPendientesByUserId(usuario.getId()).stream()
-					.map(reservasDelUsuarioDto::fromEntityToDto)
-					.toList();
-
-			return ResponseEntity.ok().body(Map.of("reservas", reservasDto));
-
-		}
+        if (!jwtService.isAdmin(token))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje", "No tienes autorización"));
 
 
-		@GetMapping("/historico")
-		public ResponseEntity<?> historial(@RequestHeader("Authorization") String token) {
+        Reserva reserva = reservaService.getReservaById(id);
+        if (reserva == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", "No existe esta reserva"));
 
-			if (!jwtService.isUser(token)) {
-				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje","No tienes autorización"));
-			}
+        reservaService.cancelarReserva(reserva);
+        return ResponseEntity.ok().body(Map.of("mensaje", "Reserva cancelada"));
 
-			Usuario usuario = jwtService.getUser(token);
+    }
 
-			if(usuario == null)
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje","Este usuario no existe"));
+    @PostMapping("/reservar")
+    public ResponseEntity<?> reservar(@RequestHeader("Authorization") String token, @RequestParam("id") long id) {
 
-			ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
+        if (!jwtService.isUser(token)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje", "No tienes autorización"));
+        }
 
-			// Mapeando las reservas del usuario a un formato adecuado para el frontend
-			List<ReservasDelUsuarioDto> reservasDto = usuario.getReservas().stream()
-					.map(reservasDelUsuarioDto::fromEntityToDto)
-					.toList();
+        Usuario usuario = jwtService.getUser(token);
+        if (usuario == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", "Este usuario no existe"));
 
-			return ResponseEntity.ok().body(Map.of("reservas", reservasDto));
+        Optional<Libro> libroOno = libroService.getLibro(id);
 
-		}
+        if (libroOno.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", "No existe tal libro"));
 
-	}
+        Libro libro = libroOno.get();
+
+        if (!prestamoService.isLibroPrestado(libro))
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "Este libro no está disponible para ser reservado"));
+
+        Reserva reserva = new Reserva(libro, usuario);
+
+        reservaService.addReserva(reserva);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("mensaje", "Libro reservado correctamente"));
+    }
+
+    @GetMapping("/misReservas")
+    public ResponseEntity<?> misReservas(@RequestHeader("Authorization") String token) {
+
+        if (!jwtService.isUser(token)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje", "No tienes autorización"));
+        }
+
+        Usuario usuario = jwtService.getUser(token);
+
+        if (usuario == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", "Este usuario no existe"));
+
+        ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
+
+        // Mapeando las reservas del usuario a un formato adecuado para el frontend
+        List<ReservasDelUsuarioDto> reservasDto = reservaService.getReservasPendientesByUserId(usuario.getId()).stream()
+                .map(reservasDelUsuarioDto::fromEntityToDto)
+                .toList();
+
+        return ResponseEntity.ok().body(Map.of("reservas", reservasDto));
+
+    }
+
+
+    @GetMapping("/historico")
+    public ResponseEntity<?> historial(@RequestHeader("Authorization") String token) {
+
+        if (!jwtService.isUser(token)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("mensaje", "No tienes autorización"));
+        }
+
+        Usuario usuario = jwtService.getUser(token);
+
+        if (usuario == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensaje", "Este usuario no existe"));
+
+        ReservasDelUsuarioDto reservasDelUsuarioDto = new ReservasDelUsuarioDto();
+
+        // Mapeando las reservas del usuario a un formato adecuado para el frontend
+        List<ReservasDelUsuarioDto> reservasDto = usuario.getReservas().stream()
+                .map(reservasDelUsuarioDto::fromEntityToDto)
+                .toList();
+
+        return ResponseEntity.ok().body(Map.of("reservas", reservasDto));
+
+    }
+
+}
