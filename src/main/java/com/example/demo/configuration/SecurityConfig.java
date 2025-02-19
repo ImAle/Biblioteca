@@ -43,7 +43,7 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/reservas/reservar", 
                     "/api/reservas/misReservas", 
-                    "/api/reservas/historico"
+                    "/api/reservas/historico", "/api/prestamos"
                 ).hasRole("USER")
                 // Endpoints de ADMIN (API)
                 .requestMatchers(
