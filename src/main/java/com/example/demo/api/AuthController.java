@@ -3,6 +3,7 @@ package com.example.demo.api;
 import com.example.demo.entity.Usuario;
 import com.example.demo.service.AuthService;
 
+import com.example.demo.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,11 @@ public class AuthController {
     @Qualifier("authService")
     private AuthService authService;
 
-    @PostMapping("/register")
+    @Autowired
+	@Qualifier("jwtService")
+    private JwtService jwtService;
+
+	@PostMapping("/register")
     public ResponseEntity<?> registro(@RequestParam String nombre,
 									  @RequestParam String apellido,
 									  @RequestParam String email,
@@ -51,7 +56,13 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestParam("email") String email, @RequestParam("password") String password){
     	try {
     		String token = authService.login(email, password);
-    		return ResponseEntity.ok(Map.of("token", token));
+			String rol = jwtService.getUser(token).getRol();
+
+			Map<String, String> data = new HashMap<>();
+			data.put("token", token);
+			data.put("rol", rol);
+
+    		return ResponseEntity.ok(data);
     	}catch(BadCredentialsException bcex) {
     		return ResponseEntity.badRequest().body(Map.of("error", "Credenciales inválidas"));
     	}catch(AuthenticationException aex) {
