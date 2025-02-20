@@ -38,7 +38,7 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 // Endpoints PÚBLICOS (Web y API)
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/auth/**", "/fotos/**").permitAll()
                 // Endpoints de USER (API)
                 .requestMatchers(
                     "/api/reservas/reservar", 
