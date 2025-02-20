@@ -12,6 +12,7 @@ public class ReservasDelUsuarioDto {
     private String estado; // "pendiente", "notificada"
     private long idLibro;
     private String tituloLibro;
+	private String imagenLibro;
     
 	public ReservasDelUsuarioDto fromEntityToDto(Reserva reserva) {
 		ReservasDelUsuarioDto reservaDto = new ReservasDelUsuarioDto();
@@ -22,17 +23,19 @@ public class ReservasDelUsuarioDto {
 		reservaDto.setEstado(reserva.getEstado());
 		reservaDto.setIdLibro(libro.getId());
 		reservaDto.setTituloLibro(libro.getTitulo());
+		reservaDto.setImagenLibro(libro.getImagen());
 		
 		return reservaDto;
 	}
 
 	public ReservasDelUsuarioDto(){}
 
-	public ReservasDelUsuarioDto(LocalDate fechaReserva, String estado, long idLibro, String tituloLibro) {
+	public ReservasDelUsuarioDto(LocalDate fechaReserva, String estado, long idLibro, String tituloLibro, String imagenLibro) {
 		this.fechaReserva = fechaReserva;
 		this.estado = estado;
 		this.idLibro = idLibro;
 		this.tituloLibro = tituloLibro;
+		this.imagenLibro = imagenLibro;
 	}
 
 	public Long getId() {
@@ -74,4 +77,8 @@ public class ReservasDelUsuarioDto {
 	public void setTituloLibro(String tituloLibro) {
 		this.tituloLibro = tituloLibro;
 	}
+
+	public String getImagenLibro() {return imagenLibro;}
+
+	public void setImagenLibro(String imagenLibro) {this.imagenLibro = imagenLibro;}
 }
