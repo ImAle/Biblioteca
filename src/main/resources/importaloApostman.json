@@ -1,0 +1,382 @@
+{
+	"info": {
+		"_postman_id": "37e508ac-820e-47d0-b93b-7de760bfcd20",
+		"name": "API spring",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39305718"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://biblioteca3.duckdns.org/api/auth/register?nombre=Pablo&apellido=Castizo&email=pablitopablete@gmail.com&imagen=null&password=12345678&passwordConfirmation=12345678",
+					"protocol": "http",
+					"host": [
+						"biblioteca3",
+						"duckdns",
+						"org"
+					],
+					"path": [
+						"api",
+						"auth",
+						"register"
+					],
+					"query": [
+						{
+							"key": "nombre",
+							"value": "Pablo"
+						},
+						{
+							"key": "apellido",
+							"value": "Castizo"
+						},
+						{
+							"key": "email",
+							"value": "pablitopablete@gmail.com"
+						},
+						{
+							"key": "imagen",
+							"value": "null"
+						},
+						{
+							"key": "password",
+							"value": "12345678"
+						},
+						{
+							"key": "passwordConfirmation",
+							"value": "12345678"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://biblioteca3.duckdns.org/api/auth/login?email=user@gmail.com&password=12345678",
+					"protocol": "http",
+					"host": [
+						"biblioteca3",
+						"duckdns",
+						"org"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "user@gmail.com"
+						},
+						{
+							"key": "password",
+							"value": "12345678"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetReservas",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWxsZWdvLmRvYWxlMjBAY2FkaXouc2FsZXNpYW5vcy5lZHUiLCJpYXQiOjE3Mzk5ODM5MDQsImV4cCI6MTc0MDE1NjcwNH0.buD2tdR06vGsG3dy9PQGOS1TQHmyCE9zshLuqwp9arD_wDGWxSsTNKZQ6tJQp96nyrQxXLP4v8dbu65Ob7W2QQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWxsZWdvLmRvYWxlMjBAY2FkaXouc2FsZXNpYW5vcy5lZHUiLCJpYXQiOjE3Mzg5MjQ1NTMsImV4cCI6MTczOTA5NzM1M30.auFWban4EN1YgquTJXR8yhweKL2kEstiONaBntUlQkGSmpAv7h9EGv2eqNl6MPlo_4H5MDlrzVcn8-rz1bzW_w",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://biblioteca3.duckdns.org/api/reservas/historico",
+					"protocol": "http",
+					"host": [
+						"biblioteca3",
+						"duckdns",
+						"org"
+					],
+					"path": [
+						"api",
+						"reservas",
+						"historico"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetReservasActivas",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTc0MDA1MTY0NiwiZXhwIjoxNzQwMjI0NDQ2fQ.lY0wjtfM59iF7ShbEcTHfIgiIidnDFWMSJbHSXEwWuJGduMgwhe6tuLyb1_a9RhVfAtkyxWxd9ZlQlL71xPPSw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWxsZWdvLmRvYWxlMjBAY2FkaXouc2FsZXNpYW5vcy5lZHUiLCJpYXQiOjE3Mzg5MjQ1NTMsImV4cCI6MTczOTA5NzM1M30.auFWban4EN1YgquTJXR8yhweKL2kEstiONaBntUlQkGSmpAv7h9EGv2eqNl6MPlo_4H5MDlrzVcn8-rz1bzW_w",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://biblioteca3.duckdns.org/api/reservas/misReservas",
+					"protocol": "http",
+					"host": [
+						"biblioteca3",
+						"duckdns",
+						"org"
+					],
+					"path": [
+						"api",
+						"reservas",
+						"misReservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reservar",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWxsZWdvLmRvYWxlMjBAY2FkaXouc2FsZXNpYW5vcy5lZHUiLCJpYXQiOjE3Mzk5ODQ4MTYsImV4cCI6MTc0MDE1NzYxNn0.ckHBXxmHHDT4U7-JUB3zsKgtJrbQBernXWvP-XdrF80D3BZjS4pvwKid8If1CP3xiyP3Uy5axB_F6oOvd1uX5A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWxsZWdvLmRvYWxlMjBAY2FkaXouc2FsZXNpYW5vcy5lZHUiLCJpYXQiOjE3Mzg2OTUyMDgsImV4cCI6MTczODg2ODAwOH0.Yza7ZwluikahB3Qh6hcTPwceXFjrZyU-MzQxmyWaXIHbSFNFUL2rmN8cbKt_aCGfy9xYtk2yI-ZffYPz6HTm0w",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://biblioteca3.duckdns.org/api/reservas/reservar?id=6",
+					"protocol": "http",
+					"host": [
+						"biblioteca3",
+						"duckdns",
+						"org"
+					],
+					"path": [
+						"api",
+						"reservas",
+						"reservar"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzk5ODQ4NjcsImV4cCI6MTc0MDE1NzY2N30.H4L-aur7SH6VcVufrWYXaqi3BSp42DYwH-9B3jYNJMRNd9Pvujpf6fibncyQ0u9_ZSDawwheeLDVh0Ny7dfkcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzk5NTQ2NzcsImV4cCI6MTc0MDEyNzQ3N30.jjtNwzyAvqYVU9WOdTDgjzUaWtbzV0ygppQOpah8ThldgAG9fDCwAicoaOEu99xBjQWaBwzu2t45_FDLII8ANw",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://biblioteca3.duckdns.org/api/reservas/consultar?desde=2024-01-01&hasta=2025-12-12",
+					"protocol": "http",
+					"host": [
+						"biblioteca3",
+						"duckdns",
+						"org"
+					],
+					"path": [
+						"api",
+						"reservas",
+						"consultar"
+					],
+					"query": [
+						{
+							"key": "desde",
+							"value": "2024-01-01"
+						},
+						{
+							"key": "hasta",
+							"value": "2025-12-12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CancelarReserva",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzk5NTY1NzksImV4cCI6MTc0MDEyOTM3OX0.B3trgr00YWpMVygzFNq0qTsOSyir_ZKQdgKE0q1q9km1o57EfOAidyin5bPSfGs8Ly7LetQsnZntdAkqWewDPg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzg2OTYxMzAsImV4cCI6MTczODg2ODkzMH0.zXuiybvhiJSZpwQvtYaCeT0KXjTLOPkANYjib3pP_MDrzO2aBWf3oqSYG34YeTAdzj_XKL7mlPlTkTMNsX9urA",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://biblioteca3.duckdns.org/api/reservas/borrar?id=31",
+					"protocol": "http",
+					"host": [
+						"biblioteca3",
+						"duckdns",
+						"org"
+					],
+					"path": [
+						"api",
+						"reservas",
+						"borrar"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "31"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verLibrosParaReserva",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWxsZWdvLmRvYWxlMjBAY2FkaXouc2FsZXNpYW5vcy5lZHUiLCJpYXQiOjE3Mzk5ODQ4MTYsImV4cCI6MTc0MDE1NzYxNn0.ckHBXxmHHDT4U7-JUB3zsKgtJrbQBernXWvP-XdrF80D3BZjS4pvwKid8If1CP3xiyP3Uy5axB_F6oOvd1uX5A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://biblioteca3.duckdns.org/api/prestamos",
+					"protocol": "http",
+					"host": [
+						"biblioteca3",
+						"duckdns",
+						"org"
+					],
+					"path": [
+						"api",
+						"prestamos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
